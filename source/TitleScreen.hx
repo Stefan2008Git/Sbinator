@@ -144,7 +144,7 @@ class TitleScreen extends FlxState
 
         if (FlxG.mouse.overlaps(gameLogo) && controls)
         {
-            if (FlxG.mouse.justReleased) FlxG.openURL("https://github.com/Project-Sbinator");
+            if (FlxG.mouse.justReleased) FlxG.openURL("https://github.com/Stefan2008Git/Sbinator");
         }
 
         if (FlxG.mouse.overlaps(button1) && controls)
