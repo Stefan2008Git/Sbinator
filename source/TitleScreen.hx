@@ -176,7 +176,8 @@ class TitleScreen extends FlxState
         {
             if (FlxG.mouse.justReleased)
             {
-                openSubState(new PopUpEvent("Unfinished menu",
+                FlxG.switchState(CreditsMenu.new);
+                /*openSubState(new PopUpEvent("Unfinished menu",
 				"This menu is not made yet!", [
 				{
 					text: "Okay",
@@ -192,7 +193,7 @@ class TitleScreen extends FlxState
                             closeSubState();
                         }
                     }
-                ], false, true));
+                ], false, true));*/
             }
         }
 

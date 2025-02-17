@@ -87,8 +87,8 @@ class FramePerSecond extends Sprite {
         super();
 
         background = new Sprite();
-        background.graphics.beginFill(0, 0.3);
-        background.graphics.drawRect(0, 0, 1, 1);
+        background.graphics.beginFill(1, 0.6);
+        background.graphics.drawRect(0, 0, 8, 8);
         background.graphics.endFill();
         addChild(background);
 
@@ -105,7 +105,7 @@ class FramePerSecond extends Sprite {
 
         visibility = FlxG.save.data.fpsVisibility ?? 1;
         displayMemory = FlxG.save.data.displayMemory ?? false;
-        updateText("null");
+        updateText("");
 
         FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
         FlxG.signals.gameResized.add((_, _) -> resizeOverlay());
