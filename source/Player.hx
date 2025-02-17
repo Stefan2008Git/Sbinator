@@ -6,7 +6,7 @@ import flixel.FlxSprite;
 
 class Player extends FlxSprite
 {
-    final speedValue:Int = 280;
+    final speedValue:Int = 88;
     final gravityValue:Int = 280;
 
     public function new (xPosition:Int = 0, yPosition:Int = 0)
@@ -29,22 +29,36 @@ class Player extends FlxSprite
         final right = FlxG.keys.anyPressed([RIGHT, D]);
         final shift = FlxG.keys.anyPressed([SHIFT]);
 
+        // Walking function
         if (left && right)
         {
             velocity.x = 0;
         }
         else if (left)
         {
-            velocity.x = -speedValue;
+            velocity.x = -speedValue / 2.8;
+            facing = LEFT;
+            setFacingFlip(RIGHT, false, false);
         }
         else if (right)
         {
-            velocity.x = speedValue;
+            velocity.x = speedValue / 2.8;
+            facing = RIGHT;
+            setFacingFlip(LEFT, true, false);
         }
 
-        if (shift && left && right)
+        // Sprinting function
+        if (shift && left)
         {
-            velocity.x = speedValue / 2.8;
+            velocity.x = -speedValue;
+            facing = LEFT;
+            setFacingFlip(RIGHT, false, false);
+        }
+        else if (shift && right)
+        {
+            velocity.x = speedValue;
+            facing = RIGHT;
+            setFacingFlip(LEFT, true, false);
         }
     }
 }

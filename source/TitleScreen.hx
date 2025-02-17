@@ -106,7 +106,7 @@ class TitleScreen extends FlxState
         });
 
         new FlxTimer().start(0.85, function(tmr:FlxTimer) {
-            FlxTween.tween(bg2, {y: -5}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(bg2, {y: -3}, 2, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(0.95, function(tmr:FlxTimer) {
