@@ -125,7 +125,7 @@ class CreditsMenu extends FlxState
         creditsText.text = coolPeople.name + "\n" + coolPeople.ability + "\n" + coolPeople.description;
         iconMembers.animation.play(coolPeople.name);
 
-        if (left) changeIconFrame(1); else if (right) changeIconFrame(1);
+        if (left) changeIconFrame(-1); else if (right) changeIconFrame(1);
         if (press && coolPeople.link == null) FlxG.openURL(coolPeople.link);
 
         if (FlxG.mouse.overlaps(button))

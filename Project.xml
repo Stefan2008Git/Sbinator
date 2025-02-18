@@ -4,7 +4,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="Sbinator" file="Sbinator" main="Main" version="0.0.1" company="Foxel" />
+	<app title="Sbinator" file="Sbinator" main="Main" version="0.0.1" company="ProjectSbinator" />
 
 	<!--The flixel preloader is not accurate in Chrome. You can use it regularly if you embed the swf into a html file
 		or you can set the actual size of your file manually at "FlxPreloaderBase-onUpdate-bytesTotal"-->
@@ -38,6 +38,9 @@
 	<source path="source" />
 	<assets path="assets" />
 
+	<!-- Turn on Crash Handler -->
+	<define name="CRASH_HANDLER" if="desktop release" />
+
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
@@ -65,6 +68,7 @@
 	<haxedef name="FLX_NO_MOUSE" if="mobile" />
 	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
 	<haxedef name="FLX_NO_TOUCH" if="desktop" />
+	<define name="x86_BUILD" if="32bits" />
 	<!--<haxedef name="FLX_NO_GAMEPAD" />-->
 
 	<!--Disable the Flixel core sound tray-->
@@ -74,13 +78,25 @@
 	<!--<haxedef name="FLX_NO_SOUND_SYSTEM" />-->
 
 	<!--Disable the Flixel core focus lost screen-->
-	<!--<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />-->
+	<haxedef name="FLX_NO_FOCUS_LOST_SCREEN" />
 
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
 
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
+
+	<!--Used for Izzy Engine's crash handler-->
+	<haxedef name="HXCPP_CHECK_POINTER" if="CRASH_HANDLER" />
+	<haxedef name="HXCPP_STACK_LINE" if="CRASH_HANDLER" />
+	<haxedef name="HXCPP_STACK_TRACE" if="CRASH_HANDLER" />
+
+	<!--Disable deprecated warnings-->
+	<haxedef name='no-deprecation-warnings' />
+
+	<!-- Haxe 4.3.0+: Enable pretty syntax errors and stuff. -->
+	<!-- pretty (haxeflixel default), indent, classic (haxe compiler default) -->
+	<haxedef name="message.reporting" value="pretty" />
 
 	<!-- _________________________________ Custom _______________________________ -->
 
