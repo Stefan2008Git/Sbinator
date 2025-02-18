@@ -12,7 +12,7 @@ import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 
-class TitleScreen extends FlxState
+class TitleScreen extends MainBeat
 {
     var bg:FlxSprite;
     var checker:FlxBackdrop;

@@ -11,7 +11,7 @@ import flixel.math.FlxMath;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 
-class PlayState extends FlxState
+class PlayState extends MainBeat
 {
     var bg:FlxBackdrop;
     var player:Player;
@@ -40,7 +40,7 @@ class PlayState extends FlxState
                         text: "Go back",
                         callback: function()
                     {
-                    FlxG.switchState(TitleScreen.new);
+                    StateHandler.switchToNewState(new TitleScreen());
                 }
             }
         ], false, true));

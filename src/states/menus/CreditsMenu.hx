@@ -19,7 +19,7 @@ typedef CreditsMeta =
     var link:String;
 }
 
-class CreditsMenu extends FlxState
+class CreditsMenu extends MainBeat
 {
     var bg:FlxSprite;
     var checker:FlxBackdrop;
@@ -54,7 +54,7 @@ class CreditsMenu extends FlxState
                         text: "Go back",
                         callback: function()
                     {
-                    FlxG.switchState(TitleScreen.new);
+                    StateHandler.switchToNewState(new TitleScreen());
                 }
             }
         ], false, true));
