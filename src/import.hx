@@ -7,13 +7,13 @@ import data.PopUp.PopUpEvent;
 import data.AssetPaths;
 import data.backend.FramePerSecond;
 import data.backend.Memory;
-import data.backend.CrashHander.Crash;
+import transition.Transition;
+import transition.StateHandler;
 
 // States
 import states.PlayState;
 import states.InitState;
 import states.menus.CreditsMenu;
-import states.menus.CreditsMenu.CreditsMeta;
 import states.menus.PauseMenu;
 import states.menus.TitleScreen;
 

@@ -4,6 +4,8 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.addons.display.FlxBackdrop;
+import flixel.addons.effects.FlxTrail;
 import flixel.group.FlxGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxCollision;
@@ -11,8 +13,9 @@ import flixel.util.FlxColor;
 
 class PlayState extends FlxState
 {
-    var bg:FlxSprite;
+    var bg:FlxBackdrop;
     var player:Player;
+    var playerTrail:FlxTrail;
     var levelBound:FlxGroup;
     public var cameraGame:FlxCamera;
 
@@ -45,12 +48,18 @@ class PlayState extends FlxState
         cameraGame = new FlxCamera();
         FlxG.cameras.add(cameraGame);
 
-        bgColor = FlxColor.GREEN;
+        bg = new FlxBackdrop("assets/images/game/in-game/skybox.png");
+        add(bg);
 
         player = new Player();
         add(player);
 
-        levelBound = FlxCollision.createCameraWall(FlxG.camera, true, 1);
+        playerTrail = new FlxTrail(player, 6, 0, 0.4, 0.02);
+        add(playerTrail);
+
+        FlxG.camera.setScrollBoundsRect(0, 0, true);
+        FlxG.camera.follow(player, FlxCameraFollowStyle.LOCKON);
+        levelBound = FlxCollision.createCameraWall(cameraGame, false, 1);
     }
 
     override public function update(elapsed:Float)

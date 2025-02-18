@@ -34,7 +34,7 @@
 
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
-	<source path="source" />
+	<source path="src" />
 	<assets path="assets" />
 
 	<!-- Turn on Crash Handler -->

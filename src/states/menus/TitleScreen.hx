@@ -129,7 +129,7 @@ class TitleScreen extends FlxState
             FlxTween.tween(gameLogo, {y: 100}, 2, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(2.5, function(tmr:FlxTimer) {
+        new FlxTimer().start(5, function(tmr:FlxTimer) {
             controls = true;
         });
     }
@@ -151,24 +151,7 @@ class TitleScreen extends FlxState
         {
             if (FlxG.mouse.justReleased)
             {
-                FlxG.switchState(PlayState.new);
-                /*openSubState(new PopUpEvent("Unfinished menu",
-				"This menu is not made yet!", [
-				{
-					text: "Okay",
-					callback: function()
-					{
-						closeSubState();
-					}
-				},
-                    {
-                        text: "Cancel",
-                        callback: function()
-                        {
-                            closeSubState();
-                        }
-                    }
-                ], false, true));*/
+                StateHandler.switchToNewState(new PlayState());
             }
         }
 
@@ -176,24 +159,7 @@ class TitleScreen extends FlxState
         {
             if (FlxG.mouse.justReleased)
             {
-                FlxG.switchState(CreditsMenu.new);
-                /*openSubState(new PopUpEvent("Unfinished menu",
-				"This menu is not made yet!", [
-				{
-					text: "Okay",
-					callback: function()
-					{
-						closeSubState();
-					}
-				},
-                    {
-                        text: "Cancel",
-                        callback: function()
-                        {
-                            closeSubState();
-                        }
-                    }
-                ], false, true));*/
+                StateHandler.switchToNewState(new CreditsMenu());
             }
         }
 

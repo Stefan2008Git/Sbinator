@@ -27,7 +27,7 @@ class Main extends Sprite
 		super();
 
 		#if CRASH_HANDLER
-		Crash.init();
+		data.backend.CrashHandler.Crash.init();
 		#end
 
 		// Since i left FNF, this is from Psych Engine because ye!

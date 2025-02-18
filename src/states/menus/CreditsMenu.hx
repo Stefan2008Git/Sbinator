@@ -130,7 +130,7 @@ class CreditsMenu extends FlxState
 
         if (FlxG.mouse.overlaps(button))
         {
-            if (FlxG.mouse.justReleased) FlxG.switchState(TitleScreen.new);
+            if (FlxG.mouse.justReleased) StateHandler.switchToNewState(new TitleScreen());
         }
 
         super.update(elapsed);

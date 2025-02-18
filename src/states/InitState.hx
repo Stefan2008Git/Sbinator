@@ -59,7 +59,8 @@ class InitState extends FlxState
 
         new FlxTimer().start(2, function(tmr:FlxTimer)
         {
-            FlxG.switchState(TitleScreen.new);
+            // FlxG.switchState(TitleScreen.new);
+            StateHandler.switchToNewState(new TitleScreen());
         });
     }
 }

@@ -106,7 +106,7 @@ class PauseMenu extends FlxSubState
 
         if (FlxG.mouse.overlaps(button3))
         {
-            if (FlxG.mouse.justPressed) FlxG.switchState(TitleScreen.new);
+            if (FlxG.mouse.justPressed) StateHandler.switchToNewState(new TitleScreen());
         }
 
         super.update(elapsed);

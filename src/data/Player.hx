@@ -5,7 +5,7 @@ import flixel.FlxSprite;
 
 class Player extends FlxSprite
 {
-    final speedValue:Int = 88;
+    final speedValue:Int = 180;
     final gravityValue:Int = 280;
 
     public function new (xPosition:Int = 0, yPosition:Int = 0)
