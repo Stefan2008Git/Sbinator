@@ -7,6 +7,7 @@ import data.PopUp.PopUpEvent;
 import data.AssetPaths;
 import data.backend.FramePerSecond;
 import data.backend.Memory;
+import data.backend.CrashHander.Crash;
 
 // States
 import states.PlayState;
@@ -15,7 +16,8 @@ import states.menus.CreditsMenu;
 import states.menus.CreditsMenu.CreditsMeta;
 import states.menus.PauseMenu;
 import states.menus.TitleScreen;
-import CrashHandler.Crash;
+
+// Other
 #if sys
 import sys.*;
 import sys.io.*;
