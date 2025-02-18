@@ -15,4 +15,11 @@ import states.menus.CreditsMenu;
 import states.menus.CreditsMenu.CreditsMeta;
 import states.menus.PauseMenu;
 import states.menus.TitleScreen;
+import CrashHandler.Crash;
+#if sys
+import sys.*;
+import sys.io.*;
+#elseif js
+import js.html.*;
+#end
 #end

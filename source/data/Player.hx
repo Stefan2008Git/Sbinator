@@ -1,7 +1,6 @@
 package data;
 
 import flixel.FlxG;
-import flixel.FlxObject;
 import flixel.FlxSprite;
 
 class Player extends FlxSprite
@@ -38,13 +37,13 @@ class Player extends FlxSprite
         {
             velocity.x = -speedValue / 2.8;
             facing = LEFT;
-            setFacingFlip(RIGHT, false, false);
+            setFacingFlip(RIGHT, true, false);
         }
         else if (right)
         {
             velocity.x = speedValue / 2.8;
             facing = RIGHT;
-            setFacingFlip(LEFT, true, false);
+            setFacingFlip(LEFT, false, false);
         }
 
         // Sprinting function
@@ -52,13 +51,13 @@ class Player extends FlxSprite
         {
             velocity.x = -speedValue;
             facing = LEFT;
-            setFacingFlip(RIGHT, false, false);
+            setFacingFlip(RIGHT, true, false);
         }
         else if (shift && right)
         {
             velocity.x = speedValue;
             facing = RIGHT;
-            setFacingFlip(LEFT, true, false);
+            setFacingFlip(LEFT, false, false);
         }
     }
 }

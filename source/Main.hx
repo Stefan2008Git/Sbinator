@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxGame;
+import flixel.FlxG;
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.display.StageScaleMode;
@@ -11,7 +12,7 @@ import lime.graphics.Image;
 
 class Main extends Sprite
 {
-	var game = {
+	var mainGame = {
 		width: 1280,
 		heigh: 720,
 		initialMenu: InitState,
@@ -25,8 +26,12 @@ class Main extends Sprite
 	{
 		super();
 
+		#if CRASH_HANDLER
+		Crash.init();
+		#end
+
 		// Since i left FNF, this is from Psych Engine because ye!
-		addChild(new FlxGame(game.width, game.heigh, game.initialMenu, game.fps, game.fps, game.skipFlixelSplash));
+		addChild(new FlxGame(mainGame.width, mainGame.heigh, mainGame.initialMenu, mainGame.fps, mainGame.fps, mainGame.skipFlixelSplash));
 
 		// Only Linux related thing
 		#if linux
