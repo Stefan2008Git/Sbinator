@@ -1,4 +1,4 @@
-package;
+package data.backend;
 
 #if (cpp && windows)
 @:headerInclude('windows.h')

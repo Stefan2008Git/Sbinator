@@ -1,6 +1,6 @@
 // Credits for CoreCat of pop up event code
 
-package;
+package data;
 
 import flixel.addons.effects.chainable.FlxEffectSprite;
 import flixel.addons.effects.chainable.FlxOutlineEffect;

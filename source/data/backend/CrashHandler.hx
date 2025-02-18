@@ -1,4 +1,4 @@
-package;
+package data.backend;
 
 import flixel.FlxG;
 import lime.system.System;

@@ -1,4 +1,4 @@
-package;
+package data;
 
 #if DISCORD_ALLOWED
 import Sys.sleep;
