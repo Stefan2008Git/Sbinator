@@ -31,33 +31,43 @@ class Player extends FlxSprite
         // Walking function
         if (left && right)
         {
+            PlayState.mainInstance.playerTrail.visible = false;
             velocity.x = 0;
         }
         else if (left)
         {
-            velocity.x = -speedValue / 2.8;
+            PlayState.mainInstance.playerTrail.visible = false;
+            velocity.x = -speedValue / 1.7;
             facing = LEFT;
             setFacingFlip(RIGHT, true, false);
         }
         else if (right)
         {
-            velocity.x = speedValue / 2.8;
+            PlayState.mainInstance.playerTrail.visible = false;
+            velocity.x = speedValue / 1.7;
             facing = RIGHT;
             setFacingFlip(LEFT, false, false);
         }
 
         // Sprinting function
-        if (shift && left)
+        if (shift && left && right)
+        {
+            velocity.x = 0;
+            PlayState.mainInstance.playerTrail.visible = false;
+        }
+        else if (shift && left)
         {
             velocity.x = -speedValue;
             facing = LEFT;
             setFacingFlip(RIGHT, true, false);
+            PlayState.mainInstance.playerTrail.visible = true;
         }
         else if (shift && right)
         {
             velocity.x = speedValue;
             facing = RIGHT;
             setFacingFlip(LEFT, false, false);
+            PlayState.mainInstance.playerTrail.visible = true;
         }
     }
 }

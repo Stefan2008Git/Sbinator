@@ -11,17 +11,21 @@ import flixel.math.FlxMath;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 
-class PlayState extends MainBeat
+class PlayState extends StateHandler
 {
     var bg:FlxBackdrop;
     var player:Player;
-    var playerTrail:FlxTrail;
+    public var playerTrail:FlxTrail;
     var levelBound:FlxGroup;
     public var cameraGame:FlxCamera;
+    static public var mainInstance:PlayState;
 
     override public function create()
     {
         super.create();
+
+        //Reqired for Player class file to call for player trail
+        mainInstance = this;
 
         #if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
@@ -55,10 +59,13 @@ class PlayState extends MainBeat
         add(player);
 
         playerTrail = new FlxTrail(player, 6, 0, 0.4, 0.02);
+        playerTrail.visible = false;
         add(playerTrail);
 
         FlxG.camera.setScrollBoundsRect(0, 0, true);
         FlxG.camera.follow(player, FlxCameraFollowStyle.LOCKON);
+
+        // Without this, the player will fall from camera wall, so keeping this for now
         levelBound = FlxCollision.createCameraWall(cameraGame, false, 1);
     }
 

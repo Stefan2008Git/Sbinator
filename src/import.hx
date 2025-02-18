@@ -6,7 +6,6 @@ import data.Discord.DiscordClient;
 import data.PopUp.PopUpEvent;
 import data.AssetPaths;
 import data.backend.FramePerSecond;
-import data.backend.MainBeat;
 import data.backend.Memory;
 import transition.Transition;
 import transition.StateHandler;

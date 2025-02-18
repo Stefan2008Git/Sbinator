@@ -19,7 +19,7 @@ typedef CreditsMeta =
     var link:String;
 }
 
-class CreditsMenu extends MainBeat
+class CreditsMenu extends StateHandler
 {
     var bg:FlxSprite;
     var checker:FlxBackdrop;

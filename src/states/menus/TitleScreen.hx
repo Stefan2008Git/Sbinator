@@ -12,7 +12,7 @@ import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 
-class TitleScreen extends MainBeat
+class TitleScreen extends StateHandler
 {
     var bg:FlxSprite;
     var checker:FlxBackdrop;
@@ -25,7 +25,7 @@ class TitleScreen extends MainBeat
     var sbinatorText:FlxText;
     var creatorName:FlxText;
     var gameLogo:FlxSprite;
-    var controls:Bool = true;
+    var controls:Bool = false;
 
     override public function create()
     {
@@ -129,7 +129,7 @@ class TitleScreen extends MainBeat
             FlxTween.tween(gameLogo, {y: 100}, 2, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(5, function(tmr:FlxTimer) {
+        new FlxTimer().start(6.8, function(tmr:FlxTimer) {
             controls = true;
         });
     }
