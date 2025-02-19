@@ -17,10 +17,11 @@ class CrashHandlerState extends StateHandler
     var crashText:FlxText;
     var controlsCheck:Bool = false;
     public static var randomErrorMessages:Array<String> = [
-        "SBINATOR OCCURED A CRASH!!",
+        "SBINATOR OCCURRED A CRASH!!",
         "Uncaught Error", // Suggested by MaysLastPlays
         "null object reference", // Suggested by riirai_luna (Luna)
-        "Null What the..." // Suggested by Rafi
+        "Null What the...", // Suggested by Rafi
+        "Sbinator might not be gaming" // Suggested by riirai_luna (Luna)
     ];
 
     public function new(errorMessage:String)
