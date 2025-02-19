@@ -88,6 +88,6 @@ class Main extends Sprite
 		#end
 		FlxG.bitmap.clearCache();
 
-		StateHandler.switchToNewState(new CrashHandlerState(stackTraceString + '\n\nCrash log created at: "${normalPath}"'));
+		StateHandler.switchToNewState(new CrashHandlerState(stackTraceString + '\n\nCrash log created at: "${normalPath}"!'));
 	}
 }

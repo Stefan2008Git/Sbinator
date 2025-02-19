@@ -5,7 +5,10 @@ import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import lime.app.Application;
 
 class CrashHandlerState extends StateHandler
@@ -15,6 +18,7 @@ class CrashHandlerState extends StateHandler
     var checker:FlxBackdrop;
     var title:FlxText;
     var crashText:FlxText;
+    var infoText:FlxText;
     var controlsCheck:Bool = false;
     public static var randomErrorMessages:Array<String> = [
         "SBINATOR OCCURRED A CRASH!!",
@@ -47,19 +51,68 @@ class CrashHandlerState extends StateHandler
         add(checker);
 
         title = new FlxText(0, 16, 0, randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)]);
-        title.setFormat("assets/fonts/bahnschrift.ttf", 36, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        title.setFormat("assets/fonts/bahnschrift.ttf", 55, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         title.screenCenter(X);
+        title.alpha = 0;
         add(title);
 
         crashText = new FlxText(24, title.y + title.height + 16, FlxG.width - 24, errorMessage);
-        crashText.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.ORANGE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        crashText.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.ORANGE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        crashText.alpha = 0;
         add(crashText);
+
+        infoText = new FlxText(5, FlxG.height - -28, 0, "Press ESC to reset a game! / Press ENTER to open GitHub issue tab!", 16);
+        infoText.scrollFactor.set();
+        infoText.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        add(infoText);
+
+        new FlxTimer().start(1, function(tmr:FlxTimer) {
+            FlxTween.tween(title, {alpha: 1, "y": 88}, 1.5, {ease: FlxEase.expoOut});
+        });
+
+        new FlxTimer().start(2, function(tmr:FlxTimer) {
+            FlxTween.tween(crashText, {alpha: 1, "y": 180}, 1.5, {ease: FlxEase.expoOut});
+        });
+
+        new FlxTimer().start(3, function(tmr:FlxTimer) {
+            FlxTween.tween(infoText, {y: 690}, 1.5, {ease: FlxEase.expoInOut});
+        });
+
+        new FlxTimer().start(3.8, function(tmr:FlxTimer) {
+            controlsCheck = true;
+        });
     }
 
     override public function update(elapsed:Float)
     {
-        Application.current.window.title = "Sbinator";
-        if (FlxG.keys.justPressed.ESCAPE) StateHandler.switchToNewState(new TitleScreen());
+
+        if (FlxG.keys.justPressed.ESCAPE && controlsCheck) tweenOut();
+        if (FlxG.keys.justPressed.ENTER && controlsCheck) FlxG.openURL("https://github.com/Stefan2008Git/Sbinator/issues");
+
         super.update(elapsed);
+    }
+
+    public function tweenOut()
+    {
+        controlsCheck = false; // After you press ESC or ENTER, the controls are disabled again!
+        new FlxTimer().start(1, function(tmr:FlxTimer) {
+            FlxTween.tween(title, {alpha: 0, "y": -88}, 1.5, {ease: FlxEase.expoOut});
+        });
+
+        new FlxTimer().start(1.5, function(tmr:FlxTimer) {
+            FlxTween.tween(crashText, {alpha: 0, "y": -180}, 1.5, {ease: FlxEase.expoOut});
+        });
+
+        new FlxTimer().start(2, function(tmr:FlxTimer) {
+            FlxTween.tween(bg, {alpha: 0}, 1.5, {ease: FlxEase.expoOut});
+            FlxTween.tween(checker, {alpha: 0}, 1.5, {ease: FlxEase.expoOut});
+            FlxTween.tween(infoText, {y: 800}, 1.5, {ease: FlxEase.expoInOut});
+            checker.velocity.set(0, 0);
+        });
+
+        new FlxTimer().start(3.5, function(tmr:FlxTimer) {
+            Application.current.window.title = "Sbinator";
+            FlxG.resetGame();
+        });
     }
 }
