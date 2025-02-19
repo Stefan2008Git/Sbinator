@@ -16,6 +16,12 @@ class CrashHandlerState extends StateHandler
     var title:FlxText;
     var crashText:FlxText;
     var controlsCheck:Bool = false;
+    public static var randomErrorMessages:Array<String> = [
+        "SBINATOR OCCURED A CRASH!!",
+        "Uncaught Error", // Suggested by MaysLastPlays
+        "null object reference", // Suggested by riirai_luna (Luna)
+        "Null What the..." // Suggested by Rafi
+    ];
 
     public function new(errorMessage:String)
     {
@@ -39,7 +45,7 @@ class CrashHandlerState extends StateHandler
         checker.alpha = 0.4;
         add(checker);
 
-        title = new FlxText(0, 16, 0, "SBINATOR OCCURED A CRASH!!");
+        title = new FlxText(0, 16, 0, randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)]);
         title.setFormat("assets/fonts/bahnschrift.ttf", 36, FlxColor.RED, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         title.screenCenter(X);
         add(title);
