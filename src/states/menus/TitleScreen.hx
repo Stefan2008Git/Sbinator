@@ -129,7 +129,7 @@ class TitleScreen extends StateHandler
             FlxTween.tween(gameLogo, {y: 100}, 2, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(6.8, function(tmr:FlxTimer) {
+        new FlxTimer().start(4, function(tmr:FlxTimer) {
             controls = true;
         });
     }

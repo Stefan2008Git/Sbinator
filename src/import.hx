@@ -16,6 +16,7 @@ import states.InitState;
 import states.menus.CreditsMenu;
 import states.menus.PauseMenu;
 import states.menus.TitleScreen;
+import states.modules.CrashHandlerState;
 
 // Other
 #if sys
