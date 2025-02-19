@@ -25,7 +25,8 @@ class CrashHandlerState extends StateHandler
         "Uncaught Error", // Suggested by MaysLastPlays
         "null object reference", // Suggested by riirai_luna (Luna)
         "Null What the...", // Suggested by Rafi
-        "Sbinator might not be gaming" // Suggested by riirai_luna (Luna)
+        "Sbinator might not be gaming", // Suggested by riirai_luna (Luna)
+        '"An error occurred."' // Suggested by core5570r (CoreCat)
     ];
 
     public function new(errorMessage:String)
