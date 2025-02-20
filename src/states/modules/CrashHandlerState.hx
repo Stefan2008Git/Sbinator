@@ -27,7 +27,8 @@ class CrashHandlerState extends StateHandler
         "Null What the...", // Suggested by Rafi
         "Sbinator might not be gaming", // Suggested by riirai_luna (Luna)
         '"An error occurred."', // Suggested by core5570r (CoreCat)
-        "An expection occurred" // Sonic CD lookin crash screen
+        "An expection occurred", // Sonic CD lookin crash screen
+        "Object retreival error" // FNAF 2 Deluxe Edition error code
     ];
 
     public function new(errorMessage:String)
@@ -40,7 +41,7 @@ class CrashHandlerState extends StateHandler
     {
         super.create();
 
-        Application.current.window.title = "Sbinator " + TitleScreen.gameVersion + " crash handler!";
+        Application.current.window.title = "Sbinator " + TitleScreen.gameVersion + " main crash handler";
 
         bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.GREEN);
         bg.alpha = 0.6;
@@ -61,11 +62,14 @@ class CrashHandlerState extends StateHandler
         crashText = new FlxText(24, title.y + title.height + 16, FlxG.width - 24, errorMessage);
         crashText.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.ORANGE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         crashText.alpha = 0;
+        crashText.screenCenter(X);
         add(crashText);
 
         infoText = new FlxText(5, FlxG.height - -28, 0, "Press ESC to reset a game! / Press ENTER to open GitHub issue tab!", 16);
         infoText.scrollFactor.set();
         infoText.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        infoText.screenCenter(X);
+        infoText.alpha = 0;
         add(infoText);
 
         new FlxTimer().start(1, function(tmr:FlxTimer) {
@@ -77,7 +81,7 @@ class CrashHandlerState extends StateHandler
         });
 
         new FlxTimer().start(3, function(tmr:FlxTimer) {
-            FlxTween.tween(infoText, {y: 690}, 1.5, {ease: FlxEase.expoInOut});
+            FlxTween.tween(infoText, {alpha: 1, "y": 690}, 1.5, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(3.8, function(tmr:FlxTimer) {
