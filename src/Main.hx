@@ -67,9 +67,9 @@ class Main extends Sprite
 		var path:String;
 		var exception:String = 'Exception: ${e.error}\n';
 		var stackTraceString = exception + StringTools.trim(CallStack.toString(CallStack.exceptionStack(true)));
-		var dateNow:String = Date.now().toString().replace(" ", "_").replace(":", "'");
+		var dateNow:String = Date.now().toString().replace(" ", "_").replace("'", ":");
 
-		path = 'crash/Sbinator_${dateNow}.txt';
+		path = 'crash/Sbinator - ${dateNow}.txt';
 
 		#if sys
 		if (!FileSystem.exists("crash/"))

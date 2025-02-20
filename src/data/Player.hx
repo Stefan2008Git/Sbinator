@@ -10,7 +10,7 @@ class Player extends FlxSprite
 
     public function new (xPosition:Int = 0, yPosition:Int = 0)
     {
-        super(xPosition, yPosition, "assets/images/game/in-game/stefan2008.png");
+        super(xPosition, yPosition, "assets/images/game/in-game/stefan.png");
         drag.x = speedValue + 8;
 
         acceleration.y = gravityValue;

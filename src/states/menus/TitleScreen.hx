@@ -18,9 +18,9 @@ class TitleScreen extends StateHandler
     var checker:FlxBackdrop;
     var bg2:FlxSprite;
     var stefanGuy:FlxSprite;
-    var button1:FlxSprite;
-    var button2:FlxSprite;
-    var button3:FlxSprite;
+    var playButton:FlxSprite;
+    var creditsButton:FlxSprite;
+    var exitGameButton:FlxSprite;
     public static var gameVersion:String = "1.0.0";
     var sbinatorText:FlxText;
     var creatorName:FlxText;
@@ -52,33 +52,33 @@ class TitleScreen extends StateHandler
 		bg2.alpha = 0.25;
 		add(bg2);
 
-        stefanGuy = new FlxSprite().loadGraphic("assets/images/mainMenu/stefan2008.png");
+        stefanGuy = new FlxSprite().loadGraphic("assets/images/mainMenu/stefanGuy.png");
         stefanGuy.scrollFactor.set();
         stefanGuy.x = -2000;
         stefanGuy.screenCenter(Y);
         stefanGuy.scale.set(1.2, 1.2);
         add(stefanGuy);
 
-        button1 = new FlxSprite().loadGraphic("assets/images/mainMenu/button1.png");
-        button1.scrollFactor.set();
-        button1.x = 190;
-        button1.y = -150;
-        button1.scale.set(0.7, 0.7);
-        add(button1);
+        playButton = new FlxSprite().loadGraphic("assets/images/mainMenu/play.png");
+        playButton.scrollFactor.set();
+        playButton.x = 190;
+        playButton.y = -150;
+        playButton.scale.set(0.7, 0.7);
+        add(playButton);
 
-        button2 = new FlxSprite().loadGraphic("assets/images/mainMenu/button2.png");
-        button2.scrollFactor.set();
-        button2.x = 190;
-        button2.y = -150;
-        button2.scale.set(0.7, 0.7);
-        add(button2);
+        creditsButton = new FlxSprite().loadGraphic("assets/images/mainMenu/credits.png");
+        creditsButton.scrollFactor.set();
+        creditsButton.x = 190;
+        creditsButton.y = -150;
+        creditsButton.scale.set(0.7, 0.7);
+        add(creditsButton);
 
-        button3 = new FlxSprite().loadGraphic("assets/images/mainMenu/button3.png");
-        button3.scrollFactor.set();
-        button3.x = 190;
-        button3.y = -150;
-        button3.scale.set(0.7, 0.7);
-        add(button3);
+        exitGameButton = new FlxSprite().loadGraphic("assets/images/mainMenu/exitGame.png");
+        exitGameButton.scrollFactor.set();
+        exitGameButton.x = 190;
+        exitGameButton.y = -150;
+        exitGameButton.scale.set(0.7, 0.7);
+        add(exitGameButton);
 
         sbinatorText = new FlxText(5, FlxG.height - -28, 0, "Sbinator " + gameVersion, 16);
         sbinatorText.scrollFactor.set();
@@ -114,15 +114,15 @@ class TitleScreen extends StateHandler
         });
 
         new FlxTimer().start(1.1, function(tmr:FlxTimer) {
-            FlxTween.tween(button1, {y: 300}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(playButton, {y: 300}, 2, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(1.4, function(tmr:FlxTimer) {
-            FlxTween.tween(button2, {y: 400}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(creditsButton, {y: 400}, 2, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(1.7, function(tmr:FlxTimer) {
-            FlxTween.tween(button3, {y: 500}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(exitGameButton, {y: 500}, 2, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(2, function(tmr:FlxTimer) {
@@ -147,7 +147,7 @@ class TitleScreen extends StateHandler
             if (FlxG.mouse.justReleased) FlxG.openURL("https://github.com/Stefan2008Git/Sbinator");
         }
 
-        if (FlxG.mouse.overlaps(button1) && controls)
+        if (FlxG.mouse.overlaps(playButton) && controls)
         {
             if (FlxG.mouse.justReleased)
             {
@@ -155,7 +155,7 @@ class TitleScreen extends StateHandler
             }
         }
 
-        if (FlxG.mouse.overlaps(button2) && controls)
+        if (FlxG.mouse.overlaps(creditsButton) && controls)
         {
             if (FlxG.mouse.justReleased)
             {
@@ -163,7 +163,7 @@ class TitleScreen extends StateHandler
             }
         }
 
-        if (FlxG.mouse.overlaps(button3) && controls)
+        if (FlxG.mouse.overlaps(exitGameButton) && controls)
         {
             if (FlxG.mouse.justReleased)
             {

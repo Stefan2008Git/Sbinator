@@ -26,7 +26,8 @@ class CrashHandlerState extends StateHandler
         "null object reference", // Suggested by riirai_luna (Luna)
         "Null What the...", // Suggested by Rafi
         "Sbinator might not be gaming", // Suggested by riirai_luna (Luna)
-        '"An error occurred."' // Suggested by core5570r (CoreCat)
+        '"An error occurred."', // Suggested by core5570r (CoreCat)
+        "An expection occurred" // Sonic CD lookin crash screen
     ];
 
     public function new(errorMessage:String)
@@ -64,7 +65,7 @@ class CrashHandlerState extends StateHandler
 
         infoText = new FlxText(5, FlxG.height - -28, 0, "Press ESC to reset a game! / Press ENTER to open GitHub issue tab!", 16);
         infoText.scrollFactor.set();
-        infoText.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        infoText.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(infoText);
 
         new FlxTimer().start(1, function(tmr:FlxTimer) {
@@ -86,7 +87,6 @@ class CrashHandlerState extends StateHandler
 
     override public function update(elapsed:Float)
     {
-
         if (FlxG.keys.justPressed.ESCAPE && controlsCheck) tweenOut();
         if (FlxG.keys.justPressed.ENTER && controlsCheck) FlxG.openURL("https://github.com/Stefan2008Git/Sbinator/issues");
 

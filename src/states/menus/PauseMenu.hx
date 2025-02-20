@@ -15,9 +15,9 @@ class PauseMenu extends FlxSubState
     var bg:FlxSprite;
     var checker:FlxBackdrop;
     var bg2:FlxSprite;
-    var button1:FlxSprite;
-    var button2:FlxSprite;
-    var button3:FlxSprite;
+    var resumeButton:FlxSprite;
+    var resetButton:FlxSprite;
+    var exitButton:FlxSprite;
 
     override public function create()
     {
@@ -40,26 +40,26 @@ class PauseMenu extends FlxSubState
 		bg2.alpha = 0.25;
 		add(bg2);
 
-		button1 = new FlxSprite().loadGraphic("assets/images/pauseMenu/button1.png");
-        button1.scrollFactor.set();
-        button1.x = 190;
-        button1.y = -150;
-        button1.scale.set(0.7, 0.7);
-        add(button1);
+		resumeButton = new FlxSprite().loadGraphic("assets/images/pauseMenu/resume.png");
+        resumeButton.scrollFactor.set();
+        resumeButton.x = 190;
+        resumeButton.y = -150;
+        resumeButton.scale.set(0.7, 0.7);
+        add(resumeButton);
 
-        button2 = new FlxSprite().loadGraphic("assets/images/pauseMenu/button2.png");
-        button2.scrollFactor.set();
-        button2.x = 190;
-        button2.y = -150;
-        button2.scale.set(0.7, 0.7);
-        add(button2);
+        resetButton = new FlxSprite().loadGraphic("assets/images/pauseMenu/reset.png");
+        resetButton.scrollFactor.set();
+        resetButton.x = 190;
+        resetButton.y = -150;
+        resetButton.scale.set(0.7, 0.7);
+        add(resetButton);
 
-        button3 = new FlxSprite().loadGraphic("assets/images/pauseMenu/button3.png");
-        button3.scrollFactor.set();
-        button3.x = 190;
-        button3.y = -150;
-        button3.scale.set(0.7, 0.7);
-        add(button3);
+        exitButton = new FlxSprite().loadGraphic("assets/images/pauseMenu/exit.png");
+        exitButton.scrollFactor.set();
+        exitButton.x = 190;
+        exitButton.y = -150;
+        exitButton.scale.set(0.7, 0.7);
+        add(exitButton);
 
 		new FlxTimer().start(0.6, function(tmr:FlxTimer) {
             FlxTween.tween(bg, {alpha: 0.6}, 0.7, {ease: FlxEase.quartInOut});
@@ -78,15 +78,15 @@ class PauseMenu extends FlxSubState
         });
 
         new FlxTimer().start(0.95, function(tmr:FlxTimer) {
-            FlxTween.tween(button1, {y: 300}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(resumeButton, {y: 300}, 2, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(1.2, function(tmr:FlxTimer) {
-            FlxTween.tween(button2, {y: 400}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(resetButton, {y: 400}, 2, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(1.4, function(tmr:FlxTimer) {
-            FlxTween.tween(button3, {y: 500}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(exitButton, {y: 500}, 2, {ease: FlxEase.expoInOut});
         });
 
         super.create();
@@ -94,17 +94,17 @@ class PauseMenu extends FlxSubState
 
     override function update(elapsed:Float)
     {
-        if (FlxG.mouse.overlaps(button1))
+        if (FlxG.mouse.overlaps(resumeButton))
         {
             if (FlxG.mouse.justPressed) close();
         }
 
-        if (FlxG.mouse.overlaps(button2))
+        if (FlxG.mouse.overlaps(resetButton))
         {
             if (FlxG.mouse.justPressed) FlxG.resetState();
         }
 
-        if (FlxG.mouse.overlaps(button3))
+        if (FlxG.mouse.overlaps(exitButton))
         {
             if (FlxG.mouse.justPressed) StateHandler.switchToNewState(new TitleScreen());
         }
