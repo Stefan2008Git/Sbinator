@@ -27,8 +27,10 @@ class CrashHandlerState extends StateHandler
         "Null What the...", // Suggested by Rafi
         "Sbinator might not be gaming", // Suggested by riirai_luna (Luna)
         '"An error occurred."', // Suggested by core5570r (CoreCat)
-        "An expection occurred", // Sonic CD lookin crash screen
-        "Object retreival error" // FNAF 2 Deluxe Edition error code
+        "An excpetion occurred", // Sonic CD lookin crash screen
+        "Object retreival error", // FNAF 2 Deluxe Edition error code
+        "Null Acess", // This is impossible to get into Flixel!
+        "NullReferenceException" // C#, Unity, Java, Rust error
     ];
 
     public function new(errorMessage:String)
@@ -81,11 +83,11 @@ class CrashHandlerState extends StateHandler
         });
 
         new FlxTimer().start(3, function(tmr:FlxTimer) {
-            FlxTween.tween(infoText, {alpha: 1, "y": 690}, 1.5, {ease: FlxEase.expoInOut});
+            FlxTween.tween(infoText, {alpha: 1, "y": 690}, 2.5, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(3.8, function(tmr:FlxTimer) {
-            controlsCheck = true;
+        new FlxTimer().start(4.5, function(tmr:FlxTimer) {
+            controlsCheck = true; // The moment when you are allowed to press ESC or ENTER
         });
     }
 
