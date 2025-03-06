@@ -34,7 +34,7 @@ class InitState extends FlxState
 		stefan2008.screenCenter();
 		stefan2008.alpha = 0;
 		stefan2008.active = true;
-		stefan2008.scale.set(0.1, 0.1);
+		stefan2008.scale.set(0.01, 0.01);
 		add(stefan2008);
 
 		new FlxTimer().start(3, function(tmr:FlxTimer)
@@ -44,7 +44,7 @@ class InitState extends FlxState
 
         new FlxTimer().start(5, function(tmr:FlxTimer)
         {
-            FlxTween.tween(stefan2008, {alpha: 1, "scale.x": 0.4, "scale.y": 0.4}, 1.3, {ease: FlxEase.expoOut, onComplete: _ -> onInitDone()});
+            FlxTween.tween(stefan2008, {alpha: 1, "scale.x": 0.3, "scale.y": 0.3}, 1.3, {ease: FlxEase.expoOut, onComplete: _ -> onInitDone()});
         });
     }
 
@@ -59,7 +59,6 @@ class InitState extends FlxState
 
         new FlxTimer().start(2, function(tmr:FlxTimer)
         {
-            // FlxG.switchState(TitleScreen.new);
             StateHandler.switchToNewState(new TitleScreen());
         });
     }

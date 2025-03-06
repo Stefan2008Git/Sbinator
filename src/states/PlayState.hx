@@ -24,7 +24,7 @@ class PlayState extends StateHandler
     {
         super.create();
 
-        //Reqired for Player class file to call for player trail
+        // SRequired for Player class file to call for player trail
         mainInstance = this;
 
         #if DISCORD_ALLOWED
