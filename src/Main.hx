@@ -30,6 +30,7 @@ class Main extends Sprite
 	};
 
 	public static var fpsVar:FramePerSecond;
+	public static var watermarkIcon:Watermark;
 
 	public function new()
 	{
@@ -53,6 +54,16 @@ class Main extends Sprite
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		if (fpsVar != null) fpsVar.visible = true;
 		addChild(fpsVar);
+
+		var watermarkImage:String = ("assets/images/icon32_icon.png");
+		if (FileSystem.exists(watermarkImage))
+		{
+			if (watermarkImage != null) removeChild(watermarkIcon);
+		}
+
+		watermarkIcon = new Watermark(5, Lib.current.stage.stageHeight - 5, 0.5);
+		if (watermarkIcon != null) watermarkIcon.visible = true;
+		addChild(watermarkIcon);
 
 		#if DISCORD_ALLOWED
 		DiscordClient.prepare();

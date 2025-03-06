@@ -2,7 +2,10 @@ package data.backend;
 
 import flixel.FlxG;
 import flixel.util.FlxColor;
+import openfl.Lib;
 import openfl.ui.Keyboard;
+import openfl.display.Bitmap;
+import openfl.display.BitmapData;
 import openfl.display.Sprite;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
@@ -88,7 +91,7 @@ class FramePerSecond extends Sprite {
 
         background = new Sprite();
         background.graphics.beginFill(1, 0.6);
-        background.graphics.drawRect(0, 0, 8, 8);
+        background.graphics.drawRoundRect(0, 0, 140, 50, 10, 10);
         background.graphics.endFill();
         addChild(background);
 
@@ -312,4 +315,25 @@ class FramePerSecond extends Sprite {
 enum abstract FPSPos(Int) from Int to Int {
     var TOP;
     var BOTTOM;
+}
+
+class Watermark extends Bitmap
+{
+    public function new(x:Float = 10, y:Float = 10, alphaFloat:Float = 0.6)
+    {
+        super();
+
+        var watermarkImage:String = ("assets/images/icon32_icon.png");
+        BitmapData.fromFile(watermarkImage);
+
+        this.x = x;
+        this.y = y;
+        this.alpha = alphaFloat;
+    }
+
+    private override function __enterFrame(delta:Float):Void
+    {
+        this.x = 5;
+        this.y = Lib.current.stage.stageHeight - 5;
+    }
 }
