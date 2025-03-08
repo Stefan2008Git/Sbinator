@@ -55,7 +55,7 @@ class PlayState extends StateHandler
         bg = new FlxBackdrop("assets/images/game/in-game/skybox.png");
         add(bg);
 
-        player = new Player();
+        player = new Player(10, 0, 0.7, 0.7);
         add(player);
 
         playerTrail = new FlxTrail(player, 6, 0, 0.4, 0.02);

@@ -8,12 +8,15 @@ class Player extends FlxSprite
     final speedValue:Int = 180;
     final gravityValue:Int = 280;
 
-    public function new (xPosition:Int = 0, yPosition:Int = 0)
+    public function new (xPosition:Int = 0, yPosition:Int = 0, scaleX:Float = 0, scaleY:Float = 0)
     {
         super(xPosition, yPosition, "assets/images/game/in-game/stefan.png");
         drag.x = speedValue + 8;
 
         acceleration.y = gravityValue;
+
+        this.scale.x = scaleX;
+        this.scale.y = scaleY;
     }
 
     override function update(elapsed:Float)
