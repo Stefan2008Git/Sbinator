@@ -21,16 +21,16 @@ jobs:
           
         - name: Install required Haxelib libs
           run: |
-          sudo apt-get install libvlc-dev
-          sudo apt-get install libvlccore-dev
-          haxelib setup ~/haxelib
-          haxelib install flixel
-          haxelib install flixel-addons
-          haxelib install flixel-ui
-          haxelib install lime 8.0.2
-          haxelib install openfl
-          haxelib install hxcpp
-          haxelib install hxdiscord_rpc 1.2.4
+            sudo apt-get install libvlc-dev
+            sudo apt-get install libvlccore-dev
+            haxelib setup ~/haxelib
+            haxelib install flixel
+            haxelib install flixel-addons
+            haxelib install flixel-ui
+            haxelib install lime 8.0.2
+            haxelib install openfl
+            haxelib install hxcpp
+            haxelib install hxdiscord_rpc 1.2.4
         
         - name: Create Version Tag
           run: echo "${{github.run_id}} > VERSION"
@@ -67,6 +67,7 @@ jobs:
               haxelib install lime 8.0.2
               haxelib install openfl
               haxelib install hxcpp
+              haxelib install hxdiscord_rpc 1.2.4
           
           - name: Create version tag
             run: echo "${{github.run_id}}" > VERSION
