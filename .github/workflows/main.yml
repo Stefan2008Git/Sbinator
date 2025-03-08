@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-    buildLinux:
+    Linux:
       runs-on: ubuntu-latest
 
       steps:
@@ -48,11 +48,11 @@ jobs:
           with:
             name: Sbinator-linux_build
             path: 'export/release/linux/bin'
-    buildWindows:
+    Windows:
       runs-on: windows-latest
 
       steps:
-        - uses: actions/checkout@v.4.1.7
+        - uses: actions/checkout@v4.1.7
 
         - uses: krdlab/setup-haxe@master
           with:
