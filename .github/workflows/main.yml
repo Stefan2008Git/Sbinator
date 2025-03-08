@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-    Linux:
+    buildLinux:
       runs-on: ubuntu-latest
 
       steps:
@@ -48,7 +48,7 @@ jobs:
           with:
             name: Sbinator-linux_build
             path: 'export/release/linux/bin'
-      Windows:
+      buildWindows:
         runs-on: windows-latest
 
         steps:
