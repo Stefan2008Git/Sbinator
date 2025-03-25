@@ -27,7 +27,7 @@ jobs:
             haxelib install flixel
             haxelib install flixel-addons
             haxelib install flixel-ui
-            haxelib install lime 8.0.2
+            haxelib install lime
             haxelib install openfl
             haxelib install hxcpp
             haxelib install hxdiscord_rpc 1.2.4
@@ -37,7 +37,6 @@ jobs:
         
         - name: Configure main target
           run: |
-            haxelib set lime 8.0.2
             haxelib set hxdiscord_rpc 1.2.4
 
         - name: Compile and build
@@ -64,7 +63,7 @@ jobs:
             haxelib install flixel
             haxelib install flixel-addons
             haxelib install flixel-ui
-            haxelib install lime 8.0.2
+            haxelib install lime
             haxelib install openfl
             haxelib install hxcpp
             haxelib install hxdiscord_rpc 1.2.4
@@ -74,7 +73,6 @@ jobs:
           
         - name: Configure main target
           run: |
-            haxelib set lime 8.0.2
             haxelib set hxdiscord_rpc 1.2.4
           
         - name: Compile and build
