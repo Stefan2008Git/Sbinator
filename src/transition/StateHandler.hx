@@ -20,11 +20,12 @@ class StateHandler extends FlxUIState
     public static function switchToNewState(?target:NextState):Void
     {
         var trans = new Transition(false);
+
         trans.callbackFinished = function()
         {
             if(target != null) FlxG.switchState(target); else FlxG.resetState();
         };
     
-        if(activeState != null) activeState.openSubState(trans);
+        if (activeState != null) activeState.openSubState(trans);
     }
 }

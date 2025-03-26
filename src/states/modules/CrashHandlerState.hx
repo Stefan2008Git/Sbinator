@@ -43,7 +43,7 @@ class CrashHandlerState extends StateHandler
     {
         super.create();
 
-        Application.current.window.title = "Sbinator " + TitleScreen.gameVersion + " main crash handler";
+        #if desktop Application.current.window.title = "Sbinator " + EngineConfiguration.gameVersion + " main crash handler"; #end
 
         bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.GREEN);
         bg.alpha = 0.6;
@@ -86,7 +86,12 @@ class CrashHandlerState extends StateHandler
             FlxTween.tween(infoText, {alpha: 1, "y": 690}, 2.5, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(4.5, function(tmr:FlxTimer) {
+        new FlxTimer().start(4, function(tmr:FlxTimer) {
+            FlxTween.angle(checker, 0, 80, 1, {ease: FlxEase.expoInOut});
+            checker.velocity.set(0, 0);
+        });
+
+        new FlxTimer().start(5.7, function(tmr:FlxTimer) {
             controlsCheck = true; // The moment when you are allowed to press ESC or ENTER
         });
     }
@@ -114,7 +119,6 @@ class CrashHandlerState extends StateHandler
             FlxTween.tween(bg, {alpha: 0}, 1.5, {ease: FlxEase.expoOut});
             FlxTween.tween(checker, {alpha: 0}, 1.5, {ease: FlxEase.expoOut});
             FlxTween.tween(infoText, {y: 800}, 1.5, {ease: FlxEase.expoInOut});
-            checker.velocity.set(0, 0);
         });
 
         new FlxTimer().start(3.5, function(tmr:FlxTimer) {

@@ -16,7 +16,6 @@ class DiscordClient
 	private inline static final _defaultID:String = "1059518348196597831";
 	public static var clientID(default, set):String = _defaultID;
 	private static var presence:DiscordRichPresence = DiscordRichPresence.create();
-	// hides this field from scripts and reflection in general
 	@:unreflective private static var __thread:Thread;
 
 	public static function check()
@@ -45,10 +44,7 @@ class DiscordClient
 		final discriminator = cast (request[0].discriminator, String);
 
 		var message = '(Discord) Connected to User ';
-		if (discriminator != '0') //Old discriminators
-			message += '($user#$discriminator)';
-		else //New Discord IDs/Discriminator system
-			message += '($user)';
+		if (discriminator != '0') message += '($user#$discriminator)'; else message += '($user)';
 
 		trace(message);
 		changePresence();
@@ -87,8 +83,6 @@ class DiscordClient
 						#end
 						Discord.RunCallbacks();
 					}
-
-					// Wait 1 second until the next loop...
 					Sys.sleep(1.0);
 				}
 			});
@@ -106,13 +100,10 @@ class DiscordClient
 		presence.details = details;
 		presence.smallImageKey = smallImageKey;
 		presence.largeImageKey = largeImageKey;
-		presence.largeImageText = "Sbinator " + TitleScreen.gameVersion;
-		// Obtained times are in milliseconds so they are divided so Discord can use it
+		presence.largeImageText = "Sbinator " + EngineConfiguration.gameVersion;
 		presence.startTimestamp = Std.int(startTimestamp / 1000);
 		presence.endTimestamp = Std.int(endTimestamp / 1000);
 		updatePresence();
-
-		//trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp, $largeImageKey');
 	}
 
 	public static function updatePresence()

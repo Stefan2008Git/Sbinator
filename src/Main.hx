@@ -32,6 +32,19 @@ class Main extends Sprite
 	public static var fpsVar:FramePerSecond;
 	public static var watermarkIcon:Watermark;
 
+	public static var randomErrorMessages:Array<String> = [
+        "SBINATOR OCCURRED A CRASH!!",
+        "Uncaught Error", // Suggested by MaysLastPlays
+        "null object reference", // Suggested by riirai_luna (Luna)
+        "Null What the...", // Suggested by Rafi
+        "Sbinator might not be gaming", // Suggested by riirai_luna (Luna)
+        '"An error occurred."', // Suggested by core5570r (CoreCat)
+        "An excpetion occurred", // Sonic CD lookin crash screen
+        "Object retreival error", // FNAF 2 Deluxe Edition error code
+        "Null Acess", // This is impossible to get into Flixel!
+        "NullReferenceException" // C#, Unity, Java, Rust error
+    ];
+
 	public function new()
 	{
 		super();
@@ -99,6 +112,11 @@ class Main extends Sprite
 		#end
 		FlxG.bitmap.clearCache();
 
+		#if (linux || mac) // For some unknown reason Application class failed to open pop-up window in Unix-based system, so using state class will help for bit!
 		StateHandler.switchToNewState(new CrashHandlerState(stackTraceString + '\n\nCrash log created at: "${normalPath}"!'));
+		#else
+		Application.current.window.alert(stackTraceString, "\n\nPress OK to reset game!" + randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)], " - Sbinator v" + EngineConfiguration.gameVersion); // My friend cannot get state working on his Windows machine for some reason, so using base Application class for fix instead..
+		FlxG.resetGame();
+		#end
 	}
 }

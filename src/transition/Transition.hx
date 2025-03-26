@@ -9,7 +9,7 @@ import flixel.tweens.FlxTween;
 class Transition extends FlxSubState
 {
     var fadeOut:Bool = false;
-    public var callbackFinished:Void->Void;
+    public var callbackFinished:Void -> Void;
     var switcherBg:FlxSprite;
 
     public function new(fadeOut:Bool = true)

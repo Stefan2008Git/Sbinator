@@ -2,19 +2,19 @@
 
 package data;
 
-import flixel.addons.effects.chainable.FlxEffectSprite;
-import flixel.addons.effects.chainable.FlxOutlineEffect;
-import flixel.math.FlxMath;
-import flixel.util.FlxSpriteUtil;
-import flixel.text.FlxText;
-import flixel.tweens.FlxEase;
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.FlxSubState;
-import flixel.util.FlxColor;
-import flixel.tweens.FlxTween;
-import flixel.FlxSprite;
+import flixel.addons.effects.chainable.FlxEffectSprite;
+import flixel.addons.effects.chainable.FlxOutlineEffect;
 import flixel.group.FlxSpriteGroup;
+import flixel.math.FlxMath;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
+import flixel.util.FlxSpriteUtil;
 
 typedef PopUpButton = {
     var text:String;

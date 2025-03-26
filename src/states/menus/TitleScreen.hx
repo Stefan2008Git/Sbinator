@@ -11,6 +11,7 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import lime.system.System;
 
 class TitleScreen extends StateHandler
 {
@@ -21,7 +22,6 @@ class TitleScreen extends StateHandler
     var playButton:FlxSprite;
     var creditsButton:FlxSprite;
     var exitGameButton:FlxSprite;
-    public static var gameVersion:String = "1.0.0";
     var sbinatorText:FlxText;
     var creatorName:FlxText;
     var gameLogo:FlxSprite;
@@ -80,7 +80,7 @@ class TitleScreen extends StateHandler
         exitGameButton.scale.set(0.7, 0.7);
         add(exitGameButton);
 
-        sbinatorText = new FlxText(5, FlxG.height - -28, 0, "Sbinator " + gameVersion, 16);
+        sbinatorText = new FlxText(5, FlxG.height - -28, 0, "Sbinator " + EngineConfiguration.gameVersion, 16);
         sbinatorText.scrollFactor.set();
         sbinatorText.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(sbinatorText);

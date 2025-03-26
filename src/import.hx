@@ -1,10 +1,11 @@
 #if (!macro)
 
 // Important
-import data.Player;
-import data.Discord.DiscordClient;
-import data.PopUp.PopUpEvent;
 import data.AssetPaths;
+import data.Discord.DiscordClient;
+import data.Player;
+import data.PopUp.PopUpEvent;
+import data.backend.GameUtils.EngineConfiguration;
 import data.backend.FramePerSecond;
 import data.backend.FramePerSecond.Watermark;
 import data.backend.Memory;
