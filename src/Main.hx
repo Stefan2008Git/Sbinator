@@ -116,7 +116,7 @@ class Main extends Sprite
 		#if (linux || mac) // For some unknown reason Application class failed to open pop-up window in Unix-based system, so using state class will help for bit!
 		StateHandler.switchToNewState(new CrashHandlerState(stackTraceString + '\n\nCrash log created at: "${normalPath}"!'));
 		#else
-		Application.current.window.alert(stackTraceString, "\n\nPress OK to reset game!" + randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)], " - Sbinator v" + EngineConfiguration.gameVersion); // My friend cannot get state working on his Windows machine for some reason, so using base Application class for fix instead..
+		Application.current.window.alert(stackTraceString + "\n\nPress OK to reset game!" + randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)] + " - Sbinator v" + EngineConfiguration.gameVersion); // My friend cannot get state working on his Windows machine for some reason, so using base Application class for fix instead..
 		FlxG.resetGame();
 		#end
 	}
