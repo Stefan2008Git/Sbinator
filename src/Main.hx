@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxGame;
 import flixel.FlxG;
+import lime.app.Application;
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.display.StageScaleMode;
