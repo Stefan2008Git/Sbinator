@@ -14,7 +14,7 @@ import flixel.util.FlxColor;
 class PlayState extends StateHandler
 {
     var bg:FlxBackdrop;
-    var player:Player;
+    public var player:Player;
     public var playerTrail:FlxTrail;
     var levelBound:FlxGroup;
     public var cameraGame:FlxCamera;
@@ -82,6 +82,8 @@ class PlayState extends StateHandler
         }
 
 		if (justPressed.ESCAPE) openSubState(new PauseMenu());
+
+		if (justPressed.R) openSubState(new GameOver());
 
         super.update(elapsed);
     }
