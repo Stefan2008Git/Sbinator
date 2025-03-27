@@ -4,26 +4,27 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
-import flixel.addons.display.FlxBackdrop;
 import flixel.addons.effects.FlxTrail;
 import flixel.group.FlxGroup;
+import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 
 class PlayState extends StateHandler
 {
-    var bg:FlxBackdrop;
+    var bg:FlxSprite;
+    var bg2:FlxSprite;
     public var player:Player;
     public var playerTrail:FlxTrail;
     var levelBound:FlxGroup;
     public var cameraGame:FlxCamera;
+    public var gameUiGroup:FlxSpriteGroup;
     static public var mainInstance:PlayState;
+    var cameraMode:FlxCameraFollowStyle = FlxCameraFollowStyle.TOPDOWN_TIGHT;
 
     override public function create()
     {
-        super.create();
-
         // SRequired for Player class file to call for player trail
         mainInstance = this;
 
@@ -32,41 +33,36 @@ class PlayState extends StateHandler
 		DiscordClient.changePresence("In Game", null);
 		#end
 
-        openSubState(new PopUpEvent("Unfinished menu", "This menu is currently in work-in-progress, but you can test it!", [
-        {
-            text: "Okay",
-            callback: function()
-            {
-                closeSubState();
-            }
-				},
-                    {
-                        text: "Go back",
-                        callback: function()
-                    {
-                    StateHandler.switchToNewState(new TitleScreen());
-                }
-            }
-        ], false, true));
-
         cameraGame = new FlxCamera();
         FlxG.cameras.add(cameraGame);
 
-        bg = new FlxBackdrop("assets/images/game/in-game/skybox.png");
-        add(bg);
+        gameUiGroup = new FlxSpriteGroup();
+        add(gameUiGroup);
 
-        player = new Player(10, 0, 0.7, 0.7);
+        bg = new FlxSprite("assets/images/game/in-game/world/skybox.png");
+        bg.screenCenter();
+        gameUiGroup.add(bg);
+
+        bg2 = new FlxSprite("assets/images/game/in-game/world/grass.png");
+        bg2.screenCenter(X);
+        gameUiGroup.add(bg2);
+
+        player = new Player(5, 70, 1, 1);
         add(player);
 
         playerTrail = new FlxTrail(player, 6, 0, 0.4, 0.02);
         playerTrail.visible = false;
         add(playerTrail);
 
-        FlxG.camera.setScrollBoundsRect(0, 0, true);
-        FlxG.camera.follow(player, FlxCameraFollowStyle.LOCKON);
+        // FlxG.camera.setScrollBoundsRect(0, 0, true);
+        FlxG.camera.follow(player, cameraMode);
 
         // Without this, the player will fall from camera wall, so keeping this for now
         levelBound = FlxCollision.createCameraWall(cameraGame, false, 1);
+
+        gameUiGroup.cameras = [cameraGame];
+
+        super.create();
     }
 
     override public function update(elapsed:Float)
@@ -74,6 +70,7 @@ class PlayState extends StateHandler
         final justPressed = FlxG.keys.justPressed;
 
 		FlxG.collide(player, levelBound);
+		FlxG.camera.follow(player, cameraMode);
 
 		if (player.isTouching(DOWN) && justPressed.SPACE)
 		{
