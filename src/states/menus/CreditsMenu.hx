@@ -18,9 +18,10 @@ class CreditsMenu extends StateHandler
 {
     // Base menu stuff
     var bg:FlxSprite;
+    var intendedColor:FlxColor;
     var checker:FlxBackdrop;
-    var secondBg:FlxSprite;
     var button:FlxSprite;
+    var bottomBG:FlxSprite;
 
     // Credit icon stuff
     var creditsName:FlxText;
@@ -30,10 +31,10 @@ class CreditsMenu extends StateHandler
      * ['name','descritpion','ytlink']
      */
     var creditsList:Array<Array<String>> = [
-       ['stefan2008', 'Stefan2008', 'Creator, programmer and artist', 'https://www.youtube.com/@stefan2008official'],
-       ['maysLastPlays', 'MaysLastPlay', 'First contributor of our project', 'https://www.youtube.com/@MaysLastPlay'],
-       ['coreCat', 'CoreCat', 'For pop-up event code', 'https://www.youtube.com/@core5570r'],
-       ['riirai_luna', 'Riirai_Luna', 'Little supporter and suggester for funny crash handler title', 'https://www.youtube.com/@Riirai_Luna']
+       ['stefan2008', 'Stefan2008', 'Creator, programmer and artist', '0c5c00', 'https://www.youtube.com/@stefan2008official'],
+       ['maysLastPlays', 'MaysLastPlay', 'First contributor of our project', '1fe1de', 'https://www.youtube.com/@MaysLastPlay'],
+       ['coreCat', 'CoreCat', 'For pop-up event code', '2c81b7', 'https://www.youtube.com/@core5570r'],
+       ['riirai_luna', 'Riirai_Luna', 'Little supporter and suggester for funny crash handler title', 'cc8b8b', 'https://www.youtube.com/@Riirai_Luna']
     ];
     var creditsGroup:FlxTypedGroup<FlxSprite>;
     var leftArrow:FlxSprite;
@@ -47,7 +48,7 @@ class CreditsMenu extends StateHandler
 		DiscordClient.changePresence("In Credits Menu", null);
 		#end
 
-		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF0c5c00);
+		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.WHITE);
 		bg.alpha = 0.8;
 		add(bg);
 
@@ -56,10 +57,6 @@ class CreditsMenu extends StateHandler
         checker.screenCenter();
         checker.alpha = 0.6;
         add(checker);
-
-        secondBg = new FlxSprite(720, -800).makeGraphic(FlxG.width - 720, FlxG.height, FlxColor.BLACK);
-		secondBg.alpha = 0.25;
-		add(secondBg);
 
 		creditsGroup = new FlxTypedGroup<FlxSprite>();
 		add(creditsGroup);
@@ -75,13 +72,17 @@ class CreditsMenu extends StateHandler
             creditsGroup.add(creditsIcon);
 		}
 
+		bottomBG = new FlxSprite(0, FlxG.height - 42).makeGraphic(FlxG.width, 200, 0xFF000000);
+        bottomBG.alpha = 0.6;
+        add(bottomBG);
+
 		creditsName = new FlxText(0, 0, FlxG.width, "");
 		creditsName.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         creditsName.scrollFactor.set(0, 0);
         creditsName.borderSize = 2;
         creditsName.antialiasing = true;
         creditsName.screenCenter(X);
-        creditsName.y = FlxG.height - 520;
+        creditsName.y = FlxG.height - 490;
         add(creditsName);
 
         creditsDesc = new FlxText(0, 0, FlxG.width, "");
@@ -122,12 +123,17 @@ class CreditsMenu extends StateHandler
         add(button);
 
         changeTheSelection(0);
+        intendedColor = bg.color;
 
 		super.create();
     }
 
+    var textFloater:Float = 0;
     override public function update(elapsed:Float)
     {
+        textFloater += elapsed;
+        creditsName.y = 190 + (Math.sin(textFloater) * 1 ) * 10;
+
         if (FlxG.mouse.overlaps(button))
         {
             if (FlxG.mouse.justReleased) StateHandler.switchToNewState(new TitleScreen());
@@ -144,7 +150,7 @@ class CreditsMenu extends StateHandler
 
                 if (FlxG.mouse.justPressed)
                 {
-                   FlxG.openURL(creditsList[currentSelector][3]);
+                   FlxG.openURL(creditsList[currentSelector][4]);
                 }
             }
         });
@@ -176,16 +182,24 @@ class CreditsMenu extends StateHandler
         creditsGroup.forEach(function(spr:FlxSprite)
         {
             spr.y += 400;
-            spr.visible = false;
+            spr.kill();
             spr.updateHitbox();
 
             if (spr.ID == currentSelector)
             {
-                spr.visible = true;
+                spr.revive();
                 spr.updateHitbox();
                 spr.screenCenter();
             }
             spr.centerOffsets();
         });
+
+        var newColor:FlxColor = EngineConfiguration.colorFromString(creditsList[currentSelector][3]);
+		if(newColor != intendedColor)
+		{
+			intendedColor = newColor;
+			FlxTween.cancelTweensOf(bg);
+			FlxTween.color(bg, 0.5, bg.color, intendedColor);
+		}
     }
 }

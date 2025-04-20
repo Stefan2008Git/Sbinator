@@ -2,7 +2,10 @@ package data.backend;
 
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.util.FlxColor;
 import openfl.utils.Assets;
+
+using StringTools;
 
 class EngineConfiguration
 {
@@ -58,4 +61,15 @@ class EngineConfiguration
     {
         return getPath('fonts/$fontKey', fontLibrary);
     }*/
+
+    inline public static function colorFromString(color:String):FlxColor
+	{
+		var hideCharacters = ~/[\t\n\r]/;
+		var color:String = hideCharacters.split(color).join('').trim();
+		if(color.startsWith('0x')) color = color.substring(color.length - 6);
+
+		var colorNum:Null<FlxColor> = FlxColor.fromString(color);
+		if(colorNum == null) colorNum = FlxColor.fromString('#$color');
+		return colorNum != null ? colorNum : FlxColor.WHITE;
+	}
 }
