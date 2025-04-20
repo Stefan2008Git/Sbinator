@@ -2,38 +2,35 @@ package states.menus;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
+import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.group.FlxGroup;
+import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 
 using StringTools;
-typedef CreditsMeta =
-{
-    var name:String;
-    var ability:String;
-    var description:String;
-    var link:String;
-}
 
 class CreditsMenu extends StateHandler
 {
+    // Base menu stuff
     var bg:FlxSprite;
     var checker:FlxBackdrop;
     var secondBg:FlxSprite;
-    var iconMembers:FlxSprite;
-    var arrowSymbol1:FlxSprite;
-    var arrowSymbol2:FlxSprite;
-    var creditsText:FlxText;
     var button:FlxSprite;
-    var menionedPeople:Array<CreditsMeta> = [
-        {name: "Stefan2008", ability: "Owner, programmer and artist!", description: "Made this project for fun", link: "https://www.youtube.com/@stefan2008official"},
-        {name: "CoreCat", ability: "Coder", description: "For Pop-up code event!", link: "https://www.youtube.com/@core5570r"}
-    ];
-    var currentlySelected:Int = 0;
+
+    // Credit icon stuff
+    var creditsName:FlxText;
+    var creditsDesc:FlxText;
+    var creditsIcon:FlxSprite;
+    var creditsList:Array<String> = ['stefan2008', 'maysLastPlays', 'coreCat'];
+    var creditsGroup:FlxTypedGroup<FlxSprite>;
+    var leftArrow:FlxSprite;
+    var rightArrow:FlxSprite;
+    var currentSelector:Int = 1;
 
     override public function create()
     {
@@ -41,23 +38,6 @@ class CreditsMenu extends StateHandler
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In Credits Menu", null);
 		#end
-
-		openSubState(new PopUpEvent("Unfinished menu", "This menu is currently in work-in-progress and it contains a crashes, but you can test it!", [
-        {
-            text: "Okay",
-            callback: function()
-            {
-                closeSubState();
-            }
-				},
-                    {
-                        text: "Go back",
-                        callback: function()
-                    {
-                    StateHandler.switchToNewState(new TitleScreen());
-                }
-            }
-        ], false, true));
 
 		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF0c5c00);
 		bg.alpha = 0.8;
@@ -73,80 +53,135 @@ class CreditsMenu extends StateHandler
 		secondBg.alpha = 0.25;
 		add(secondBg);
 
-		iconMembers = new FlxSprite().loadGraphic("assets/images/creditsMenu/People.png", true);
-		iconMembers.animation.addByPrefix('Stefan2008', 'Stefan2008');
-		iconMembers.animation.addByPrefix('Core', 'Core');
-		iconMembers.animation.play("Stefan2008");
-		iconMembers.screenCenter();
-		add(iconMembers);
+		creditsName = new FlxText(0, 0, FlxG.width, "");
+		creditsName.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        creditsName.scrollFactor.set(0, 0);
+        creditsName.borderSize = 2;
+        creditsName.antialiasing = true;
+        creditsName.screenCenter(X);
+        creditsName.y = FlxG.height - 60;
+        add(creditsName);
 
-		arrowSymbol1 = new FlxSprite().loadGraphic("assets/images/creditsMenu/Arrow.png", true);
-		arrowSymbol1.screenCenter();
-		arrowSymbol1.animation.addByPrefix('left', "arrow left", 24);
-		arrowSymbol1.animation.addByPrefix('press', "arrow push left", 24);
-		arrowSymbol1.x -= 100;
-		arrowSymbol1.animation.play('left');
-		add(arrowSymbol1);
+        creditsDesc = new FlxText(0, 0, FlxG.width, "");
+        creditsDesc.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        creditsDesc.scrollFactor.set(0, 0);
+        creditsDesc.borderSize = 2;
+        creditsDesc.antialiasing = true;
+        creditsDesc.screenCenter(X);
+        creditsDesc.y = FlxG.height - 38;
+        add(creditsDesc);
 
-		arrowSymbol2 = new FlxSprite().loadGraphic("assets/images/creditsMenu/Arrow.png", true);
-		arrowSymbol2.screenCenter();
-		arrowSymbol2.animation.addByPrefix('right', "arrow right", 24);
-		arrowSymbol2.animation.addByPrefix('press', "arrow push right", 24, false);
-		arrowSymbol2.x += 225;
-		arrowSymbol2.animation.play('right');
-		add(arrowSymbol2);
+		creditsGroup = new FlxTypedGroup<FlxSprite>();
+		add(creditsGroup);
 
-		creditsText = new FlxText(0, 0, FlxG.width, "", 24);
-		creditsText.setFormat("Bahnschrift", 32, FlxColor.fromRGB(200, 200, 200), CENTER);
-		creditsText.borderColor = FlxColor.BLACK;
-		creditsText.borderSize = 3;
-		creditsText.borderStyle = FlxTextBorderStyle.OUTLINE;
-		creditsText.screenCenter();
-		creditsText.y += 275;
-		add(creditsText);
+		for (i in 0...creditsList.length)
+		{
+            creditsIcon = new FlxSprite().loadGraphic("assets/images/creditsMenu/credits/" + creditsList[i] + ".png");
+            creditsIcon.scrollFactor.set();
+            creditsIcon.screenCenter();
+            creditsIcon.scale.set(0.2, 0.2);
+            creditsIcon.updateHitbox();
+            creditsIcon.ID = i;
+            creditsGroup.add(creditsIcon);
+		}
+
+		leftArrow = new FlxSprite();
+		leftArrow.frames = FlxAtlasFrames.fromSparrow("assets/images/creditsMenu/arrows.png", "assets/images/creditsMenu/arrows.xml");
+		leftArrow.screenCenter();
+		leftArrow.animation.addByPrefix('leftIdle', "arrow left", 24);
+		leftArrow.animation.addByPrefix('pressLeft', "arrow push left", 24);
+		leftArrow.x = 50;
+		leftArrow.animation.play('leftIdle');
+		leftArrow.updateHitbox();
+		add(leftArrow);
+
+		rightArrow = new FlxSprite();
+		rightArrow.frames = FlxAtlasFrames.fromSparrow("assets/images/creditsMenu/arrows.png", "assets/images/creditsMenu/arrows.xml");
+		rightArrow.screenCenter();
+		rightArrow.animation.addByPrefix('rightIdle', "arrow right", 24);
+		rightArrow.animation.addByPrefix('pressRight', "arrow push right", 24, false);
+		rightArrow.x += 550;
+		rightArrow.animation.play('rightIdle');
+		rightArrow.updateHitbox();
+		add(rightArrow);
 
 		button = new FlxSprite().loadGraphic("assets/images/creditsMenu/button.png");
         button.scrollFactor.set();
-        button.y = 625;
-        button.x = -85;
+        button.y = 650;
+        button.x = 10;
         button.scale.set(0.5, 0.5);
+        button.updateHitbox();
         add(button);
+
+        changeTheSelection();
 
 		super.create();
     }
 
+    var hoveringIcon:Bool = false;
     override public function update(elapsed:Float)
     {
-        final left = FlxG.keys.anyPressed([LEFT, A]);
-        final right = FlxG.keys.anyPressed([RIGHT, D]);
-        final press = FlxG.keys.anyPressed([ENTER, P]);
-
-        var coolPeople = menionedPeople[currentlySelected];
-        creditsText.text = coolPeople.name + "\n" + coolPeople.ability + "\n" + coolPeople.description;
-        iconMembers.animation.play(coolPeople.name);
-
-        if (left) changeIconFrame(-1); else if (right) changeIconFrame(1);
-        if (press && coolPeople.link == null) FlxG.openURL(coolPeople.link);
-
         if (FlxG.mouse.overlaps(button))
         {
             if (FlxG.mouse.justReleased) StateHandler.switchToNewState(new TitleScreen());
         }
 
+        if (FlxG.mouse.overlaps(creditsGroup)) hoveringIcon = true; else hoveringIcon = false;
+
+        for (creditIconSpr in creditsGroup.members)
+        {
+            if (FlxG.mouse.overlaps(creditIconSpr))
+            {
+                if (FlxG.mouse.justPressed)
+                {
+                    switch (creditsList[creditIconSpr.ID])
+                    {
+                        case "stefan2008": FlxG.openURL("https://www.youtube.com/@stefan2008official");
+                        case "maysLastPlays": FlxG.openURL("https://www.youtube.com/@MaysLastPlay");
+                        case "coreCat": FlxG.openURL("https://www.youtube.com/@core5570r");
+                    }
+                }
+
+                switch (creditsList[creditIconSpr.ID])
+                {
+                    case 'stefan2008':
+                        creditsName.text = "Stefan2008";
+                        creditsDesc.text = "Creator, programmer and artist";
+
+                    case 'maysLastPlays':
+                        creditsName.text = "MaysLastPlay";
+                        creditsDesc.text = "First contributor of our project";
+
+                    case 'coreCat':
+                        creditsName.text = "CoreCat";
+                        creditsDesc.text = "For pop-up event code";
+                }
+            } else if (!hoveringIcon) {
+                creditsName.text = "";
+                creditsDesc.text = "";
+            }
+        }
+
+        if (FlxG.mouse.overlaps(leftArrow)) {
+            if (FlxG.mouse.justPressed) changeTheSelection(-1);
+        } else if (FlxG.mouse.overlaps(rightArrow)) {
+            if (FlxG.mouse.justPressed) changeTheSelection(1);
+        }
+
         super.update(elapsed);
     }
 
-    public function changeIconFrame(intValue:Int)
+    function changeTheSelection(changer:Int = 0)
     {
-        currentlySelected = intValue;
+        currentSelector += changer;
 
-        switch (intValue)
+        switch (changer)
         {
-            case -1: arrowSymbol1.animation.play("press");
-            case 1: arrowSymbol2.animation.play("press");
+            case -1: leftArrow.animation.play("pressLeft");
+            case 1: rightArrow.animation.play("pressRight");
         }
 
-        if (currentlySelected < 0) currentlySelected = 2;
-        if (currentlySelected > 2) currentlySelected = 8;
+        if (currentSelector < 0) currentSelector = creditsList.length - 1;
+        if (currentSelector >= creditsList.length) currentSelector = 0;
     }
 }

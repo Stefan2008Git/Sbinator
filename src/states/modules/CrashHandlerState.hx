@@ -87,7 +87,6 @@ class CrashHandlerState extends StateHandler
         });
 
         new FlxTimer().start(4, function(tmr:FlxTimer) {
-            FlxTween.angle(checker, 0, 80, 1, {ease: FlxEase.expoInOut});
             checker.velocity.set(0, 0);
         });
 

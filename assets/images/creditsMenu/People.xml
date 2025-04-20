@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="People.png">
-	<!-- Created using the Spritesheet and XML generator -->
-	<!-- https://uncertainprod.github.io/FNF-Spritesheet-XML-generator-Web -->
-	<SubTexture name="Core0000" x="0" y="0" width="260" height="260" frameX="2" frameY="2" frameWidth="256" frameHeight="256"/>
-	<SubTexture name="Core0001" x="0" y="0" width="260" height="260" frameX="2" frameY="2" frameWidth="256" frameHeight="256"/>
-	<SubTexture name="Stefan20080000" x="260" y="0" width="83" height="75" frameX="-20" frameY="-29" frameWidth="128" frameHeight="128"/>
-	<SubTexture name="Stefan20080001" x="260" y="0" width="83" height="75" frameX="-20" frameY="-29" frameWidth="128" frameHeight="128"/>
-</TextureAtlas>
