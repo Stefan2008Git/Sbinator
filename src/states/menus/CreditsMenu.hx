@@ -26,11 +26,19 @@ class CreditsMenu extends StateHandler
     var creditsName:FlxText;
     var creditsDesc:FlxText;
     var creditsIcon:FlxSprite;
-    var creditsList:Array<String> = ['stefan2008', 'maysLastPlays', 'coreCat'];
+    /**
+     * ['name','descritpion','ytlink']
+     */
+    var creditsList:Array<Array<String>> = [
+       ['stefan2008', 'Stefan2008', 'Creator, programmer and artist', 'https://www.youtube.com/@stefan2008official'],
+       ['maysLastPlays', 'MaysLastPlay', 'First contributor of our project', 'https://www.youtube.com/@MaysLastPlay'],
+       ['coreCat', 'CoreCat', 'For pop-up event code', 'https://www.youtube.com/@core5570r'],
+       ['riirai_luna', 'Riirai_Luna', 'Little supporter and suggester for funny crash handler title', 'https://www.youtube.com/@Riirai_Luna']
+    ];
     var creditsGroup:FlxTypedGroup<FlxSprite>;
     var leftArrow:FlxSprite;
     var rightArrow:FlxSprite;
-    var currentSelector:Int = 1;
+    var currentSelector:Int = 1; // This will select a icon if of mentioned string from credits list. Default it will give Stefan2008 because id is 0. --Stefan2008
 
     override public function create()
     {
@@ -53,13 +61,27 @@ class CreditsMenu extends StateHandler
 		secondBg.alpha = 0.25;
 		add(secondBg);
 
+		creditsGroup = new FlxTypedGroup<FlxSprite>();
+		add(creditsGroup);
+
+		for (i in 0...creditsList.length)
+		{
+            creditsIcon = new FlxSprite(50 + (i * 140), 0).loadGraphic("assets/images/creditsMenu/credits/" + creditsList[i][0] + ".png");
+            creditsIcon.scale.set(0.3, 0.3);
+            creditsIcon.x = 510;
+            creditsIcon.y = 220;
+            creditsIcon.updateHitbox();
+            creditsIcon.ID = i;
+            creditsGroup.add(creditsIcon);
+		}
+
 		creditsName = new FlxText(0, 0, FlxG.width, "");
 		creditsName.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         creditsName.scrollFactor.set(0, 0);
         creditsName.borderSize = 2;
         creditsName.antialiasing = true;
         creditsName.screenCenter(X);
-        creditsName.y = FlxG.height - 60;
+        creditsName.y = FlxG.height - 520;
         add(creditsName);
 
         creditsDesc = new FlxText(0, 0, FlxG.width, "");
@@ -70,20 +92,6 @@ class CreditsMenu extends StateHandler
         creditsDesc.screenCenter(X);
         creditsDesc.y = FlxG.height - 38;
         add(creditsDesc);
-
-		creditsGroup = new FlxTypedGroup<FlxSprite>();
-		add(creditsGroup);
-
-		for (i in 0...creditsList.length)
-		{
-            creditsIcon = new FlxSprite().loadGraphic("assets/images/creditsMenu/credits/" + creditsList[i] + ".png");
-            creditsIcon.scrollFactor.set();
-            creditsIcon.screenCenter();
-            creditsIcon.scale.set(0.2, 0.2);
-            creditsIcon.updateHitbox();
-            creditsIcon.ID = i;
-            creditsGroup.add(creditsIcon);
-		}
 
 		leftArrow = new FlxSprite();
 		leftArrow.frames = FlxAtlasFrames.fromSparrow("assets/images/creditsMenu/arrows.png", "assets/images/creditsMenu/arrows.xml");
@@ -113,12 +121,11 @@ class CreditsMenu extends StateHandler
         button.updateHitbox();
         add(button);
 
-        changeTheSelection();
+        changeTheSelection(0);
 
 		super.create();
     }
 
-    var hoveringIcon:Bool = false;
     override public function update(elapsed:Float)
     {
         if (FlxG.mouse.overlaps(button))
@@ -126,41 +133,24 @@ class CreditsMenu extends StateHandler
             if (FlxG.mouse.justReleased) StateHandler.switchToNewState(new TitleScreen());
         }
 
-        if (FlxG.mouse.overlaps(creditsGroup)) hoveringIcon = true; else hoveringIcon = false;
-
-        for (creditIconSpr in creditsGroup.members)
+        creditsGroup.forEach(function(member:FlxSprite)
         {
-            if (FlxG.mouse.overlaps(creditIconSpr))
+            var distItem:Int = -1;
+
+            if (FlxG.mouse.overlaps(member))
             {
+                distItem = member.ID;
+                currentSelector = distItem;
+
                 if (FlxG.mouse.justPressed)
                 {
-                    switch (creditsList[creditIconSpr.ID])
-                    {
-                        case "stefan2008": FlxG.openURL("https://www.youtube.com/@stefan2008official");
-                        case "maysLastPlays": FlxG.openURL("https://www.youtube.com/@MaysLastPlay");
-                        case "coreCat": FlxG.openURL("https://www.youtube.com/@core5570r");
-                    }
+                   FlxG.openURL(creditsList[currentSelector][3]);
                 }
-
-                switch (creditsList[creditIconSpr.ID])
-                {
-                    case 'stefan2008':
-                        creditsName.text = "Stefan2008";
-                        creditsDesc.text = "Creator, programmer and artist";
-
-                    case 'maysLastPlays':
-                        creditsName.text = "MaysLastPlay";
-                        creditsDesc.text = "First contributor of our project";
-
-                    case 'coreCat':
-                        creditsName.text = "CoreCat";
-                        creditsDesc.text = "For pop-up event code";
-                }
-            } else if (!hoveringIcon) {
-                creditsName.text = "";
-                creditsDesc.text = "";
             }
-        }
+        });
+
+        creditsName.text = creditsList[currentSelector][1];
+        creditsDesc.text = creditsList[currentSelector][2];
 
         if (FlxG.mouse.overlaps(leftArrow)) {
             if (FlxG.mouse.justPressed) changeTheSelection(-1);
@@ -181,7 +171,21 @@ class CreditsMenu extends StateHandler
             case 1: rightArrow.animation.play("pressRight");
         }
 
-        if (currentSelector < 0) currentSelector = creditsList.length - 1;
-        if (currentSelector >= creditsList.length) currentSelector = 0;
+        if (currentSelector >= creditsGroup.length - 1) currentSelector = creditsGroup.length - 1; else if (currentSelector <= 0) currentSelector = 0;
+
+        creditsGroup.forEach(function(spr:FlxSprite)
+        {
+            spr.y += 400;
+            spr.visible = false;
+            spr.updateHitbox();
+
+            if (spr.ID == currentSelector)
+            {
+                spr.visible = true;
+                spr.updateHitbox();
+                spr.screenCenter();
+            }
+            spr.centerOffsets();
+        });
     }
 }
