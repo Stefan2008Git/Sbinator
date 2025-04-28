@@ -22,24 +22,24 @@ class CreditsMenu extends StateHandler
     var checker:FlxBackdrop;
     var button:FlxSprite;
     var bottomBG:FlxSprite;
+    var title:FlxText;
+    var bottomTitle:FlxText;
 
-    // Credit icon stuff
+    // Credit stuff (['Your name of icon', 'Actual name of you', 'Your descritpion', 'Your color id', 'Your social media link'])
     var creditsName:FlxText;
     var creditsDesc:FlxText;
     var creditsIcon:FlxSprite;
-    /**
-     * ['name','descritpion','ytlink']
-     */
     var creditsList:Array<Array<String>> = [
-       ['stefan2008', 'Stefan2008', 'Creator, programmer and artist', '0c5c00', 'https://www.youtube.com/@stefan2008official'],
+       ['stefan2008', 'Stefan2008', 'Creator, programmer and artist', '008f71', 'https://www.youtube.com/@stefan2008official'],
        ['maysLastPlays', 'MaysLastPlay', 'First contributor of our project', '1fe1de', 'https://www.youtube.com/@MaysLastPlay'],
        ['coreCat', 'CoreCat', 'For pop-up event code', '2c81b7', 'https://www.youtube.com/@core5570r'],
-       ['riirai_luna', 'Riirai_Luna', 'Little supporter and suggester for funny crash handler title', 'cc8b8b', 'https://www.youtube.com/@Riirai_Luna']
+       ['riirai_luna', 'Riirai_Luna', 'Little supporter and suggester for funny crash handler title #1', 'cc8b8b', 'https://www.youtube.com/@Riirai_Luna'],
+       ['fox', 'Fox', 'Random crash handler title suggester #2', 'e27d23', 'https://www.youtube.com/@Fox22213']
     ];
     var creditsGroup:FlxTypedGroup<FlxSprite>;
     var leftArrow:FlxSprite;
     var rightArrow:FlxSprite;
-    var currentSelector:Int = 1; // This will select a icon if of mentioned string from credits list. Default it will give Stefan2008 because id is 0. --Stefan2008
+    var currentSelector:Int = 0; // This will select a icon if of mentioned string from credits list. Default it will give Stefan2008 because id is 0. --Stefan2008
 
     override public function create()
     {
@@ -75,6 +75,24 @@ class CreditsMenu extends StateHandler
 		bottomBG = new FlxSprite(0, FlxG.height - 42).makeGraphic(FlxG.width, 200, 0xFF000000);
         bottomBG.alpha = 0.6;
         add(bottomBG);
+
+        title = new FlxText(0, 0, FlxG.width, "CREDITS");
+        title.setFormat("assets/fonts/bahnschrift.ttf", 60, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        title.scrollFactor.set(0, 0);
+        title.borderSize = 2;
+        title.antialiasing = true;
+        title.screenCenter(X);
+        title.y = FlxG.height - 700;
+        add(title);
+
+        bottomTitle = new FlxText(0, 0, FlxG.width, "(For supporting my game :].)");
+        bottomTitle.setFormat("assets/fonts/bahnschrift.ttf", 25, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        bottomTitle.scrollFactor.set(0, 0);
+        bottomTitle.borderSize = 2;
+        bottomTitle.antialiasing = true;
+        bottomTitle.screenCenter(X);
+        bottomTitle.y = FlxG.height - 630;
+        add(bottomTitle);
 
 		creditsName = new FlxText(0, 0, FlxG.width, "");
 		creditsName.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -155,9 +173,6 @@ class CreditsMenu extends StateHandler
             }
         });
 
-        creditsName.text = creditsList[currentSelector][1];
-        creditsDesc.text = creditsList[currentSelector][2];
-
         if (FlxG.mouse.overlaps(leftArrow)) {
             if (FlxG.mouse.justPressed) changeTheSelection(-1);
         } else if (FlxG.mouse.overlaps(rightArrow)) {
@@ -171,12 +186,6 @@ class CreditsMenu extends StateHandler
     {
         currentSelector += changer;
 
-        switch (changer)
-        {
-            case -1: leftArrow.animation.play("pressLeft");
-            case 1: rightArrow.animation.play("pressRight");
-        }
-
         if (currentSelector >= creditsGroup.length - 1) currentSelector = creditsGroup.length - 1; else if (currentSelector <= 0) currentSelector = 0;
 
         creditsGroup.forEach(function(spr:FlxSprite)
@@ -185,14 +194,22 @@ class CreditsMenu extends StateHandler
             spr.kill();
             spr.updateHitbox();
 
+            leftArrow.animation.play('leftIdle');
+            rightArrow.animation.play('rightIdle');
+
             if (spr.ID == currentSelector)
             {
                 spr.revive();
                 spr.updateHitbox();
                 spr.screenCenter();
+                leftArrow.animation.play("pressLeft");
+                rightArrow.animation.play("pressRight");
             }
             spr.centerOffsets();
         });
+
+        creditsName.text = creditsList[currentSelector][1];
+        creditsDesc.text = creditsList[currentSelector][2];
 
         var newColor:FlxColor = EngineConfiguration.colorFromString(creditsList[currentSelector][3]);
 		if(newColor != intendedColor)
