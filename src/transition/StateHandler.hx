@@ -28,4 +28,9 @@ class StateHandler extends FlxUIState
     
         if (activeState != null) activeState.openSubState(trans);
     }
+
+    public function beatTheHit():Void
+    {
+        // Just a base beat hitter
+    }
 }

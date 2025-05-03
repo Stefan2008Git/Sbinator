@@ -38,7 +38,7 @@
 	<assets path="assets" />
 
 	<!-- Turn on Crash Handler -->
-	<define name="CRASH_HANDLER" if="desktop release" />
+	<define name="CRASH_HANDLER" if="desktop release || debug" />
 
 	<!-- _______________________________ Libraries ______________________________ -->
 

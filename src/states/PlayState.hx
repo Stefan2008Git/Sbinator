@@ -8,15 +8,24 @@ import flixel.addons.effects.FlxTrail;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 
 class PlayState extends StateHandler
 {
+    // Main stuff
     var bg:FlxSprite;
     var bg2:FlxSprite;
     public var player:Player;
     public var playerTrail:FlxTrail;
+    var icon:FlxSprite;
+    var testScoreTxt:FlxText;
+    public var testScore:Int = 0;
+
+    // Backend
     var levelBound:FlxGroup;
     public var cameraGame:FlxCamera;
     public var gameUiGroup:FlxSpriteGroup;
@@ -25,7 +34,7 @@ class PlayState extends StateHandler
 
     override public function create()
     {
-        // SRequired for Player class file to call for player trail
+        // Required for Player class file to call for player trail
         mainInstance = this;
 
         #if DISCORD_ALLOWED
@@ -48,11 +57,27 @@ class PlayState extends StateHandler
         gameUiGroup.add(bg2);
 
         player = new Player(5, 70, 1, 1);
-        add(player);
+        player.updateHitbox();
+        gameUiGroup.add(player);
 
         playerTrail = new FlxTrail(player, 6, 0, 0.4, 0.02);
         playerTrail.visible = false;
         add(playerTrail);
+
+        icon = new FlxSprite("assets/images/game/in-game/icon-stefan.png");
+        icon.scale.set(0.4, 0.4);
+        icon.x = 15;
+        icon.y = 15;
+        icon.updateHitbox();
+        add(icon);
+
+        testScoreTxt = new FlxText(25, 0, FlxG.width, "", 12);
+        testScoreTxt.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        testScoreTxt.borderSize = 2;
+        testScoreTxt.borderQuality = 2;
+        testScoreTxt.screenCenter(Y);
+        testScoreTxt.text = "Score: 0";
+        add(testScoreTxt);
 
         // FlxG.camera.setScrollBoundsRect(0, 0, true);
         FlxG.camera.follow(player, cameraMode);
@@ -76,12 +101,22 @@ class PlayState extends StateHandler
 		{
             player.velocity.y = -180;
             FlxG.sound.play("assets/sounds/jump.ogg");
+            testScore += 1;
         }
 
 		if (justPressed.ESCAPE) openSubState(new PauseMenu());
 
 		if (justPressed.R) openSubState(new GameOver());
 
+		testScoreTxt.text = "Score: " + testScore;
+
         super.update(elapsed);
+    }
+
+    override function beatTheHit()
+    {
+        super.beatTheHit();
+
+        FlxTween.tween(cameraGame, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
     }
 }

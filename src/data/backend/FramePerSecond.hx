@@ -255,13 +255,13 @@ class FramePerSecond extends Sprite {
      */
     function onKeyRelease(event:KeyboardEvent):Void {
         switch (event.keyCode) {
-            case Keyboard.F3:
+            case Keyboard.F5:
                 visibility = (visibility + 1) % 3;
                 forceRefresh();
 
                 FlxG.save.data.fpsVisibility = visibility;
                 FlxG.save.flush();
-            case Keyboard.F4:
+            case Keyboard.F6:
                 displayMemory = !displayMemory;
                 forceRefresh();
 
