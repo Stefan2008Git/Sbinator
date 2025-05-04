@@ -96,7 +96,7 @@ class FramePerSecond extends Sprite {
         addChild(background);
 
         text = new TextField();
-        text.defaultTextFormat = new TextFormat("Bahnschrift", 13, FlxColor.WHITE);
+        text.defaultTextFormat = new TextFormat(#if windows "Arial" #else "_sans" #end, 13, FlxColor.WHITE);
         text.selectable = false;
         text.autoSize = LEFT;
         addChild(text);
