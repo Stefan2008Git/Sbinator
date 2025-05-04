@@ -13,6 +13,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
+import flixel.util.FlxSpriteUtil;
 
 class PlayState extends StateHandler
 {
@@ -21,6 +22,7 @@ class PlayState extends StateHandler
     var bg2:FlxSprite;
     public var player:Player;
     public var playerTrail:FlxTrail;
+    var bar:FlxSprite;
     var icon:FlxSprite;
     var testScoreTxt:FlxText;
     public var testScore:Int = 0;
@@ -64,20 +66,24 @@ class PlayState extends StateHandler
         playerTrail.visible = false;
         add(playerTrail);
 
+        bar = FlxSpriteUtil.drawRoundRect(new FlxSprite(80, 60).makeGraphic(400, 40, FlxColor.TRANSPARENT), 0, 0, 200, 40, 10, 10, FlxColor.BLACK);
+        bar.alpha = 0.6;
+        bar.updateHitbox();
+        add(bar);
+
+        testScoreTxt = new FlxText(150, 67, FlxG.width, "", 12);
+        testScoreTxt.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        testScoreTxt.borderSize = 2;
+        testScoreTxt.borderQuality = 2;
+        testScoreTxt.text = "Score: 0";
+        add(testScoreTxt);
+
         icon = new FlxSprite("assets/images/game/in-game/icon-stefan.png");
         icon.scale.set(0.4, 0.4);
         icon.x = 15;
         icon.y = 15;
         icon.updateHitbox();
         add(icon);
-
-        testScoreTxt = new FlxText(25, 0, FlxG.width, "", 12);
-        testScoreTxt.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-        testScoreTxt.borderSize = 2;
-        testScoreTxt.borderQuality = 2;
-        testScoreTxt.screenCenter(Y);
-        testScoreTxt.text = "Score: 0";
-        add(testScoreTxt);
 
         // FlxG.camera.setScrollBoundsRect(0, 0, true);
         FlxG.camera.follow(player, cameraMode);
