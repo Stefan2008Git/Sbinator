@@ -11,6 +11,8 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.events.KeyboardEvent;
 
+using StringTools;
+
 /**
  * An OpenFL sprite which displays the framerate overlay on top of the game.
  */
@@ -28,7 +30,7 @@ class FramePerSecond extends Sprite {
     /**
      * Determines whether the memory usage of the program should also be displayed.
      */
-    public var displayMemory(default, set):Bool;
+    public var displayDebugger(default, set):Bool;
 
     /**
      * Defines the refresh rate of the overlay in milliseconds.
@@ -91,12 +93,12 @@ class FramePerSecond extends Sprite {
 
         background = new Sprite();
         background.graphics.beginFill(1, 0.6);
-        background.graphics.drawRoundRect(0, 0, 140, 50, 10, 10);
+        background.graphics.drawRoundRect(0, 0, 200, 200, 25, 25);
         background.graphics.endFill();
         addChild(background);
 
         text = new TextField();
-        text.defaultTextFormat = new TextFormat(#if windows "Arial" #else "_sans" #end, 13, FlxColor.WHITE);
+        text.defaultTextFormat = new TextFormat("_sans", 14, FlxColor.WHITE);
         text.selectable = false;
         text.autoSize = LEFT;
         addChild(text);
@@ -107,7 +109,7 @@ class FramePerSecond extends Sprite {
         background.y = 5;
 
         visibility = FlxG.save.data.fpsVisibility ?? 1;
-        displayMemory = FlxG.save.data.displayMemory ?? false;
+        displayDebugger = FlxG.save.data.displayDebugger ?? false;
         updateText("");
 
         FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
@@ -205,6 +207,13 @@ class FramePerSecond extends Sprite {
             _fpsAverage += _fps;
             _fpsDelay = 0;
         }
+
+        if (!displayDebugger)
+        {
+            text.textColor = FlxColor.WHITE;
+            if (_delay <= FlxG.drawFramerate * 0.5) text.textColor = FlxColor.RED;
+        }
+	    
     }
 
     /**
@@ -212,9 +221,9 @@ class FramePerSecond extends Sprite {
      * @return String
      */
     function getText():String {
-        var output:String = getAverageFramerate() + " FPS";
+        var output:String = getAverageFramerate() + " FPS" + "\n" + getMemory();
 
-        if (displayMemory) output += "\n" + getMemory();
+        if (displayDebugger) output += "\n" + getDebug();
         return output;
     }
 
@@ -250,6 +259,49 @@ class FramePerSecond extends Sprite {
         return Std.string(Math.fround(memory * 100) / 100) + " " + memoryUnits[iterations];
     }
 
+    // Credits for CNE (Codename Engine) devs for this working code!
+    function getDebug():String {
+        static var osName:String = "Unknown";
+        static var cpuName:String = "Unknown";
+        static var gpuName:String = "Unknown";
+
+        if (lime.system.System.platformLabel != null && lime.system.System.platformLabel != "" && lime.system.System.platformVersion != null && lime.system.System.platformVersion != "") {
+            osName = lime.system.System.platformLabel.replace(lime.system.System.platformVersion, "").trim() + " - " +lime.system.System.platformVersion;
+        } else {
+            trace('Unable to grab system label!');
+        }
+
+        // gpuName = Std.string(flixel.FlxG.stage.context3D.gl.getParameter(flixel.FlxG.stage.context3D.gl.RENDERER)).split("/")[0].trim();
+
+        try {
+			#if windows
+			var process = new HiddenProcess("wmic", ["cpu", "get", "name"]);
+			if (process.exitCode() != 0) throw 'Could not fetch CPU information';
+
+			cpuName = process.stdout.readAll().toString().trim().split("\n")[1].trim();
+			#elseif mac
+			var process = new HiddenProcess("sysctl -a | grep brand_string"); // Somehow this isnt able to use the args but it still works
+			if (process.exitCode() != 0) throw 'Could not fetch CPU information';
+
+			cpuName = process.stdout.readAll().toString().trim().split(":")[1].trim();
+			#elseif linux
+			var process = new HiddenProcess("cat", ["/proc/cpuinfo"]);
+			if (process.exitCode() != 0) throw 'Could not fetch CPU information';
+
+			for (line in process.stdout.readAll().toString().split("\n")) {
+				if (line.indexOf("model name") == 0) {
+					cpuName = line.substring(line.indexOf(":") + 2);
+					break;
+				}
+			}
+			#end
+		} catch (e) {
+			trace('Unable to grab CPU Name: $e');
+		}
+
+        return "OS: " + osName + "\n" + "CPU: " + cpuName;
+    }
+
     /**
      * Method called whenever a key has been released.
      */
@@ -262,13 +314,13 @@ class FramePerSecond extends Sprite {
                 FlxG.save.data.fpsVisibility = visibility;
                 FlxG.save.flush();
             case Keyboard.F6:
-                displayMemory = !displayMemory;
+                displayDebugger = !displayDebugger;
                 forceRefresh();
 
                 if (position == BOTTOM)
                     updateBottomPos();
 
-                FlxG.save.data.displayMemory = displayMemory;
+                FlxG.save.data.displayDebugger = displayDebugger;
                 FlxG.save.flush();
         }
     }
@@ -306,34 +358,13 @@ class FramePerSecond extends Sprite {
         return visibility = v;
     }
 
-    function set_displayMemory(v:Bool):Bool {
-        background.height = (v ? 43 : 24);
-        return displayMemory = v;
+    function set_displayDebugger(v:Bool):Bool {
+        background.height = (v ? 91 : 43);
+        return displayDebugger = v;
     }
 }
 
 enum abstract FPSPos(Int) from Int to Int {
     var TOP;
     var BOTTOM;
-}
-
-class Watermark extends Bitmap
-{
-    public function new(x:Float = 10, y:Float = 10, alphaFloat:Float = 0.6)
-    {
-        super();
-
-        var watermarkImage:String = ("assets/images/icon32_icon.png");
-        BitmapData.fromFile(watermarkImage);
-
-        this.x = x;
-        this.y = y;
-        this.alpha = alphaFloat;
-    }
-
-    private override function __enterFrame(delta:Float):Void
-    {
-        this.x = 5;
-        this.y = Lib.current.stage.stageHeight - 5;
-    }
 }
