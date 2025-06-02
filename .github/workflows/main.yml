@@ -30,14 +30,10 @@ jobs:
             haxelib install lime
             haxelib install openfl
             haxelib install hxcpp
-            haxelib install hxdiscord_rpc 1.2.4
+            haxelib install hxdiscord_rpc
         
         - name: Create Version Tag
           run: echo "${{github.run_id}} > VERSION"
-        
-        - name: Configure main target
-          run: |
-            haxelib set hxdiscord_rpc 1.2.4
 
         - name: Compile and build
           run: haxelib run lime build linux
@@ -66,14 +62,10 @@ jobs:
             haxelib install lime
             haxelib install openfl
             haxelib install hxcpp
-            haxelib install hxdiscord_rpc 1.2.4
+            haxelib install hxdiscord_rpc
           
         - name: Create version tag
           run: echo "${{github.run_id}}" > VERSION
-          
-        - name: Configure main target
-          run: |
-            haxelib set hxdiscord_rpc 1.2.4
           
         - name: Compile and build
           run: haxelib run lime build windows

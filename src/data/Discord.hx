@@ -1,21 +1,20 @@
 package data;
 
 #if DISCORD_ALLOWED
-import Sys.sleep;
-import sys.thread.Thread;
-import lime.app.Application;
-
+import cpp.Function;
+import flixel.util.FlxStringUtil;
 import hxdiscord_rpc.Discord;
 import hxdiscord_rpc.Types;
-
-import flixel.util.FlxStringUtil;
+import lime.app.Application;
+import Sys.sleep;
+import sys.thread.Thread;
 
 class DiscordClient
 {
 	public static var isInitialized:Bool = false;
 	private inline static final _defaultID:String = "1059518348196597831";
 	public static var clientID(default, set):String = _defaultID;
-	private static var presence:DiscordRichPresence = DiscordRichPresence.create();
+	private static var presence:DiscordRichPresence = new DiscordRichPresence();
 	@:unreflective private static var __thread:Thread;
 
 	public static function check()
@@ -62,11 +61,11 @@ class DiscordClient
 
 	public static function initialize()
 	{
-		var discordHandlers:DiscordEventHandlers = DiscordEventHandlers.create();
-		discordHandlers.ready = cpp.Function.fromStaticFunction(onReady);
-		discordHandlers.disconnected = cpp.Function.fromStaticFunction(onDisconnected);
-		discordHandlers.errored = cpp.Function.fromStaticFunction(onError);
-		Discord.Initialize(clientID, cpp.RawPointer.addressOf(discordHandlers), 1, null);
+		final discordHandlers:DiscordEventHandlers = #if (hxdiscord_rpc > "1.2.4") new DiscordEventHandlers(); #else DiscordEventHandlers.create(); #end
+		discordHandlers.ready = Function.fromStaticFunction(onReady);
+		discordHandlers.disconnected = Function.fromStaticFunction(onDisconnected);
+		discordHandlers.errored = Function.fromStaticFunction(onError);
+		Discord.Initialize(clientID, cpp.RawPointer.addressOf(discordHandlers), #if (hxdiscord_rpc > "1.2.4") false #else 1 #end, null);
 
 		if(!isInitialized) trace("Discord Client initialized");
 
@@ -83,7 +82,7 @@ class DiscordClient
 						#end
 						Discord.RunCallbacks();
 					}
-					Sys.sleep(1.0);
+					Sys.sleep(2);
 				}
 			});
 		}
@@ -103,6 +102,16 @@ class DiscordClient
 		presence.largeImageText = "Sbinator " + EngineConfiguration.gameVersion;
 		presence.startTimestamp = Std.int(startTimestamp / 1000);
 		presence.endTimestamp = Std.int(endTimestamp / 1000);
+
+		final button:DiscordButton = new DiscordButton();
+		button.label = "Sbinator Discord server";
+		button.url = "https://discord.gg/7s4kbC4pak";
+		presence.buttons[0] = button;
+
+		final button2:DiscordButton = new DiscordButton();
+		button2.label = "Sbinator GitHub";
+		button2.url = "https://github.com/Stefan2008Git/Sbinator";
+		presence.buttons[1] = button2;
 		updatePresence();
 	}
 
