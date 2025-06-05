@@ -299,7 +299,7 @@ class FramePerSecond extends Sprite {
 			trace('Unable to grab CPU Name: $e');
 		}
 
-        return "OS: " + osName + "\n" + "CPU: " + cpuName;
+        return 'OS: ${osName}\nCPU: ${cpuName}\nBranch: ${Main.releaseCycle}';
     }
 
     /**
@@ -359,7 +359,7 @@ class FramePerSecond extends Sprite {
     }
 
     function set_displayDebugger(v:Bool):Bool {
-        background.height = (v ? 91 : 43);
+        background.height = (v ? 95 : 43);
         return displayDebugger = v;
     }
 }
