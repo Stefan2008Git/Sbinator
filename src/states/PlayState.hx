@@ -103,13 +103,6 @@ class PlayState extends StateHandler
 		FlxG.collide(player, levelBound);
 		FlxG.camera.follow(player, cameraMode);
 
-		if (player.isTouching(DOWN) && justPressed.SPACE)
-		{
-            player.velocity.y = -180;
-            FlxG.sound.play("assets/sounds/jump.ogg");
-            testScore += 1;
-        }
-
 		if (justPressed.ESCAPE) openSubState(new PauseMenu());
 
 		if (justPressed.R) openSubState(new GameOver());
