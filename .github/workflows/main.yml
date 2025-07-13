@@ -27,7 +27,8 @@ jobs:
             haxelib install flixel-ui
             haxelib install lime
             haxelib install openfl
-            haxelib install hxcpp
+            haxelib git hxcpp https://github.com/HaxeFoundation/hxcpp.git
+            haxelib run lime rebuild hxcpp
             haxelib install hxdiscord_rpc
         
         - name: Create Version Tag
