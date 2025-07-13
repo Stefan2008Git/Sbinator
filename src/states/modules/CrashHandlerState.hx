@@ -45,7 +45,7 @@ class CrashHandlerState extends StateHandler
 
         #if desktop Application.current.window.title = "Sbinator " + EngineConfiguration.gameVersion + " main crash handler"; #end
 
-        bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.GREEN);
+        bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF8b0000);
         bg.alpha = 0.6;
         add(bg);
 
