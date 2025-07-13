@@ -4,13 +4,15 @@ import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.sound.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 
 class InitState extends FlxState
 {
-    var stefan2008:FlxSprite;
+    var sbinator:FlxSprite;
+    var pop:FlxSound;
 
     override function create()
     {
@@ -28,38 +30,36 @@ class InitState extends FlxState
     }
 
     public function doAThing()
-    {
-		stefan2008 = new FlxSprite().loadGraphic('assets/images/stefan2008.png');
-		stefan2008.scrollFactor.set();
-		stefan2008.screenCenter();
-		stefan2008.alpha = 0;
-		stefan2008.active = true;
-		stefan2008.scale.set(0.01, 0.01);
-		add(stefan2008);
+    {   
+        pop = FlxG.sound.load("assets/sounds/pop.ogg");
+
+		sbinator = new FlxSprite().loadGraphic('assets/images/sbinator.png');
+		sbinator.scrollFactor.set();
+		sbinator.screenCenter();
+		sbinator.alpha = 0;
+		sbinator.active = true;
+		sbinator.scale.set(0.01, 0.01);
+		add(sbinator);
 
 		new FlxTimer().start(3, function(tmr:FlxTimer)
         {
-            stefan2008.alpha = 0.2;
+            sbinator.alpha = 0.2;
         });
 
         new FlxTimer().start(5, function(tmr:FlxTimer)
         {
-            FlxTween.tween(stefan2008, {alpha: 1, "scale.x": 0.3, "scale.y": 0.3}, 1.3, {ease: FlxEase.expoOut, onComplete: _ -> onInitDone()});
+            FlxTween.tween(sbinator, {alpha: 1, "scale.x": 0.1, "scale.y": 0.1}, 1.3, {ease: FlxEase.expoOut, onComplete: _ -> onInitDone()});
         });
     }
 
     public function onInitDone()
-    {
-        new FlxTimer().start(1, function(tmr:FlxTimer)
-        {
-            FlxG.sound.play('assets/sounds/pop.ogg');
-            stefan2008.active = false;
-            stefan2008.alpha = 0;
-        });
-
-        new FlxTimer().start(2, function(tmr:FlxTimer)
+    {        
+        sbinator.active = false;
+        sbinator.alpha = 0;
+        pop.play();
+        pop.onComplete = function()                
         {
             StateHandler.switchToNewState(new TitleScreen());
-        });
+        }
     }
 }

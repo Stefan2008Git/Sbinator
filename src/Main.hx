@@ -77,28 +77,6 @@ class Main extends Sprite
 		#end
 	}
 
-	override function __enterFrame(_)
-	{
-		try {
-			if(mainGame != null)
-			{
-				if(FlxG.keys.justPressed.F1) 
-					throw('This is test crash handler on: '); 
-				super.__enterFrame(_);
-			} else {
-				super.__enterFrame(_);	
-			}
-		} catch(e) {
-			#if (linux || mac)
-			StateHandler.switchToNewState(new CrashHandlerState(e + "Main.__enterFrame\nCongrats on trying pressing the debugger screen"));
-			#else
-			Application.current.window.alert(e + "\n\nMain.__enterFrame\nCongrats on trying pressing the debugger screen\n\nPress OK to restart a game!" + randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)] + " - Sbinator v" + EngineConfiguration.gameVersion);
-			FlxG.resetGame();
-			#end
-		}
-	
-	}
-
 	function onUncaughtError(e:UncaughtErrorEvent):Void
 	{
 		e.preventDefault();

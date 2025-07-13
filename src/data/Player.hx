@@ -22,8 +22,6 @@ class Player extends FlxSprite
 
         animation.addByPrefix('mainIdle', "idle", 25, false);
         animation.addByPrefix('mainWalking', "walking", 25, false);
-        animation.addByPrefix("mainJumping", "jumping", 25, false);
-        animation.addByPrefix('mainJumping-out', "jumping-out", false);
 
         animation.play('mainIdle');
     }

@@ -247,7 +247,7 @@ class FramePerSecond extends Sprite {
     function getMemory():String {
         static var memoryUnits:Array<String> = ["B", "KB", "MB", "GB"];
 
-        var memory:Float = Memory.getProcessUsage();
+        var memory:Float = openfl.system.System.totalMemoryNumber;
         var iterations:Int = 0;
 
         while (memory >= 1000) {
@@ -271,9 +271,8 @@ class FramePerSecond extends Sprite {
             trace('Unable to grab system label!');
         }
 
-        // gpuName = Std.string(flixel.FlxG.stage.context3D.gl.getParameter(flixel.FlxG.stage.context3D.gl.RENDERER)).split("/")[0].trim();
-
-        try {
+        try 
+        {
 			#if windows
 			var process = new HiddenProcess("wmic", ["cpu", "get", "name"]);
 			if (process.exitCode() != 0) throw 'Could not fetch CPU information';

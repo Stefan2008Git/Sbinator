@@ -29,14 +29,12 @@ class TitleScreen extends StateHandler
 
     override public function create()
     {
-        super.create();
-
         #if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In Title Menu", null);
 		#end
 
-        bg = new FlxSprite().loadGraphic("assets/images/mainMenu/bg.png");
+        bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF8b0000);
         bg.scrollFactor.set();
         bg.screenCenter();
         bg.alpha = 0.7;
@@ -87,7 +85,7 @@ class TitleScreen extends StateHandler
 
         creatorName = new FlxText(1170, FlxG.height - -28, 0, "Stefan2008", 16);
         creatorName.scrollFactor.set();
-        creatorName.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.GREEN, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        creatorName.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.RED, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(creatorName);
 
         gameLogo = new FlxSprite().loadGraphic("assets/images/mainMenu/logo.png");
@@ -132,6 +130,8 @@ class TitleScreen extends StateHandler
         new FlxTimer().start(4, function(tmr:FlxTimer) {
             controls = true;
         });
+
+        super.create();
     }
 
     override public function update(elapsed:Float)
@@ -140,7 +140,6 @@ class TitleScreen extends StateHandler
         {
             if (FlxG.mouse.justReleased) FlxG.openURL("https://www.youtube.com/@stefan2008official");
         }
-
 
         if (FlxG.mouse.overlaps(gameLogo) && controls)
         {
@@ -152,6 +151,7 @@ class TitleScreen extends StateHandler
             if (FlxG.mouse.justReleased)
             {
                 StateHandler.switchToNewState(new PlayState());
+                trace('Loading the game...');
             }
         }
 
