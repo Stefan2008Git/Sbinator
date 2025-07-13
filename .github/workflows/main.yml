@@ -32,9 +32,8 @@ jobs:
             haxelib install hxcpp
             haxelib install hxdiscord_rpc
         
-        - Update the Haxelib to latest version
-          run: |
-            haxelib update haxelib
+        - name: Update the Haxelib to latest version
+          run: haxelib update haxelib
         
         - name: Create Version Tag
           run: echo "${{github.run_id}} > VERSION"
