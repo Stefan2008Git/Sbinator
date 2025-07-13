@@ -29,7 +29,6 @@ jobs:
             haxelib install openfl
             haxelib install hxcpp
             haxelib install hxdiscord_rpc
-            haxelib remove haxelib
         
         - name: Create Version Tag
           run: echo "${{github.run_id}} > VERSION"
