@@ -17,7 +17,7 @@ jobs:
 
         - uses: krdlab/setup-haxe@master
           with:
-            haxe-version: 4.3.6
+            haxe-version: 4.3.7
           
         - name: Install required Haxelib libs
           run: |
@@ -31,6 +31,10 @@ jobs:
             haxelib install openfl
             haxelib install hxcpp
             haxelib install hxdiscord_rpc
+        
+        - Update the Haxelib to latest version
+          run: |
+            haxelib update haxelib
         
         - name: Create Version Tag
           run: echo "${{github.run_id}} > VERSION"
@@ -51,7 +55,7 @@ jobs:
 
         - uses: krdlab/setup-haxe@master
           with:
-            haxe-version: 4.3.6
+            haxe-version: 4.3.7
           
         - name: Install required Haxelib libs
           run: |
