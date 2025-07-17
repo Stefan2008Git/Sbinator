@@ -268,7 +268,11 @@ class FramePerSecond extends Sprite {
         #if linux static var deWm:String = Main.detectDesktopEnvironment(); #end
 
         if (lime.system.System.platformLabel != null && lime.system.System.platformLabel != "" && lime.system.System.platformVersion != null && lime.system.System.platformVersion != "") {
-            osName = lime.system.System.platformLabel.replace(lime.system.System.platformVersion, "").trim() + " - " + lime.system.System.platformVersion + #if linux deWm; #end
+            #if linux
+            osName = lime.system.System.platformLabel.replace(lime.system.System.platformVersion, "").trim() + " - " + lime.system.System.platformVersion + deWm;
+            #else
+            osName = lime.system.System.platformLabel.replace(lime.system.System.platformVersion, "").trim() + " - " + lime.system.System.platformVersion;
+            #end
         } else {
             trace('Unable to grab system label!');
         }
