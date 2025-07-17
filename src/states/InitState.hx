@@ -31,9 +31,9 @@ class InitState extends FlxState
 
     public function doAThing()
     {   
-        pop = FlxG.sound.load("assets/sounds/pop.ogg");
+        pop = FlxG.sound.load(Paths.soundPath("pop.ogg"));
 
-		sbinator = new FlxSprite().loadGraphic('assets/images/sbinator.png');
+		sbinator = new FlxSprite().loadGraphic(Paths.imagePath('sbinator.png'));
 		sbinator.scrollFactor.set();
 		sbinator.screenCenter();
 		sbinator.alpha = 0;

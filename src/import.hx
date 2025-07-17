@@ -6,6 +6,7 @@ import data.Discord.DiscordClient;
 import data.Player;
 import data.PopUp.PopUpEvent;
 import data.backend.GameUtils.EngineConfiguration;
+import data.backend.GameUtils.Paths;
 import data.backend.FramePerSecond;
 import data.backend.HiddenProcess;
 import transition.Transition;
