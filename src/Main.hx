@@ -88,6 +88,7 @@ class Main extends Sprite
 		#if linux initDesktopEnvironments(); #end
 	}
 
+	#if linux
 	static function initDesktopEnvironments():Void 
 	{
         environments.set("gnome", {
@@ -177,6 +178,7 @@ class Main extends Sprite
 
     	return " (" + id + ")";
 	}
+	#end
 
 	function onUncaughtError(e:UncaughtErrorEvent):Void
 	{
