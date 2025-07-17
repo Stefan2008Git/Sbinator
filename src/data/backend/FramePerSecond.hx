@@ -10,6 +10,7 @@ import openfl.display.Sprite;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.events.KeyboardEvent;
+import Sys;
 
 using StringTools;
 
@@ -264,9 +265,10 @@ class FramePerSecond extends Sprite {
         static var osName:String = "Unknown";
         static var cpuName:String = "Unknown";
         static var gpuName:String = "Unknown";
+        #if linux static var deWm:String = Main.detectDesktopEnvironment(); #end
 
         if (lime.system.System.platformLabel != null && lime.system.System.platformLabel != "" && lime.system.System.platformVersion != null && lime.system.System.platformVersion != "") {
-            osName = lime.system.System.platformLabel.replace(lime.system.System.platformVersion, "").trim() + " - " +lime.system.System.platformVersion;
+            osName = lime.system.System.platformLabel.replace(lime.system.System.platformVersion, "").trim() + " - " + lime.system.System.platformVersion + deWm;
         } else {
             trace('Unable to grab system label!');
         }

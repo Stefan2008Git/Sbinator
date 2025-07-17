@@ -11,6 +11,8 @@ class EngineConfiguration
 {
     public static var gameVersion:String = "1.0.0";
 
+
+
     // Path system is unfinished currently!!!!
     /*public static function getPathFolder(pathKey:String, ?library:String):String
     {
