@@ -56,7 +56,7 @@ class PopUpEvent extends FlxSubState
         }
 
 		var tempbodyText = new FlxText(0,0, -1, bodyT, 18);
-		tempbodyText.font = "assets/fonts/bahnschrift.ttf";
+		tempbodyText.font = Paths.fontPath("bahnschrift.ttf");
         @:privateAccess tempbodyText.regenGraphic();
         tempbodyText.drawFrame(true);
         tempbodyText.fieldWidth = FlxMath.bound(tempbodyText.fieldWidth,0,780);
@@ -69,8 +69,7 @@ class PopUpEvent extends FlxSubState
         box.scrollFactor.set();
 		box.alpha = 0;
 
-        //i tried FlxOutlineEffect, the results are ass
-        var newEffect = FlxSpriteUtil.drawRoundRect(new FlxSprite().makeGraphic(wee+4,hee+4, FlxColor.TRANSPARENT), 0, 0, wee+4, hee+4, 15, 15, 0xFF0C5C00);
+        var newEffect = FlxSpriteUtil.drawRoundRect(new FlxSprite().makeGraphic(wee+4,hee+4, FlxColor.TRANSPARENT), 0, 0, wee+4, hee+4, 15, 15, 0xFF5C0000);
         newEffect.setPosition(box.x-2,box.y-2);
         newEffect.antialiasing = FlxG.save.data.antialiasing;
         newEffect.alpha = 0;
@@ -107,17 +106,17 @@ class PopUpEvent extends FlxSubState
 	function createBoxUI()
 	{
         titleS = FlxSpriteUtil.drawRoundRectComplex(new FlxSprite().makeGraphic(Std.int(box.width), 32, FlxColor.TRANSPARENT), 0, 0, Std.int(box.width), 32, 5,
-            5, 0, 0, FlxColor.fromRGB(64, 62, 60, 255));
+            5, 0, 0, 0xFF8b0000);
         titleS.setPosition(box.x, box.y);
         titleS.alpha = 0.9;
         add(titleS);
 
-        iconS = new FlxSprite().loadGraphic("assets/images/game/info.png");
+        iconS = new FlxSprite().loadGraphic(Paths.imagePath("game/info"));
         iconS.setPosition(titleS.x + 9, titleS.y + 9);
         add(iconS);
 
         titleTextS = new FlxText(iconS.x + iconS.width + 8, 0, -1, titleT, 14);
-        titleTextS.setFormat("assets/fonts/bahnschrift.ttf", 14, FlxColor.WHITE);
+        titleTextS.setFormat(Paths.fontPath("bahnschrift.ttf"), 14, FlxColor.WHITE);
         titleTextS.y = iconS.y + ((iconS.width / 2) - (titleTextS.height / 2));
         add(titleTextS);
 
@@ -126,11 +125,10 @@ class PopUpEvent extends FlxSubState
         titleTextS.scrollFactor.set();
 
 		bodyText = new FlxText(box.x+30, box.y + 50, -1, bodyT, 18);
-		bodyText.font = "assets/fonts/bahnschrift.ttf";
+		bodyText.font = Paths.fontPath("bahnschrift.ttf");
         bodyText.fieldWidth = FlxMath.bound(bodyText.fieldWidth,0,780);
 		add(bodyText);
         bodyText.scrollFactor.set();
-
 
         for (i in 0...buttons.length){
             var button:PopUpButtons = new PopUpButtons(0,0,buttons[i].text, buttons[i].callback);
@@ -191,7 +189,7 @@ class PopUpButtons extends FlxSpriteGroup {
 		add(buttBG);
 
 		txt = new FlxText(20,20, 0, text, 18);
-		txt.font = "assets/fonts/bahnschrift.ttf";
+		txt.font = Paths.fontPath("bahnschrift.ttf");
 		txt.alignment = CENTER;
 		add(txt);
         buttBG.setGraphicSize(Std.int(txt.width+20), Std.int(txt.height+12));

@@ -63,7 +63,7 @@ class CreditsMenu extends StateHandler
 
 		for (i in 0...creditsList.length)
 		{
-            creditsIcon = new FlxSprite(50 + (i * 140), 0).loadGraphic("assets/images/creditsMenu/credits/" + creditsList[i][0] + ".png");
+            creditsIcon = new FlxSprite(50 + (i * 140), 0).loadGraphic(Paths.imagePath("creditsMenu/credits/" + creditsList[i][0]));
             creditsIcon.scale.set(0.3, 0.3);
             creditsIcon.x = 510;
             creditsIcon.y = 220;
@@ -77,7 +77,7 @@ class CreditsMenu extends StateHandler
         add(bottomBG);
 
         title = new FlxText(0, 0, FlxG.width, "CREDITS");
-        title.setFormat("assets/fonts/bahnschrift.ttf", 60, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        title.setFormat(Paths.fontPath("bahnschrift.ttf"), 60, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         title.scrollFactor.set(0, 0);
         title.borderSize = 2;
         title.antialiasing = true;
@@ -86,7 +86,7 @@ class CreditsMenu extends StateHandler
         add(title);
 
         bottomTitle = new FlxText(0, 0, FlxG.width, "(For supporting my game :].)");
-        bottomTitle.setFormat("assets/fonts/bahnschrift.ttf", 25, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        bottomTitle.setFormat(Paths.fontPath("bahnschrift.ttf"), 25, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         bottomTitle.scrollFactor.set(0, 0);
         bottomTitle.borderSize = 2;
         bottomTitle.antialiasing = true;
@@ -95,7 +95,7 @@ class CreditsMenu extends StateHandler
         add(bottomTitle);
 
 		creditsName = new FlxText(0, 0, FlxG.width, "");
-		creditsName.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		creditsName.setFormat(Paths.fontPath("bahnschrift.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         creditsName.scrollFactor.set(0, 0);
         creditsName.borderSize = 2;
         creditsName.antialiasing = true;
@@ -104,7 +104,7 @@ class CreditsMenu extends StateHandler
         add(creditsName);
 
         creditsDesc = new FlxText(0, 0, FlxG.width, "");
-        creditsDesc.setFormat("assets/fonts/bahnschrift.ttf", 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        creditsDesc.setFormat(Paths.fontPath("bahnschrift.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         creditsDesc.scrollFactor.set(0, 0);
         creditsDesc.borderSize = 2;
         creditsDesc.antialiasing = true;
@@ -132,7 +132,7 @@ class CreditsMenu extends StateHandler
 		rightArrow.updateHitbox();
 		add(rightArrow);
 
-		button = new FlxSprite().loadGraphic("assets/images/creditsMenu/button.png");
+		button = new FlxSprite().loadGraphic(Paths.imagePath("creditsMenu/button"));
         button.scrollFactor.set();
         button.y = 650;
         button.x = 10;

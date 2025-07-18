@@ -50,11 +50,11 @@ class PlayState extends StateHandler
         gameUiGroup = new FlxSpriteGroup();
         add(gameUiGroup);
 
-        bg = new FlxSprite("assets/images/game/in-game/world/skybox.png");
+        bg = new FlxSprite(Paths.imagePath("game/in-game/world/skybox"));
         bg.screenCenter();
         gameUiGroup.add(bg);
 
-        bg2 = new FlxSprite("assets/images/game/in-game/world/grass.png");
+        bg2 = new FlxSprite(Paths.imagePath("game/in-game/world/grass"));
         bg2.screenCenter(X);
         gameUiGroup.add(bg2);
 
@@ -72,13 +72,13 @@ class PlayState extends StateHandler
         add(bar);
 
         testScoreTxt = new FlxText(150, 67, FlxG.width, "", 12);
-        testScoreTxt.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        testScoreTxt.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         testScoreTxt.borderSize = 2;
         testScoreTxt.borderQuality = 2;
         testScoreTxt.text = "Score: 0";
         add(testScoreTxt);
 
-        icon = new FlxSprite("assets/images/game/in-game/icon-stefan.png");
+        icon = new FlxSprite(Paths.fontPath("game/in-game/icon-stefan.png"));
         icon.scale.set(0.4, 0.4);
         icon.x = 15;
         icon.y = 15;

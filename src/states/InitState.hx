@@ -16,8 +16,6 @@ class InitState extends FlxState
 
     override function create()
     {
-        super.create();
-
         #if DISCORD_ALLOWED
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In Initialization", null);
@@ -27,13 +25,15 @@ class InitState extends FlxState
         {
             doAThing();
         });
+
+        super.create();
     }
 
     public function doAThing()
     {   
-        pop = FlxG.sound.load(Paths.soundPath("pop.ogg"));
+        pop = FlxG.sound.load(Paths.soundPath("pop"));
 
-		sbinator = new FlxSprite().loadGraphic(Paths.imagePath('sbinator.png'));
+		sbinator = new FlxSprite().loadGraphic(Paths.imagePath('sbinator'));
 		sbinator.scrollFactor.set();
 		sbinator.screenCenter();
 		sbinator.alpha = 0;

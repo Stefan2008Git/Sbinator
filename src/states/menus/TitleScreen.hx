@@ -50,28 +50,28 @@ class TitleScreen extends StateHandler
 		bg2.alpha = 0.25;
 		add(bg2);
 
-        stefanGuy = new FlxSprite().loadGraphic("assets/images/mainMenu/stefanGuy.png");
+        stefanGuy = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/stefanGuy"));
         stefanGuy.scrollFactor.set();
         stefanGuy.x = -2000;
         stefanGuy.screenCenter(Y);
         stefanGuy.scale.set(1.2, 1.2);
         add(stefanGuy);
 
-        playButton = new FlxSprite().loadGraphic("assets/images/mainMenu/play.png");
+        playButton = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/play"));
         playButton.scrollFactor.set();
         playButton.x = 190;
         playButton.y = -150;
         playButton.scale.set(0.7, 0.7);
         add(playButton);
 
-        creditsButton = new FlxSprite().loadGraphic("assets/images/mainMenu/credits.png");
+        creditsButton = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/credits"));
         creditsButton.scrollFactor.set();
         creditsButton.x = 190;
         creditsButton.y = -150;
         creditsButton.scale.set(0.7, 0.7);
         add(creditsButton);
 
-        exitGameButton = new FlxSprite().loadGraphic("assets/images/mainMenu/exitGame.png");
+        exitGameButton = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/exitGame"));
         exitGameButton.scrollFactor.set();
         exitGameButton.x = 190;
         exitGameButton.y = -150;
@@ -80,15 +80,15 @@ class TitleScreen extends StateHandler
 
         sbinatorText = new FlxText(5, FlxG.height - -28, 0, "Sbinator " + EngineConfiguration.gameVersion, 16);
         sbinatorText.scrollFactor.set();
-        sbinatorText.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        sbinatorText.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(sbinatorText);
 
         creatorName = new FlxText(1170, FlxG.height - -28, 0, "Stefan2008", 16);
         creatorName.scrollFactor.set();
-        creatorName.setFormat("assets/fonts/bahnschrift.ttf", 20, FlxColor.RED, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        creatorName.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.RED, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(creatorName);
 
-        gameLogo = new FlxSprite().loadGraphic("assets/images/mainMenu/logo.png");
+        gameLogo = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/logo"));
         gameLogo.scrollFactor.set();
         gameLogo.x = 210;
         gameLogo.y = -150;

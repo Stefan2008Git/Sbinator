@@ -38,7 +38,7 @@ class Paths
 {   
     // Paths system
     inline public static final ROOT_FOLDER:String = "assets";
-    public static var EXISTING_SOUND:Array<String> = ['ogg', 'wav'];
+    public static var EXISTING_SOUND:Array<String> = ['.ogg', '.wav'];
     public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
     public static var currentTrackedSounds:Map<String, Sound> = [];
     public static var currentTrackedLocalAssets:Array<String> = [];
@@ -64,7 +64,7 @@ class Paths
     inline static public function musicPath(key:String, ?cache:Bool = true):Sound 
         return returnCurrentSound('music/$key', cache);
 
-    inline static public function imagePath(key:String, ?cache:Bool = true):FlxGraphic
+    inline static public function imagePath(key:String, ?cache:Bool = true):FlxGraphic 
         return returnCurrentSprite('images/$key', cache);
 
     inline static public function fontPath(key:String)
@@ -72,7 +72,7 @@ class Paths
 
     public static function returnCurrentSprite(key:String, ?cache:Bool = true):FlxGraphic
     {
-        var spritePath:String = file('images/$key');
+        var spritePath:String = file('$key.png');
         if (Assets.exists(spritePath, IMAGE))
         {
             if (!currentTrackedAssets.exists(spritePath))
@@ -86,6 +86,8 @@ class Paths
             return currentTrackedAssets.get(spritePath);
         }
 
+        // trace(spritePath);
+
         trace('Missing $key sprite from "images" folder of root direcotry! Attempting to do not crash the game..');
         return null;
     }
@@ -93,7 +95,8 @@ class Paths
     public static function returnCurrentSound(key:String, ?cacheSound:Bool = true, ?beepNoSound:Bool = true):Sound
     {
         for (i in EXISTING_SOUND)
-        {
+        {   
+            // trace(file(key + i));
             if (Assets.exists(file(key + i), SOUND))
             {
                 var soundPath:String = file(key + i);
