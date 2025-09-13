@@ -104,14 +104,14 @@ class DiscordClient
 		presence.endTimestamp = Std.int(endTimestamp / 1000);
 
 		final button:DiscordButton = new DiscordButton();
-		button.label = "Sbinator Discord server";
-		button.url = "https://discord.gg/7s4kbC4pak";
+		button.label = "Sbinator Source";
+		button.url = "https://github.com/Stefan2008Git/Sbinator";
 		presence.buttons[0] = button;
 
 		final button2:DiscordButton = new DiscordButton();
-		button2.label = "Sbinator GitHub";
-		button2.url = "https://github.com/Stefan2008Git/Sbinator";
-		presence.buttons[1] = button2;
+		button2.label = "Stefan's YT";
+		button2.url = "https://www.youtube.com/@stefan2008_official";
+		presence.buttons[0] = button2;
 		updatePresence();
 	}
 
