@@ -95,34 +95,42 @@ class Main extends Sprite
             name: "GNOME",
             versionCommand: ["gnome-shell", "--version"]
         });
+
         environments.set("plasma", {
             name: "KDE Plasma",
             versionCommand: ["plasmashell", "--version"]
         });
+
         environments.set("xfce", {
             name: "XFCE",
             versionCommand: ["xfce4-session", "--version"]
         });
+
         environments.set("lxqt", {
             name: "LXQt",
             versionCommand: ["lxqt-session", "--version"]
         });
+
         environments.set("lxde", {
             name: "LXDE",
             versionCommand: ["lxsession", "--version"]
         });
+
         environments.set("sway", {
             name: "Sway",
             versionCommand: ["swaymsg", "get_version"]
         });
+
         environments.set("i3", {
             name: "i3",
             versionCommand: ["i3", "--version"]
         });
+
         environments.set("mate", {
             name: "MATE",
             versionCommand: ["mate-session", "--version"]
         });
+		
         environments.set("cinnamon", {
             name: "Cinnamon",
             versionCommand: ["cinnamon", "--version"]
@@ -157,7 +165,7 @@ class Main extends Sprite
 	public static function detectDesktopEnvironment():String 
 	{
     	var id = getCurrentDesktopId();
-    	var idParts = id.split(":"); // split "sway:wlroots:swayfx" into ["sway", "wlroots", "swayfx"]
+    	var idParts = id.split(":");
 
     	for (key in environments.keys()) 
 		{
@@ -170,7 +178,7 @@ class Main extends Sprite
 					{
                     	return info.name + " (" + getVersionOutput(info.versionCommand) + ")";
                 	} else {
-                    	return info.name + " (version unknown)";
+                    	return info.name + " (unknown version)";
                 	}
             	}
         	}

@@ -136,11 +136,6 @@ class TitleScreen extends StateHandler
 
     override public function update(elapsed:Float)
     {
-        if (FlxG.mouse.overlaps(creatorName) && controls)
-        {
-            if (FlxG.mouse.justReleased) FlxG.openURL("https://www.youtube.com/@stefan2008official");
-        }
-
         if (FlxG.mouse.overlaps(gameLogo) && controls)
         {
             if (FlxG.mouse.justReleased) FlxG.openURL("https://github.com/Stefan2008Git/Sbinator");
