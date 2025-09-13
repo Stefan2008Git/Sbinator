@@ -22,6 +22,7 @@ class EngineConfiguration
     // Game version
     public static var gameVersion:String = "1.0.0";
 
+    // Color tween for background in states/substates
     inline public static function colorFromString(color:String):FlxColor
 	{
 		var hideCharacters = ~/[\t\n\r]/;
@@ -34,9 +35,9 @@ class EngineConfiguration
 	}
 }
 
+// Paths system
 class Paths
 {   
-    // Paths system
     inline public static final ROOT_FOLDER:String = "assets";
     public static var EXISTING_SOUND:Array<String> = ['.ogg', '.wav'];
     public static var currentTrackedAssets:Map<String, FlxGraphic> = [];

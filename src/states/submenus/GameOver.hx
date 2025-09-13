@@ -26,7 +26,7 @@ class GameOver extends FlxSubState
             FlxTween.angle(PlayState.mainInstance.player, 0, 100, 1, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(1.2, function(timer:FlxTimer) {
+        new FlxTimer().start(1.6, function(timer:FlxTimer) {
             PlayState.mainInstance.player.kill();
         });
 

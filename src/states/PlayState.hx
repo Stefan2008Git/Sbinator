@@ -11,13 +11,14 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
+import flixel.ui.FlxBar;
 import flixel.util.FlxCollision;
 import flixel.util.FlxColor;
 import flixel.util.FlxSpriteUtil;
 
 class PlayState extends StateHandler
 {
-    // Main stuff
+    // In-game stuff
     var bg:FlxSprite;
     var bg2:FlxSprite;
     public var player:Player;
@@ -26,6 +27,10 @@ class PlayState extends StateHandler
     var icon:FlxSprite;
     var testScoreTxt:FlxText;
     public var testScore:Int = 0;
+    var healthBarSprite:FlxSprite;
+    var healthBar:FlxBar;
+    var health:Float = 1;
+    var maxHealth:Float = 2;
 
     // Backend
     var levelBound:FlxGroup;
@@ -66,24 +71,33 @@ class PlayState extends StateHandler
         playerTrail.visible = false;
         add(playerTrail);
 
-        bar = FlxSpriteUtil.drawRoundRect(new FlxSprite(80, 60).makeGraphic(400, 40, FlxColor.TRANSPARENT), 0, 0, 200, 40, 10, 10, FlxColor.BLACK);
+        bar = FlxSpriteUtil.drawRoundRect(new FlxSprite(80, 700).makeGraphic(400, 40, FlxColor.TRANSPARENT), 0, 0, 200, 40, 10, 10, FlxColor.BLACK);
         bar.alpha = 0.6;
         bar.updateHitbox();
         add(bar);
 
-        testScoreTxt = new FlxText(150, 67, FlxG.width, "", 12);
+        testScoreTxt = new FlxText(150, bar.y + 1, FlxG.width, "", 12);
         testScoreTxt.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         testScoreTxt.borderSize = 2;
         testScoreTxt.borderQuality = 2;
         testScoreTxt.text = "Score: 0";
         add(testScoreTxt);
 
-        icon = new FlxSprite(Paths.fontPath("game/in-game/icon-stefan.png"));
+        icon = new FlxSprite(15, bar.y).loadGraphic(Paths.imagePath("game/in-game/icon-stefan"));
         icon.scale.set(0.4, 0.4);
-        icon.x = 15;
-        icon.y = 15;
         icon.updateHitbox();
         add(icon);
+
+        healthBarSprite = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.imagePath("game/in-game/health"));
+        healthBarSprite.scrollFactor.set();
+        healthBarSprite.scale.set(0.8, 0.8);
+        healthBarSprite.updateHitbox();
+        healthBarSprite.screenCenter(X);
+        add(healthBarSprite);
+
+        healthBar = new FlxBar(healthBarSprite.x + 4, healthBarSprite.y + 4, LEFT_TO_RIGHT, Std.int(healthBarSprite.width - 8), Std.int(healthBarSprite.height - 8), this, 'health', 0, maxHealth);
+        healthBar.createFilledBar(FlxColor.RED, FlxColor.GREEN);
+        add(healthBar);
 
         // FlxG.camera.setScrollBoundsRect(0, 0, true);
         FlxG.camera.follow(player, cameraMode);
@@ -105,7 +119,8 @@ class PlayState extends StateHandler
 
 		if (justPressed.ESCAPE) openSubState(new PauseMenu());
 
-		if (justPressed.R) openSubState(new GameOver());
+        if (justPressed.X) health -= 1 else if (justPressed.P) health += 1;
+        if (health <= 0) openSubState(new GameOver());
 
 		testScoreTxt.text = "Score: " + testScore;
 
@@ -114,8 +129,7 @@ class PlayState extends StateHandler
 
     override function beatTheHit()
     {
-        super.beatTheHit();
-
         FlxTween.tween(cameraGame, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
+        super.beatTheHit();
     }
 }

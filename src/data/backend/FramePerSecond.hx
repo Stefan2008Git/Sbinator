@@ -211,8 +211,8 @@ class FramePerSecond extends Sprite {
 
         if (!displayDebugger)
         {
-            text.textColor = FlxColor.WHITE;
             if (_delay <= FlxG.drawFramerate * 0.5) text.textColor = FlxColor.RED;
+            text.textColor = FlxColor.WHITE;
         }
 	    
     }
@@ -269,7 +269,42 @@ class FramePerSecond extends Sprite {
 
         if (lime.system.System.platformLabel != null && lime.system.System.platformLabel != "" && lime.system.System.platformVersion != null && lime.system.System.platformVersion != "") {
             #if linux
-            osName = lime.system.System.platformLabel.replace(lime.system.System.platformVersion, "").trim() + " - " + lime.system.System.platformVersion + deWm;
+            var process = new HiddenProcess("cat", ["/etc/os-release"]);
+		    if (process.exitCode() != 0) trace('Unable to grab OS Label');
+		    else 
+            {
+			    var distroName = "";
+			    var osVersion = "";
+			    for (line in process.stdout.readAll().toString().split("\n")) 
+                {
+				    if (line.startsWith("PRETTY_NAME=")) 
+                    {
+					    var index = line.indexOf('"');
+					    if (index != -1) distroName = line.substring(index + 1, line.lastIndexOf('"'));
+					else 
+                    {
+						var arr = line.split("=");
+						arr.shift();
+						distroName = arr.join("=");
+					}
+				}
+
+				if (line.startsWith("VERSION=")) 
+                {
+					var index = line.indexOf('"');
+					if (index != -1)
+						osVersion = line.substring(index + 1, line.lastIndexOf('"'));
+					else 
+                    {
+						var arr = line.split("=");
+						arr.shift();
+						osVersion = arr.join("=");
+					}
+				}
+			}
+    
+			if (distroName != "") osName = '${distroName} ${osVersion}'.trim() + deWm;
+		    }
             #else
             osName = lime.system.System.platformLabel.replace(lime.system.System.platformVersion, "").trim() + " - " + lime.system.System.platformVersion;
             #end
