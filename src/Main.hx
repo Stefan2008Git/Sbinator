@@ -63,7 +63,7 @@ class Main extends Sprite
 	{
 		super();
 
-		trace('You are on ${releaseCycle} branch!');
+		trace('You are in ${releaseCycle} branch!');
 
 		#if CRASH_HANDLER
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);

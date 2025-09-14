@@ -17,8 +17,6 @@ class TitleScreen extends StateHandler
 {
     var bg:FlxSprite;
     var checker:FlxBackdrop;
-    var bg2:FlxSprite;
-    var stefanGuy:FlxSprite;
     var playButton:FlxSprite;
     var creditsButton:FlxSprite;
     var exitGameButton:FlxSprite;
@@ -46,33 +44,25 @@ class TitleScreen extends StateHandler
         checker.alpha = 0.6;
         add(checker);
 
-        bg2 = new FlxSprite(720, -800).makeGraphic(FlxG.width - 720, FlxG.height, FlxColor.BLACK);
-		bg2.alpha = 0.25;
-		add(bg2);
-
-        stefanGuy = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/stefan2008"));
-        stefanGuy.scrollFactor.set();
-        stefanGuy.x = -2000;
-        stefanGuy.screenCenter(Y);
-        stefanGuy.scale.set(1.2, 1.2);
-        add(stefanGuy);
-
         playButton = new FlxSprite(190, -150).loadGraphic(Paths.imagePath("mainMenu/play"));
         playButton.scrollFactor.set();
         playButton.scale.set(0.7, 0.7);
+        playButton.screenCenter(X);
         add(playButton);
 
         creditsButton = new FlxSprite(190, -150).loadGraphic(Paths.imagePath("mainMenu/credits"));
         creditsButton.scrollFactor.set();
         creditsButton.scale.set(0.7, 0.7);
+        creditsButton.screenCenter(X);
         add(creditsButton);
 
-        exitGameButton = new FlxSprite(190, -150).loadGraphic(Paths.imagePath("mainMenu/exitGame"));
+        exitGameButton = new FlxSprite(0, -150).loadGraphic(Paths.imagePath("mainMenu/exitGame"));
         exitGameButton.scrollFactor.set();
         exitGameButton.scale.set(0.7, 0.7);
+        exitGameButton.screenCenter(X);
         add(exitGameButton);
 
-        versionText = new FlxText(5, FlxG.height - -28, 0, "Sbinator v" + EngineConfiguration.gameVersion + "\n" + FlxG.VERSION, 16);
+        versionText = new FlxText(5, FlxG.height - -28, 0, "Sbinator " + EngineConfiguration.gameVersion + "\n" + FlxG.VERSION, 16);
         versionText.scrollFactor.set();
         versionText.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(versionText);
@@ -82,9 +72,10 @@ class TitleScreen extends StateHandler
         creatorName.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.RED, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(creatorName);
 
-        gameLogo = new FlxSprite(210, -150).loadGraphic(Paths.imagePath("mainMenu/logo"));
+        gameLogo = new FlxSprite(0, -150).loadGraphic(Paths.imagePath("mainMenu/logo"));
         gameLogo.scrollFactor.set();
         gameLogo.scale.set(1.4, 1.4);
+        gameLogo.screenCenter(X);
         add(gameLogo);
 
         new FlxTimer().start(0.5, function(tmr:FlxTimer) {
@@ -93,14 +84,6 @@ class TitleScreen extends StateHandler
 
         new FlxTimer().start(0.7, function(tmr:FlxTimer) {
             FlxTween.tween(creatorName, {y: 690}, 2, {ease: FlxEase.expoInOut});
-        });
-
-        new FlxTimer().start(0.85, function(tmr:FlxTimer) {
-            FlxTween.tween(bg2, {y: -3}, 2, {ease: FlxEase.expoInOut});
-        });
-
-        new FlxTimer().start(0.95, function(tmr:FlxTimer) {
-            FlxTween.tween(stefanGuy, {x: 885}, 2, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(1.1, function(tmr:FlxTimer) {
@@ -119,7 +102,7 @@ class TitleScreen extends StateHandler
             FlxTween.tween(gameLogo, {y: 100}, 2, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(4, function(tmr:FlxTimer) {
+        new FlxTimer().start(3.5, function(tmr:FlxTimer) {
             controls = true;
         });
 
