@@ -90,6 +90,7 @@ class PauseMenu extends FlxSubState
             FlxTween.tween(exitButton, {y: 500}, 2, {ease: FlxEase.expoInOut});
         });
 
+        // This is required to substate works when i added both in-game cameras, so Flixel needs to have something to handle it
         cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 
         super.create();

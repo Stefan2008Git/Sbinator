@@ -15,8 +15,6 @@ class GameOver extends FlxSubState
 
     override function create()
     {
-        super.create();
-
         bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
         bg.alpha = 0.7;
         add(bg);
@@ -34,6 +32,11 @@ class GameOver extends FlxSubState
         {
             controlsEnabler = true;
         });
+
+        // This is required to substate works when i added both in-game cameras, so Flixel needs to have something to handle it
+        cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+
+        super.create();
     }
 
     override function update(elapsed:Float)

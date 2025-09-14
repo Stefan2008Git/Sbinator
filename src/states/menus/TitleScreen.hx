@@ -22,7 +22,7 @@ class TitleScreen extends StateHandler
     var playButton:FlxSprite;
     var creditsButton:FlxSprite;
     var exitGameButton:FlxSprite;
-    var sbinatorText:FlxText;
+    var versionText:FlxText;
     var creatorName:FlxText;
     var gameLogo:FlxSprite;
     var controls:Bool = false;
@@ -78,25 +78,23 @@ class TitleScreen extends StateHandler
         exitGameButton.scale.set(0.7, 0.7);
         add(exitGameButton);
 
-        sbinatorText = new FlxText(5, FlxG.height - -28, 0, "Sbinator " + EngineConfiguration.gameVersion, 16);
-        sbinatorText.scrollFactor.set();
-        sbinatorText.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-        add(sbinatorText);
+        versionText = new FlxText(5, FlxG.height - -28, 0, "Sbinator " + EngineConfiguration.gameVersion + "\n" + FlxG.VERSION, 16);
+        versionText.scrollFactor.set();
+        versionText.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        add(versionText);
 
         creatorName = new FlxText(1170, FlxG.height - -28, 0, "Stefan2008", 16);
         creatorName.scrollFactor.set();
         creatorName.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.RED, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(creatorName);
 
-        gameLogo = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/logo"));
+        gameLogo = new FlxSprite(210, -150).loadGraphic(Paths.imagePath("mainMenu/logo"));
         gameLogo.scrollFactor.set();
-        gameLogo.x = 210;
-        gameLogo.y = -150;
         gameLogo.scale.set(1.4, 1.4);
         add(gameLogo);
 
         new FlxTimer().start(0.5, function(tmr:FlxTimer) {
-            FlxTween.tween(sbinatorText, {y: 690}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(versionText, {y: 670}, 2, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(0.7, function(tmr:FlxTimer) {
