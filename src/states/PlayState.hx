@@ -35,12 +35,16 @@ class PlayState extends StateHandler
     // Backend
     var levelBound:FlxGroup;
     public var cameraGame:FlxCamera;
-    public var gameUiGroup:FlxSpriteGroup;
+    public var gameGroup:FlxSpriteGroup;
+    public var cameraUi:FlxCamera;
+    public var uiGameGroup:FlxSpriteGroup;
     static public var mainInstance:PlayState;
     var cameraMode:FlxCameraFollowStyle = FlxCameraFollowStyle.TOPDOWN_TIGHT;
+    var cameraZoomingDecay:Float = 1;
+    var defaultCameraZoom:Float = 1.05;
 
     override public function create()
-    {
+    {   
         // Required for Player class file to call for player trail
         mainInstance = this;
 
@@ -48,64 +52,74 @@ class PlayState extends StateHandler
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In Game", null);
 		#end
-
+        
+        // Camera related stuff
         cameraGame = new FlxCamera();
-        FlxG.cameras.add(cameraGame);
+        FlxG.cameras.add(cameraGame, false);
+        gameGroup = new FlxSpriteGroup();
+        add(gameGroup);
+        cameraGame.bgColor.alpha = 0;
 
-        gameUiGroup = new FlxSpriteGroup();
-        add(gameUiGroup);
+        // In-game UI related stuff
+        cameraUi = new FlxCamera();
+        FlxG.cameras.add(cameraUi, false);
+        uiGameGroup = new FlxSpriteGroup();
+        add(uiGameGroup);
+        cameraUi.bgColor.alpha = 0;
 
         bg = new FlxSprite(Paths.imagePath("game/in-game/world/skybox"));
         bg.screenCenter();
-        gameUiGroup.add(bg);
+        gameGroup.add(bg);
 
         bg2 = new FlxSprite(Paths.imagePath("game/in-game/world/grass"));
         bg2.screenCenter(X);
-        gameUiGroup.add(bg2);
+        gameGroup.add(bg2);
 
-        player = new Player(5, 70, 1, 1);
+        player = new Player(5, 70, 0.8, 0.8);
         player.updateHitbox();
-        gameUiGroup.add(player);
+        gameGroup.add(player);
 
         playerTrail = new FlxTrail(player, 6, 0, 0.4, 0.02);
         playerTrail.visible = false;
-        add(playerTrail);
+        gameGroup.add(playerTrail);
 
         bar = FlxSpriteUtil.drawRoundRect(new FlxSprite(80, 700).makeGraphic(400, 40, FlxColor.TRANSPARENT), 0, 0, 200, 40, 10, 10, FlxColor.BLACK);
         bar.alpha = 0.6;
         bar.updateHitbox();
-        add(bar);
+        uiGameGroup.add(bar);
 
         testScoreTxt = new FlxText(150, bar.y + 1, FlxG.width, "", 12);
         testScoreTxt.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         testScoreTxt.borderSize = 2;
         testScoreTxt.borderQuality = 2;
         testScoreTxt.text = "Score: 0";
-        add(testScoreTxt);
+        uiGameGroup.add(testScoreTxt);
 
         icon = new FlxSprite(15, bar.y).loadGraphic(Paths.imagePath("game/in-game/icon-stefan"));
         icon.scale.set(0.4, 0.4);
         icon.updateHitbox();
-        add(icon);
+        uiGameGroup.add(icon);
 
         healthBarSprite = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.imagePath("game/in-game/health"));
         healthBarSprite.scrollFactor.set();
         healthBarSprite.scale.set(0.8, 0.8);
         healthBarSprite.updateHitbox();
         healthBarSprite.screenCenter(X);
-        add(healthBarSprite);
+        uiGameGroup.add(healthBarSprite);
 
         healthBar = new FlxBar(healthBarSprite.x + 4, healthBarSprite.y + 4, LEFT_TO_RIGHT, Std.int(healthBarSprite.width - 8), Std.int(healthBarSprite.height - 8), this, 'health', 0, maxHealth);
         healthBar.createFilledBar(FlxColor.RED, FlxColor.GREEN);
-        add(healthBar);
+        uiGameGroup.add(healthBar);
 
-        // FlxG.camera.setScrollBoundsRect(0, 0, true);
+        FlxG.camera.setScrollBoundsRect(0, 0, true);
         FlxG.camera.follow(player, cameraMode);
+        FlxG.camera.zoom = defaultCameraZoom;
 
         // Without this, the player will fall from camera wall, so keeping this for now
-        levelBound = FlxCollision.createCameraWall(cameraGame, false, 1);
+        levelBound = FlxCollision.createCameraWall(cameraGame, true, 1);
 
-        gameUiGroup.cameras = [cameraGame];
+        gameGroup.cameras = [cameraGame];
+        uiGameGroup.cameras = [cameraUi];
 
         super.create();
     }
@@ -117,19 +131,34 @@ class PlayState extends StateHandler
 		FlxG.collide(player, levelBound);
 		FlxG.camera.follow(player, cameraMode);
 
-		if (justPressed.ESCAPE) openSubState(new PauseMenu());
+		if (justPressed.ESCAPE) pauseTheGame();
 
         if (justPressed.X) health -= 1 else if (justPressed.P) health += 1;
-        if (health <= 0) openSubState(new GameOver());
+        if (health <= 0) gameOver();
 
 		testScoreTxt.text = "Score: " + testScore;
+
+        FlxG.camera.zoom = FlxMath.lerp(defaultCameraZoom, FlxG.camera.zoom, Math.exp(-elapsed * 3.125 * cameraZoomingDecay));
+		cameraGame.zoom = FlxMath.lerp(1, cameraGame.zoom, Math.exp(-elapsed * 3.125 * cameraZoomingDecay));
 
         super.update(elapsed);
     }
 
-    override function beatTheHit()
+    function pauseTheGame()
     {
-        FlxTween.tween(cameraGame, {zoom: 1.05}, 0.3, {ease: FlxEase.quadOut, type: BACKWARD});
-        super.beatTheHit();
+        FlxG.camera.followLerp = 0;
+		persistentUpdate = false;
+		persistentDraw = true;
+
+        openSubState(new PauseMenu());
+    }
+
+    function gameOver()
+    {   
+        FlxG.camera.followLerp = 0;
+        persistentUpdate = false;
+		persistentDraw = true;
+
+        openSubState(new GameOver());
     }
 }

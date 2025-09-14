@@ -16,10 +16,12 @@ import transition.StateHandler;
 import states.PlayState;
 import states.InitState;
 import states.menus.CreditsMenu;
-import states.menus.PauseMenu;
 import states.menus.TitleScreen;
 import states.modules.CrashHandlerState;
+
+// Submenus
 import states.submenus.GameOver;
+import states.submenus.PauseMenu;
 
 // Other
 #if sys

@@ -2,7 +2,6 @@ package data;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
 
 class Player extends FlxSprite
 {
@@ -11,8 +10,9 @@ class Player extends FlxSprite
 
     public function new (xPosition:Int = 0, yPosition:Int = 0, scaleX:Float = 0, scaleY:Float = 0)
     {
-        super(xPosition, yPosition);
-        frames = FlxAtlasFrames.fromSparrow("assets/images/game/in-game/stefan.png", "assets/images/game/in-game/stefan.xml");
+        super(xPosition, yPosition, Paths.imagePath("game/in-game/stefan"));
+        // frames = FlxAtlasFrames.fromSparrow("assets/images/game/in-game/stefan.png", "assets/images/game/in-game/stefan.xml");
+        
         drag.x = speedValue + 8;
 
         acceleration.y = gravityValue;
@@ -20,10 +20,10 @@ class Player extends FlxSprite
         this.scale.x = scaleX;
         this.scale.y = scaleY;
 
-        animation.addByPrefix('mainIdle', "idle", 25, false);
-        animation.addByPrefix('mainWalking', "walking", 25, false);
+        // animation.addByPrefix('mainIdle', "idle", 25, false);
+        // animation.addByPrefix('mainWalking', "walking", 25, false);
 
-        animation.play('mainIdle');
+        // animation.play('mainIdle');
     }
 
     override function update(elapsed:Float)
@@ -44,23 +44,23 @@ class Player extends FlxSprite
         {
             PlayState.mainInstance.playerTrail.visible = false;
             velocity.x = 0;
-            animation.play("mainIdle");
+            // animation.play("mainIdle");
         }
         else if (left)
         {
             PlayState.mainInstance.playerTrail.visible = false;
             velocity.x = -speedValue / 1.7;
             facing = RIGHT;
-            setFacingFlip(LEFT, false, false);
-            animation.play("mainWalking");
+            setFacingFlip(RIGHT, false, false);
+            // animation.play("mainWalking");
         }
         else if (right)
         {
             PlayState.mainInstance.playerTrail.visible = false;
             velocity.x = speedValue / 1.7;
             facing = LEFT;
-            setFacingFlip(RIGHT, true, false);
-            animation.play("mainWalking");
+            setFacingFlip(LEFT, true, false);
+            // animation.play("mainWalking");
         }
 
         // Sprinting function
@@ -68,7 +68,7 @@ class Player extends FlxSprite
         {
             velocity.x = 0;
             PlayState.mainInstance.playerTrail.visible = false;
-            animation.play("mainIdle");
+            // animation.play("mainIdle");
         }
         else if (shift && left)
         {
@@ -76,7 +76,7 @@ class Player extends FlxSprite
             facing = RIGHT;
             setFacingFlip(LEFT, false, false);
             PlayState.mainInstance.playerTrail.visible = true;
-            animation.play("mainWalking");
+            // animation.play("mainWalking");
         }
         else if (shift && right)
         {
@@ -84,7 +84,7 @@ class Player extends FlxSprite
             facing = LEFT;
             setFacingFlip(RIGHT, true, false);
             PlayState.mainInstance.playerTrail.visible = true;
-            animation.play("mainWalking");
+            // animation.play("mainWalking");
         }
 
         // Jumping function

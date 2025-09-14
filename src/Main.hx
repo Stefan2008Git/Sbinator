@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxGame;
 import flixel.FlxG;
+import flixel.FlxState;
 import lime.app.Application;
 import openfl.Lib;
 import openfl.display.Sprite;
@@ -56,6 +57,8 @@ class Main extends Sprite
 
 	#if linux static var environments:Map<String, EnvironmentInfo> = new Map(); #end
 
+	static var previousState:FlxState;
+
 	public function new()
 	{
 		super();
@@ -86,6 +89,15 @@ class Main extends Sprite
 		#end
 
 		#if linux initDesktopEnvironments(); #end
+
+		FlxG.signals.preStateSwitch.add(() -> {
+			previousState = FlxG.state;
+		});
+
+		FlxG.signals.preStateCreate.add((stateCreaton) -> {
+			Paths.clearStoredGameMemory();
+			Paths.clearUnusedGameMemory();
+		});
 	}
 
 	#if linux
@@ -188,6 +200,7 @@ class Main extends Sprite
 	}
 	#end
 
+	#if sys
 	function onUncaughtError(e:UncaughtErrorEvent):Void
 	{
 		e.preventDefault();
@@ -215,13 +228,15 @@ class Main extends Sprite
 		#if (flixel < "6.0.0")
 		FlxG.bitmap.dumpCache();
 		#end
+
 		FlxG.bitmap.clearCache();
 
-		#if (linux || mac) // For some unknown reason Application class failed to open pop-up window in Unix-based system, so using state class will help for bit!
+		#if linux // For some unknown reason Application class failed to open pop-up window in Unix-based system, so using state class will help for bit!
 		StateHandler.switchToNewState(new CrashHandlerState(stackTraceString + '\n\nCrash log created at: "${normalPath}"!'));
 		#else
 		Application.current.window.alert(stackTraceString + "\n\nPress OK to reset game!" + randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)] + " - Sbinator v" + EngineConfiguration.gameVersion); // My friend cannot get state working on his Windows machine for some reason, so using base Application class for fix instead..
 		FlxG.resetGame();
 		#end
 	}
+	#end
 }

@@ -1,11 +1,18 @@
 package data.backend;
 
+#if cpp
+import cpp.vm.Gc;
+#end
+
+import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.system.FlxAssets;
 import flixel.util.FlxColor;
+import flixel.util.FlxSave;
 import openfl.display.BitmapData;
 import openfl.media.Sound;
+import openfl.system.System;
 import openfl.utils.Assets;
 
 #if sys
@@ -115,5 +122,65 @@ class Paths
 
         trace('Missing $key sound from "sounds" folder of root direcotry! Playing default Flixel beep sound instead..');
         return null;
+    }
+
+    public static function clearUnusedGameMemory()
+    {
+        for (memoryKey in currentTrackedAssets.keys())
+        {
+            if (!currentTrackedLocalAssets.contains(memoryKey))
+            {
+                destroySpriteGraphics(currentTrackedAssets.get(memoryKey));
+                currentTrackedAssets.remove(memoryKey);
+            }
+        }
+
+        #if sys
+        System.gc();
+        #elseif cpp
+        Gc.compact();
+        #end
+    }
+
+    @:access(flixel.system.frontEnds.BitmapFrontEnd._cache)
+    public static function clearStoredGameMemory()
+    {
+        for (storedMemoryKey in FlxG.bitmap._cache.keys())
+        {
+            if (!currentTrackedAssets.exists(storedMemoryKey)) destroySpriteGraphics(FlxG.bitmap.get(storedMemoryKey));
+        }
+
+        currentTrackedLocalAssets = [];
+    }
+
+    inline static function destroySpriteGraphics(graphic:FlxGraphic)
+	{
+		if (graphic != null)
+        {
+            FlxG.bitmap.remove(graphic);
+            graphic.destroy();
+            graphic.bitmap = null;
+        }
+	}
+}
+
+// Saver data handler (Currently W.I.P!!!)
+@:structInit class DataVariable
+{
+    public var uiElements:Bool = true;
+}
+
+class DataHandler
+{
+    public static var data:DataVariable = {};
+
+    public static function saveData()
+    {
+        for (dataKey in Reflect.fields(data)) Reflect.setField(FlxG.save.data, dataKey, Reflect.field(data, dataKey));
+        FlxG.save.flush();
+
+        var dataSaver:FlxSave = new FlxSave();
+        dataSaver.flush();
+        FlxG.log.add("Options successfully saved!");
     }
 }

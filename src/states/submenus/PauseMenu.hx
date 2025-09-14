@@ -1,4 +1,4 @@
-package states.menus;
+package states.submenus;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -90,6 +90,7 @@ class PauseMenu extends FlxSubState
             FlxTween.tween(exitButton, {y: 500}, 2, {ease: FlxEase.expoInOut});
         });
 
+        cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 
         super.create();
     }
