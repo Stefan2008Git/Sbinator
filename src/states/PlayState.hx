@@ -25,7 +25,7 @@ class PlayState extends StateHandler
     public var playerTrail:FlxTrail;
     var bar:FlxSprite;
     var icon:FlxSprite;
-    var testScoreTxt:FlxText;
+    var scoreText:FlxText;
     public var testScore:Int = 0;
     var healthBarSprite:FlxSprite;
     var healthBar:FlxBar;
@@ -83,19 +83,19 @@ class PlayState extends StateHandler
         playerTrail.visible = false;
         gameGroup.add(playerTrail);
 
-        bar = FlxSpriteUtil.drawRoundRect(new FlxSprite(80, 700).makeGraphic(400, 40, FlxColor.TRANSPARENT), 0, 0, 200, 40, 10, 10, FlxColor.BLACK);
+        bar = FlxSpriteUtil.drawRoundRect(new FlxSprite(80, 645).makeGraphic(400, 40, FlxColor.TRANSPARENT), 0, 0, 200, 40, 10, 10, FlxColor.BLACK);
         bar.alpha = 0.6;
         bar.updateHitbox();
         uiGameGroup.add(bar);
 
-        testScoreTxt = new FlxText(150, bar.y + 1, FlxG.width, "", 12);
-        testScoreTxt.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-        testScoreTxt.borderSize = 2;
-        testScoreTxt.borderQuality = 2;
-        testScoreTxt.text = "Score: 0";
-        uiGameGroup.add(testScoreTxt);
+        scoreText = new FlxText(150, bar.y + 5, FlxG.width, "", 12);
+        scoreText.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        scoreText.borderSize = 2;
+        scoreText.borderQuality = 2;
+        scoreText.text = "Score: 0";
+        uiGameGroup.add(scoreText);
 
-        icon = new FlxSprite(15, bar.y).loadGraphic(Paths.imagePath("game/in-game/icon-stefan"));
+        icon = new FlxSprite(15, bar.y + -45).loadGraphic(Paths.imagePath("game/in-game/icon-stefan"));
         icon.scale.set(0.4, 0.4);
         icon.updateHitbox();
         uiGameGroup.add(icon);
@@ -109,6 +109,7 @@ class PlayState extends StateHandler
 
         healthBar = new FlxBar(healthBarSprite.x + 4, healthBarSprite.y + 4, LEFT_TO_RIGHT, Std.int(healthBarSprite.width - 8), Std.int(healthBarSprite.height - 8), this, 'health', 0, maxHealth);
         healthBar.createFilledBar(FlxColor.RED, FlxColor.GREEN);
+        healthBar.screenCenter(X);
         uiGameGroup.add(healthBar);
 
         FlxG.camera.setScrollBoundsRect(0, 0, true);
@@ -136,7 +137,7 @@ class PlayState extends StateHandler
         if (justPressed.X) health -= 1 else if (justPressed.P) health += 1;
         if (health <= 0) gameOver();
 
-		testScoreTxt.text = "Score: " + testScore;
+		scoreText.text = "Score: " + testScore;
 
         FlxG.camera.zoom = FlxMath.lerp(defaultCameraZoom, FlxG.camera.zoom, Math.exp(-elapsed * 3.125 * cameraZoomingDecay));
 		cameraGame.zoom = FlxMath.lerp(1, cameraGame.zoom, Math.exp(-elapsed * 3.125 * cameraZoomingDecay));
