@@ -1,7 +1,6 @@
 #if (!macro)
 
 // Important
-import data.AssetPaths;
 import data.Discord.DiscordClient;
 import data.Player;
 import data.PopUp.PopUpEvent;
