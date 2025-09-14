@@ -50,7 +50,7 @@ class TitleScreen extends StateHandler
 		bg2.alpha = 0.25;
 		add(bg2);
 
-        stefanGuy = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/stefanGuy"));
+        stefanGuy = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/stefan2008"));
         stefanGuy.scrollFactor.set();
         stefanGuy.x = -2000;
         stefanGuy.screenCenter(Y);
