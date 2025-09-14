@@ -57,28 +57,22 @@ class TitleScreen extends StateHandler
         stefanGuy.scale.set(1.2, 1.2);
         add(stefanGuy);
 
-        playButton = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/play"));
+        playButton = new FlxSprite(190, -150).loadGraphic(Paths.imagePath("mainMenu/play"));
         playButton.scrollFactor.set();
-        playButton.x = 190;
-        playButton.y = -150;
         playButton.scale.set(0.7, 0.7);
         add(playButton);
 
-        creditsButton = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/credits"));
+        creditsButton = new FlxSprite(190, -150).loadGraphic(Paths.imagePath("mainMenu/credits"));
         creditsButton.scrollFactor.set();
-        creditsButton.x = 190;
-        creditsButton.y = -150;
         creditsButton.scale.set(0.7, 0.7);
         add(creditsButton);
 
-        exitGameButton = new FlxSprite().loadGraphic(Paths.imagePath("mainMenu/exitGame"));
+        exitGameButton = new FlxSprite(190, -150).loadGraphic(Paths.imagePath("mainMenu/exitGame"));
         exitGameButton.scrollFactor.set();
-        exitGameButton.x = 190;
-        exitGameButton.y = -150;
         exitGameButton.scale.set(0.7, 0.7);
         add(exitGameButton);
 
-        versionText = new FlxText(5, FlxG.height - -28, 0, "Sbinator " + EngineConfiguration.gameVersion + "\n" + FlxG.VERSION, 16);
+        versionText = new FlxText(5, FlxG.height - -28, 0, "Sbinator v" + EngineConfiguration.gameVersion + "\n" + FlxG.VERSION, 16);
         versionText.scrollFactor.set();
         versionText.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         add(versionText);

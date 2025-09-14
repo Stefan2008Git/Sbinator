@@ -27,7 +27,7 @@ using StringTools;
 class EngineConfiguration
 {   
     // Game version
-    public static var gameVersion:String = "1.0.0";
+    public static var gameVersion:String = "1.0.0a";
 
     // Color tween for background in states/substates
     inline public static function colorFromString(color:String):FlxColor
