@@ -2,13 +2,12 @@ package substates.options;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxSubState;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 
-class OptionsMenu extends FlxSubState
+class OptionsMenu extends SubstateHandler
 {
     var bg:FlxSprite;
     var checker:FlxBackdrop;

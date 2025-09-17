@@ -2,13 +2,12 @@ package substates.game;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxSubState;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 
-class GameOver extends FlxSubState
+class GameOver extends SubstateHandler
 {
     var bg:FlxSprite;
     var controlsEnabler:Bool = false;
@@ -19,7 +18,7 @@ class GameOver extends FlxSubState
         bg.alpha = 0.7;
         add(bg);
 
-        new FlxTimer().start(0.30, function(timer:FlxTimer)
+        new FlxTimer().start(0.85, function(timer:FlxTimer)
         {
             FlxTween.angle(PlayState.mainInstance.player, 0, 100, 1, {ease: FlxEase.expoInOut});
         });

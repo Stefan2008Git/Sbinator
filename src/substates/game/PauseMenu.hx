@@ -2,7 +2,6 @@ package substates.game;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.FlxSubState;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.display.FlxGridOverlay;
 import flixel.tweens.FlxTween;
@@ -10,7 +9,7 @@ import flixel.tweens.FlxEase;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 
-class PauseMenu extends FlxSubState
+class PauseMenu extends SubstateHandler
 {
     var bg:FlxSprite;
     var checker:FlxBackdrop;

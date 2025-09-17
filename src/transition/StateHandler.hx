@@ -9,6 +9,12 @@ import flixel.util.typeLimit.NextState;
 
 class StateHandler extends FlxUIState
 {
+    public var gameControls(get, never):ControlsHandler;
+    private function get_gameControls()
+    {
+        return ControlsHandler.keyInstance;
+    }
+
     override public function create()
     {
         super.create();
