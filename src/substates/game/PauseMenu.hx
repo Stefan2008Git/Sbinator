@@ -1,4 +1,4 @@
-package states.submenus;
+package substates.game;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

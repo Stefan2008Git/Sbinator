@@ -164,7 +164,7 @@ class InitState extends FlxState
         if (done && loadedAssets >= totalAssets)
 		{   
             statusText.text = "Done!";
-            new FlxTimer().start(1.5, function(tmr:FlxTimer)
+            new FlxTimer().start(2.5, function(tmr:FlxTimer)
             {   
                 onInitDone();
             });

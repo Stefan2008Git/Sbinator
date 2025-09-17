@@ -19,6 +19,7 @@ class TitleScreen extends StateHandler
     var checker:FlxBackdrop;
     var playButton:FlxSprite;
     var creditsButton:FlxSprite;
+    var optionsButton:FlxSprite;
     var exitGameButton:FlxSprite;
     var versionText:FlxText;
     var creatorName:FlxText;
@@ -47,18 +48,28 @@ class TitleScreen extends StateHandler
         playButton = new FlxSprite(190, -150).loadGraphic(Paths.imagePath("mainMenu/play"));
         playButton.scrollFactor.set();
         playButton.scale.set(0.7, 0.7);
+        playButton.updateHitbox();
         playButton.screenCenter(X);
         add(playButton);
+
+        optionsButton = new FlxSprite(190, -150).loadGraphic(Paths.imagePath("mainMenu/options"));
+        optionsButton.scrollFactor.set();
+        optionsButton.scale.set(0.7, 0.7);
+        optionsButton.updateHitbox();
+        optionsButton.screenCenter(X);
+        add(optionsButton);
 
         creditsButton = new FlxSprite(190, -150).loadGraphic(Paths.imagePath("mainMenu/credits"));
         creditsButton.scrollFactor.set();
         creditsButton.scale.set(0.7, 0.7);
+        creditsButton.updateHitbox();
         creditsButton.screenCenter(X);
         add(creditsButton);
 
         exitGameButton = new FlxSprite(0, -150).loadGraphic(Paths.imagePath("mainMenu/exitGame"));
         exitGameButton.scrollFactor.set();
         exitGameButton.scale.set(0.7, 0.7);
+        exitGameButton.updateHitbox();
         exitGameButton.screenCenter(X);
         add(exitGameButton);
 
@@ -75,6 +86,7 @@ class TitleScreen extends StateHandler
         gameLogo = new FlxSprite(0, -150).loadGraphic(Paths.imagePath("mainMenu/logo"));
         gameLogo.scrollFactor.set();
         gameLogo.scale.set(1.4, 1.4);
+        gameLogo.updateHitbox();
         gameLogo.screenCenter(X);
         add(gameLogo);
 
@@ -87,22 +99,26 @@ class TitleScreen extends StateHandler
         });
 
         new FlxTimer().start(1.1, function(tmr:FlxTimer) {
-            FlxTween.tween(playButton, {y: 300}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(playButton, {y: 260}, 2, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(1.4, function(tmr:FlxTimer) {
-            FlxTween.tween(creditsButton, {y: 400}, 2, {ease: FlxEase.expoInOut});
+        new FlxTimer().start(1.3, function(tmr:FlxTimer) {
+            FlxTween.tween(creditsButton, {y: 360}, 2, {ease: FlxEase.expoInOut});
+        });
+
+        new FlxTimer().start(1.5, function(tmr:FlxTimer) {
+            FlxTween.tween(optionsButton, {y: 460}, 2, {ease: FlxEase.expoInOut});
         });
 
         new FlxTimer().start(1.7, function(tmr:FlxTimer) {
-            FlxTween.tween(exitGameButton, {y: 500}, 2, {ease: FlxEase.expoInOut});
+            FlxTween.tween(exitGameButton, {y: 560}, 2, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(2, function(tmr:FlxTimer) {
-            FlxTween.tween(gameLogo, {y: 100}, 2, {ease: FlxEase.expoInOut});
+        new FlxTimer().start(1.9, function(tmr:FlxTimer) {
+            FlxTween.tween(gameLogo, {y: 80}, 2, {ease: FlxEase.expoInOut});
         });
 
-        new FlxTimer().start(3.5, function(tmr:FlxTimer) {
+        new FlxTimer().start(3, function(tmr:FlxTimer) {
             controls = true;
         });
 
@@ -133,10 +149,20 @@ class TitleScreen extends StateHandler
             }
         }
 
-        if (FlxG.mouse.overlaps(exitGameButton) && controls)
+        if (FlxG.mouse.overlaps(optionsButton) && controls)
         {
             if (FlxG.mouse.justReleased)
             {
+                persistentUpdate = false;
+		        persistentDraw = true;
+                openSubState(new OptionsMenu());
+            }
+        }
+
+        if (FlxG.mouse.overlaps(exitGameButton) && controls)
+        {
+            if (FlxG.mouse.justReleased)
+            {   
                 openSubState(new PopUpEvent("Closing game Confirmation",
 				"Are you sure you want to exit the whole game?", [
 				{
