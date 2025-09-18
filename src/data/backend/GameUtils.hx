@@ -68,7 +68,7 @@ class EngineConfiguration
         var xdgCommand = Sys.command("xdg-open", [url]);
         if (xdgCommand != 0) xdgCommand = Sys.command("/usr/bin/xdg-open", [url]);
         #else
-        FlxG.openUrl(url);
+        FlxG.openURL(url);
         #end
 
         // trace("URL: " + url);
