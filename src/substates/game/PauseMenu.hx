@@ -17,7 +17,7 @@ class PauseMenu extends SubstateHandler
     var resumeButton:FlxSprite;
     var resetButton:FlxSprite;
     var exitButton:FlxSprite;
-    var confirmed:Bool;
+    var confirmed:Bool = false;
 
     override public function create()
     {
@@ -100,7 +100,7 @@ class PauseMenu extends SubstateHandler
 
     override function update(elapsed:Float)
     {
-        if (FlxG.mouse.overlaps(resumeButton))
+        if (FlxG.mouse.overlaps(resumeButton) && confirmed)
         {
             if (FlxG.mouse.justPressed) close();
         } 
@@ -109,12 +109,12 @@ class PauseMenu extends SubstateHandler
             close();
         }
         
-        if (FlxG.mouse.overlaps(resetButton))
+        if (FlxG.mouse.overlaps(resetButton) && confirmed)
         {
             if (FlxG.mouse.justPressed) FlxG.resetState();
         }
 
-        if (FlxG.mouse.overlaps(exitButton))
+        if (FlxG.mouse.overlaps(exitButton) && confirmed)
         {
             if (FlxG.mouse.justPressed) StateHandler.switchToNewState(new TitleScreen());
         }

@@ -5,6 +5,7 @@ import cpp.vm.Gc;
 #end
 
 import flixel.FlxG;
+import flixel.FlxSprite;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.system.FlxAssets;
@@ -39,6 +40,25 @@ class EngineConfiguration
 		var colorNum:Null<FlxColor> = FlxColor.fromString(color);
 		if(colorNum == null) colorNum = FlxColor.fromString('#$color');
 		return colorNum != null ? colorNum : FlxColor.WHITE;
+	}
+
+    // Code from CoreCat's FNF CDev Engine to fix text and button position! Cheers dude, but i am sad that your engine got discontinued :(..
+    /**
+	 * Moving the `obj1` to `obj2`'s center position
+	 * @param obj1 
+	 * @param obj2 
+	 * @param useFrameSize 
+	 */
+	public static function moveSpritesToCenter(obj1:FlxSprite, obj2:FlxSprite, ?useFrameSize:Bool)
+	{
+		if (useFrameSize)
+		{
+			obj1.setPosition((obj2.x + (obj2.frameWidth / 2) - (obj1.frameWidth / 2)), (obj2.y + (obj2.frameHeight / 2) - (obj1.frameHeight / 2)));
+		}
+		else
+		{
+			obj1.setPosition((obj2.x + (obj2.width / 2) - (obj1.width / 2)), (obj2.y + (obj2.height / 2) - (obj1.height / 2)));
+		}
 	}
 }
 

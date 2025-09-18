@@ -26,7 +26,7 @@ class PlayState extends StateHandler
     var bar:FlxSprite;
     var icon:FlxSprite;
     var scoreText:FlxText;
-    public var testScore:Int = 0;
+    public var score:Int = 0;
     var healthBarSprite:FlxSprite;
     var healthBar:FlxBar;
     var health:Float = 1;
@@ -47,11 +47,6 @@ class PlayState extends StateHandler
     {   
         // Required for Player class file to call for player trail
         mainInstance = this;
-
-        #if DISCORD_ALLOWED
-		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In Game", null);
-		#end
         
         // Camera related stuff
         cameraGame = new FlxCamera();
@@ -137,7 +132,9 @@ class PlayState extends StateHandler
         if (justPressed.X) health -= 1 else if (justPressed.P) health += 1;
         if (health <= 0) gameOver();
 
-		scoreText.text = "Score: " + testScore;
+		scoreText.text = "Score: " + score;
+
+        updateDiscordRPC();
 
         FlxG.camera.zoom = FlxMath.lerp(defaultCameraZoom, FlxG.camera.zoom, Math.exp(-elapsed * 3.125 * cameraZoomingDecay));
 		cameraGame.zoom = FlxMath.lerp(1, cameraGame.zoom, Math.exp(-elapsed * 3.125 * cameraZoomingDecay));
@@ -161,5 +158,20 @@ class PlayState extends StateHandler
 		persistentDraw = true;
 
         openSubState(new GameOver());
+    }
+
+    function updateDiscordRPC()
+    {
+        if (score == 0) {
+            #if DISCORD_ALLOWED
+		    // Updating Discord Rich Presence
+		    DiscordClient.changePresence("In Game", null);
+		    #end
+        } else {
+            #if DISCORD_ALLOWED
+		    // Updating Discord Rich Presence
+		    DiscordClient.changePresence("In Game. Current earned score: " + score, null);
+		    #end
+        }
     }
 }

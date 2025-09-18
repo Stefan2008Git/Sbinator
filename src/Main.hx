@@ -98,6 +98,10 @@ class Main extends Sprite
 			Paths.clearStoredGameMemory();
 			Paths.clearUnusedGameMemory();
 		});
+
+		Application.current.window.onClose.add(function() {
+			DataHandler.saveData();
+		});
 	}
 
 	#if linux

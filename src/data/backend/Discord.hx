@@ -1,4 +1,4 @@
-package data;
+package data.backend;
 
 #if DISCORD_ALLOWED
 import cpp.Function;

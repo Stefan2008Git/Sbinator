@@ -1,9 +1,8 @@
 #if (!macro)
 
 // Important
-import data.Discord.DiscordClient;
 import data.Player;
-import data.PopUp.PopUpEvent;
+import data.backend.Discord.DiscordClient;
 import data.backend.GameUtils.EngineConfiguration;
 import data.backend.GameUtils.DataHandler;
 import data.backend.GameUtils.Paths;
@@ -20,9 +19,10 @@ import states.menus.CreditsMenu;
 import states.menus.TitleScreen;
 import states.modules.CrashHandlerState;
 
-// Submenus
+// Substates
 import substates.game.GameOver;
 import substates.game.PauseMenu;
+import substates.menus.PopUp.PopUpEvent;
 import substates.options.OptionsMenu;
 
 // Other

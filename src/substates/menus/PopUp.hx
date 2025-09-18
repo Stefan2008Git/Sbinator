@@ -1,6 +1,6 @@
 // Credits for CoreCat of pop up event code
 
-package data;
+package substates.menus;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -196,6 +196,7 @@ class PopUpButtons extends FlxSpriteGroup {
         bWidth = Std.int(buttBG.width);
         bHeight = Std.int(buttBG.height);
 
+        EngineConfiguration.moveSpritesToCenter(txt, buttBG);
         txt.scrollFactor.set();
         buttBG.scrollFactor.set();
     }

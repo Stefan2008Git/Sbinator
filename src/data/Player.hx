@@ -92,7 +92,7 @@ class Player extends FlxSprite
 		{
             velocity.y = -180;
             FlxG.sound.play("assets/sounds/jump.ogg");
-            PlayState.mainInstance.testScore += 1;
+            PlayState.mainInstance.score += 1;
         }
     }
 }
