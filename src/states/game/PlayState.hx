@@ -2,6 +2,7 @@ package states.game;
 
 import flixel.FlxCamera;
 import flixel.FlxG;
+import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.effects.FlxTrail;
@@ -40,10 +41,9 @@ class PlayState extends StateHandler
     public var uiGameGroup:FlxSpriteGroup;
     static public var mainInstance:PlayState;
     var cameraMode:FlxCameraFollowStyle = FlxCameraFollowStyle.TOPDOWN_TIGHT;
-    var cameraZoomingDecay:Float = 1;
-    var defaultCameraZoom:Float = 1.05;
+    public var cameraFollow:FlxObject;
 
-    override public function create()
+    override public function create():Void
     {   
         // Required for Player class file to call for player trail
         mainInstance = this;
@@ -78,6 +78,24 @@ class PlayState extends StateHandler
         playerTrail.visible = false;
         gameGroup.add(playerTrail);
 
+        initInGameUI();
+
+        FlxG.camera.setScrollBoundsRect(1000, 1000, true);
+        cameraFollow = new FlxObject(player.x, player.y - 100, 1, 1);
+		add(cameraFollow);
+		FlxG.camera.follow(cameraFollow, cameraMode);
+
+        // Without this, the player will fall from camera wall, so keeping this for now
+        levelBound = FlxCollision.createCameraWall(cameraGame, false, 20);
+
+        gameGroup.cameras = [cameraGame];
+        uiGameGroup.cameras = [cameraUi];
+
+        super.create();
+    }
+
+    inline public function initInGameUI()
+    {
         bar = FlxSpriteUtil.drawRoundRect(new FlxSprite(80, 645).makeGraphic(400, 40, FlxColor.TRANSPARENT), 0, 0, 200, 40, 10, 10, FlxColor.BLACK);
         bar.alpha = 0.6;
         bar.updateHitbox();
@@ -106,26 +124,13 @@ class PlayState extends StateHandler
         healthBar.createFilledBar(FlxColor.RED, FlxColor.GREEN);
         healthBar.screenCenter(X);
         uiGameGroup.add(healthBar);
-
-        FlxG.camera.setScrollBoundsRect(0, 0, true);
-        FlxG.camera.follow(player, cameraMode);
-        FlxG.camera.zoom = defaultCameraZoom;
-
-        // Without this, the player will fall from camera wall, so keeping this for now
-        levelBound = FlxCollision.createCameraWall(cameraGame, true, 1);
-
-        gameGroup.cameras = [cameraGame];
-        uiGameGroup.cameras = [cameraUi];
-
-        super.create();
     }
 
-    override public function update(elapsed:Float)
+    override public function update(elapsed:Float):Void
     {
         final justPressed = FlxG.keys.justPressed;
 
 		FlxG.collide(player, levelBound);
-		FlxG.camera.follow(player, cameraMode);
 
 		if (justPressed.ESCAPE) pauseTheGame();
 
@@ -135,9 +140,6 @@ class PlayState extends StateHandler
 		scoreText.text = "Score: " + score;
 
         updateDiscordRPC();
-
-        FlxG.camera.zoom = FlxMath.lerp(defaultCameraZoom, FlxG.camera.zoom, Math.exp(-elapsed * 3.125 * cameraZoomingDecay));
-		cameraGame.zoom = FlxMath.lerp(1, cameraGame.zoom, Math.exp(-elapsed * 3.125 * cameraZoomingDecay));
 
         super.update(elapsed);
     }
