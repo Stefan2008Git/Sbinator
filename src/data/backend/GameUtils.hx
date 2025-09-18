@@ -60,6 +60,19 @@ class EngineConfiguration
 			obj1.setPosition((obj2.x + (obj2.width / 2) - (obj1.width / 2)), (obj2.y + (obj2.height / 2) - (obj1.height / 2)));
 		}
 	}
+
+    // URL handler
+    public static inline function openWebURL(url:String)
+    {
+        #if linux
+        var xdgCommand = Sys.command("xdg-open", [url]);
+        if (xdgCommand != 0) xdgCommand = Sys.command("/usr/bin/xdg-open", [url]);
+        #else
+        FlxG.openUrl(url);
+        #end
+
+        // trace("URL: " + url);
+    }
 }
 
 // Paths system

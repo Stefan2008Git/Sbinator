@@ -129,7 +129,7 @@ class TitleScreen extends StateHandler
     {
         if (FlxG.mouse.overlaps(gameLogo) && controls)
         {
-            if (FlxG.mouse.justReleased) FlxG.openURL("https://github.com/Stefan2008Git/Sbinator");
+            if (FlxG.mouse.justReleased) EngineConfiguration.openWebURL("https://github.com/Stefan2008Git/Sbinator");
         }
 
         if (FlxG.mouse.overlaps(playButton) && controls)

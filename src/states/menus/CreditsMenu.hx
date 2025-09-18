@@ -168,7 +168,7 @@ class CreditsMenu extends StateHandler
 
                 if (FlxG.mouse.justPressed)
                 {
-                   FlxG.openURL(creditsList[currentSelector][4]);
+                   EngineConfiguration.openWebURL(creditsList[currentSelector][4]);
                 }
             }
         });

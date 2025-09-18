@@ -98,10 +98,6 @@ class Main extends Sprite
 			Paths.clearStoredGameMemory();
 			Paths.clearUnusedGameMemory();
 		});
-
-		Application.current.window.onClose.add(function() {
-			DataHandler.saveData();
-		});
 	}
 
 	#if linux
@@ -240,6 +236,14 @@ class Main extends Sprite
 		#else
 		Application.current.window.alert(stackTraceString + "\n\nPress OK to reset game!" + randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)] + " - Sbinator v" + EngineConfiguration.gameVersion); // My friend cannot get state working on his Windows machine for some reason, so using base Application class for fix instead..
 		FlxG.resetGame();
+		#end
+
+		Application.current.window.onClose.add(function() {
+			DataHandler.saveData();
+		});
+
+		#if DISCORD_ALLOWED
+		DiscordClient.shutdown();
 		#end
 	}
 	#end

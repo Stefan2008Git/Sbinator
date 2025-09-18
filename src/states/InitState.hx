@@ -1,6 +1,5 @@
 package states;
 
-
 #if cpp
 import cpp.vm.Thread;
 import cpp.vm.Lock;
@@ -71,11 +70,12 @@ class InitState extends FlxState
 		sbinator.active = false;
 		add(sbinator);
 
-        statusText = new FlxText(520, 600, 400, "");
+        statusText = new FlxText(0, 0, "");
         statusText.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, LEFT, OUTLINE_FAST, FlxColor.BLACK);
 		statusText.borderSize = 2;
         statusText.alpha = 0;
         statusText.active = false;
+		statusText.screenCenter(X);
 		add(statusText);
 
         loadingBarBG = new FlxSprite(0, 660).makeGraphic(1, 1, FlxColor.WHITE);
