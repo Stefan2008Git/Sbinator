@@ -4,7 +4,6 @@
 import data.Discord.DiscordClient;
 import data.Player;
 import data.PopUp.PopUpEvent;
-import data.backend.GameUtils.ControlsHandler;
 import data.backend.GameUtils.EngineConfiguration;
 import data.backend.GameUtils.DataHandler;
 import data.backend.GameUtils.Paths;

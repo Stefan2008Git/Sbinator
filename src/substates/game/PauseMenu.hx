@@ -45,6 +45,7 @@ class PauseMenu extends SubstateHandler
         resumeButton.x = 190;
         resumeButton.y = -150;
         resumeButton.scale.set(0.7, 0.7);
+        resumeButton.updateHitbox();
         add(resumeButton);
 
         resetButton = new FlxSprite().loadGraphic(Paths.imagePath("pauseMenu/reset"));
@@ -52,6 +53,7 @@ class PauseMenu extends SubstateHandler
         resetButton.x = 190;
         resetButton.y = -150;
         resetButton.scale.set(0.7, 0.7);
+        resetButton.updateHitbox();
         add(resetButton);
 
         exitButton = new FlxSprite().loadGraphic(Paths.imagePath("pauseMenu/exit"));
@@ -59,6 +61,7 @@ class PauseMenu extends SubstateHandler
         exitButton.x = 190;
         exitButton.y = -150;
         exitButton.scale.set(0.7, 0.7);
+        exitButton.updateHitbox();
         add(exitButton);
 
 		new FlxTimer().start(0.6, function(tmr:FlxTimer) {

@@ -7,7 +7,6 @@ import cpp.vm.Gc;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.input.keyboard.FlxKey;
 import flixel.system.FlxAssets;
 import flixel.util.FlxColor;
 import flixel.util.FlxSave;
@@ -175,97 +174,13 @@ class DataHandler
 {
     public static var data:DataVariable = {};
 
-    public static var keybinds:Map<String, Array<FlxKey>> = [
-        "up" => [W, UP],
-        "down" => [S, DOWN],
-        "left" => [A, LEFT],
-        "right" => [D, RIGHT],
-        "enter" => [ENTER, SPACE],
-        "close" => [ESCAPE, BACKSPACE],
-        "unfocus" => [ENTER, ESCAPE]
-    ];
-
-    public static var defaultKeybinds:Map<String, Array<FlxKey>> = null;
-
-    public static function loadDefaultKeybinds(key:String)
-    {
-        defaultKeybinds = keybinds.copy();
-    }
-
     public static function saveData()
     {
         for (dataKey in Reflect.fields(data)) Reflect.setField(FlxG.save.data, dataKey, Reflect.field(data, dataKey));
         FlxG.save.flush();
 
         var dataSaver:FlxSave = new FlxSave();
-        dataSaver.data.keyboard = keybinds;
         dataSaver.flush();
         FlxG.log.add("Options successfully saved!");
-    }
-}
-
-
-// Controls handler (Shoutout from FNF' - Psych Engine)
-class ControlsHandler
-{
-    // Pressed keybinds
-    public var UP_PRESSED(get, never):Bool;
-    public var DOWN_PRESSED(get, never):Bool;
-    public var LEFT_PRESSED(get, never):Bool;
-    public var RIGHT_PRESSED(get, never):Bool;
-    public var ENTER(get, never):Bool;
-    public var CLOSE(get, never):Bool;
-    public var UNFOCUS(get, never):Bool;
-    private function get_UP_PRESSED() return keybindJustPressed("up_pressed");
-    private function get_DOWN_PRESSED() return keybindJustPressed("down_pressed");
-    private function get_LEFT_PRESSED() return keybindJustPressed("left_pressed");
-    private function get_RIGHT_PRESSED() return keybindJustPressed("right_pressed");
-    private function get_ENTER() return keybindJustPressed("enter");
-    private function get_CLOSE() return keybindJustPressed("close");
-    private function get_UNFOCUS() return keybindJustPressed("unfocus");
-
-    // Held keybinds
-    public var UP(get, never):Bool;
-    public var DOWN(get, never):Bool;
-    public var LEFT(get, never):Bool;
-    public var RIGHT(get, never):Bool;
-    private function get_UP() return keybindPressed("up");
-    private function get_DOWN() return keybindPressed("down");
-    private function get_LEFT() return keybindPressed("left");
-    private function get_RIGHT() return keybindPressed("right");
-
-    // Released keybinds
-    public var UP_RELEASED(get, never):Bool;
-    public var DOWN_RELEASED(get, never):Bool;
-    public var LEFT_RELEASED(get, never):Bool;
-    public var RIGHT_RELEASED(get, never):Bool;
-    private function get_UP_RELEASED() return keybindJustReleased("up_released");
-    private function get_DOWN_RELEASED() return keybindJustReleased("down_released");
-    private function get_LEFT_RELEASED() return keybindJustReleased("left_released");
-    private function get_RIGHT_RELEASED() return keybindJustPressed("right_released");
-
-    public var keybaordKeybinds:Map<String, Array<FlxKey>>;
-    public function keybindJustPressed(key:String)
-    {
-        var keyJustPressedResult:Bool = (FlxG.keys.anyJustPressed(keybaordKeybinds[key]) == true);
-        return keyJustPressedResult;
-    }
-
-    public function keybindPressed(key:String)
-    {
-        var keyPressedResult:Bool = (FlxG.keys.anyPressed(keybaordKeybinds[key]) == true);
-        return keyPressedResult;
-    }
-
-    public function keybindJustReleased(key:String)
-    {
-        var keyJustReleasedResult:Bool = (FlxG.keys.anyJustPressed(keybaordKeybinds[key]) == true);
-        return keyJustReleasedResult;
-    }
-
-    public static var keyInstance:ControlsHandler;
-    public function new()
-    {
-        keybaordKeybinds = DataHandler.keybinds;
     }
 }

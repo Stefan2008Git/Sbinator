@@ -132,7 +132,7 @@ class PlayState extends StateHandler
 		FlxG.collide(player, levelBound);
 		FlxG.camera.follow(player, cameraMode);
 
-		if (gameControls.UNFOCUS) pauseTheGame();
+		if (justPressed.ESCAPE) pauseTheGame();
 
         if (justPressed.X) health -= 1 else if (justPressed.P) health += 1;
         if (health <= 0) gameOver();
