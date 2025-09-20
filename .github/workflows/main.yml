@@ -1,4 +1,4 @@
-# A main builder and compiler of our game for GitHub actions
+# A main builder and compiler of my game on GitHub actions
 name: Build
 
 on:
@@ -40,10 +40,10 @@ jobs:
         - name: Publish main artifacts
           uses: actions/upload-artifact@v4.3.4
           with:
-            name: Sbinator-linux_build
+            name: Sbinator_Linux_build
             path: 'export/release/linux/bin'
-    Windows:
-      runs-on: windows-latest
+    MacOS:
+      runs-on: macos-15
 
       steps:
         - uses: actions/checkout@v4.1.7
@@ -67,10 +67,42 @@ jobs:
           run: echo "${{github.run_id}}" > VERSION
           
         - name: Compile and build
+          run: haxelib run lime build mac
+          
+        - name: Publish main artifact
+          uses: actions/upload-artifact@v4.3.4
+          with:
+            name: Sbinator_MacOS_build
+            path: export/release/macos/bin
+    Windows:
+      runs-on: windows-latest
+
+      steps:
+        - uses: actions/checkout@v4.1.7
+
+        - uses: krdlab/setup-haxe@master
+          with:
+            haxe-version: 4.3.7
+          
+        - name: Install required Haxelib libs
+          run: |
+            haxelib setup C:/haxelib
+            haxelib install flixel
+            haxelib install flixel-addons
+            haxelib install flixel-ui
+            haxelib install lime
+            haxelib install openfl
+            haxelib install hxcpp
+            haxelib install hxdiscord_rpc
+          
+        - name: Create version tag
+          run: echo "${{github.run_id}}" > VERSION
+          
+        - name: Compile and build
           run: haxelib run lime build windows
           
         - name: Publish main artifact
           uses: actions/upload-artifact@v4.3.4
           with:
-            name: Sbinator-windows_build
+            name: Sbinator_Windows_build
             path: export/release/windows/bin
