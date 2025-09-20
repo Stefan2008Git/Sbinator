@@ -11,16 +11,29 @@ jobs:
       runs-on: ubuntu-latest
 
       steps:
-        - uses: actions/checkout@v4.1.7
+        - uses: actions/checkout@v2
 
-        - uses: krdlab/setup-haxe@master
+        - uses: krdlab/setup-haxe@v2
           with:
             haxe-version: 5.0.0-preview.1
-          
+        
+        - name: Restore current build cache for faster compiling
+          uses: actions/cache@v3
+          with:
+            key: cache-build-linux
+            path: |
+              .haxelib/
+              export/release/linux/haxe/
+              export/release/linux/obj/
+            restore-keys: |
+              cache-build-linux
+        
+        - name: Install VLC libs
+          run: |
+            sudo apt-get install libvlc-dev libvlccore-dev
+
         - name: Install required Haxelib libs
           run: |
-            sudo apt-get install libvlc-dev
-            sudo apt-get install libvlccore-dev
             haxelib setup ~/haxelib
             haxelib install flixel
             haxelib install flixel-addons
@@ -38,19 +51,61 @@ jobs:
           run: haxelib run lime build linux
 
         - name: Publish main artifacts
-          uses: actions/upload-artifact@v4.3.4
+          uses: actions/upload-artifact@v4
           with:
             name: Sbinator_Linux_build
             path: 'export/release/linux/bin'
+
+        - name: Clearing new existing cache
+          uses: actions/github-script@v6
+          with:
+            script: |
+              const caches = await github.rest.actions.getActionsCacheList({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              })
+              for (const cache of caches.data.actions_caches) {
+                if (cache.key == "cache-build-linux") {
+                  console.log('Clearing ' + cache.key + '...')
+                  await github.rest.actions.deleteActionsCacheById({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    cache_id: cache.id,
+                  })
+                  console.log("Cache cleared.")
+                }
+              }
+        - name: Uploading new cache
+          uses: actions/cache@v3
+          with:
+            key: cache-build-linux
+            path: |
+              .haxelib/
+              export/release/linux/haxe/
+              export/release/linux/obj/
+            restore-keys: |
+              cache-build-linux
+
     MacOS:
       runs-on: macos-15
 
       steps:
-        - uses: actions/checkout@v4.1.7
+        - uses: actions/checkout@v2
 
-        - uses: krdlab/setup-haxe@master
+        - uses: krdlab/setup-haxe@v2
           with:
             haxe-version: 4.3.7
+
+        - name: Restore current build cache for faster compiling
+          uses: actions/cache@v3
+          with:
+            key: cache-build-mac
+            path: |
+              .haxelib/
+              export/release/macos/haxe/
+              export/release/macos/obj/
+            restore-keys: |
+              cache-build-mac
           
         - name: Install required Haxelib libs
           run: |
@@ -70,19 +125,62 @@ jobs:
           run: haxelib run lime build mac
           
         - name: Publish main artifact
-          uses: actions/upload-artifact@v4.3.4
+          uses: actions/upload-artifact@v4
           with:
             name: Sbinator_MacOS_build
             path: export/release/macos/bin
+        
+        - name: Clearing new existing cache
+          uses: actions/github-script@v6
+          with:
+            script: |
+              const caches = await github.rest.actions.getActionsCacheList({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              })
+              for (const cache of caches.data.actions_caches) {
+                if (cache.key == "cache-build-mac") {
+                  console.log('Clearing ' + cache.key + '...')
+                  await github.rest.actions.deleteActionsCacheById({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    cache_id: cache.id,
+                  })
+                  console.log("Cache cleared.")
+                }
+              }
+
+        - name: Uploading new cache
+          uses: actions/cache@v3
+          with:
+            key: cache-build-mac
+            path: |
+              .haxelib/
+              export/release/macos/haxe/
+              export/release/macos/obj/
+            restore-keys: |
+              cache-build-mac
+
     Windows:
       runs-on: windows-latest
 
       steps:
-        - uses: actions/checkout@v4.1.7
+        - uses: actions/checkout@v2
 
-        - uses: krdlab/setup-haxe@master
+        - uses: krdlab/setup-haxe@v2
           with:
             haxe-version: 4.3.7
+
+        - name: Restore current build cache for faster compiling
+          uses: actions/cache@v3
+          with:
+            key: cache-build-windows
+            path: |
+              .haxelib/
+              export/release/windows/haxe/
+              export/release/windows/obj/
+            restore-keys: |
+              cache-build-windows
           
         - name: Install required Haxelib libs
           run: |
@@ -102,7 +200,37 @@ jobs:
           run: haxelib run lime build windows
           
         - name: Publish main artifact
-          uses: actions/upload-artifact@v4.3.4
+          uses: actions/upload-artifact@v4
           with:
             name: Sbinator_Windows_build
             path: export/release/windows/bin
+        
+        - name: Clearing new existing cache
+          uses: actions/github-script@v6
+          with:
+            script: |
+              const caches = await github.rest.actions.getActionsCacheList({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              })
+              for (const cache of caches.data.actions_caches) {
+                if (cache.key == "cache-build-windows") {
+                  console.log('Clearing ' + cache.key + '...')
+                  await github.rest.actions.deleteActionsCacheById({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    cache_id: cache.id,
+                  })
+                  console.log("Cache cleared.")
+                }
+              }
+        - name: Uploading new cache
+          uses: actions/cache@v3
+          with:
+            key: cache-build-windows
+            path: |
+              .haxelib/
+              export/release/windows/haxe/
+              export/release/windows/obj/
+            restore-keys: |
+              cache-build-windows
