@@ -69,7 +69,6 @@ class Main extends Sprite
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
 		#end
 
-		// Since i left FNF, this is from Psych Engine because ye!
 		addChild(new FlxGame(mainGame.width, mainGame.heigh, mainGame.initialMenu, mainGame.fps, mainGame.fps, mainGame.skipFlixelSplash));
 
 		// Only Linux related thing
@@ -231,12 +230,8 @@ class Main extends Sprite
 
 		FlxG.bitmap.clearCache();
 
-		#if linux // For some unknown reason Application class failed to open pop-up window in Unix-based system, so using state class will help for bit!
-		StateHandler.switchToNewState(new CrashHandlerState(stackTraceString + '\n\nCrash log created at: "${normalPath}"!'));
-		#else
-		Application.current.window.alert(stackTraceString + "\n\nPress OK to reset game!" + randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)] + " - Sbinator v" + EngineConfiguration.gameVersion); // My friend cannot get state working on his Windows machine for some reason, so using base Application class for fix instead..
+		Application.current.window.alert(stackTraceString + "\n\nPress OK to reset game!" + randomErrorMessages[FlxG.random.int(0, randomErrorMessages.length)] + " - Sbinator v" + EngineConfiguration.gameVersion);
 		FlxG.resetGame();
-		#end
 
 		Application.current.window.onClose.add(function() {
 			DataHandler.saveData();
