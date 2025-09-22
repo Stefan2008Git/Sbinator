@@ -101,7 +101,7 @@ class PlayState extends StateHandler
         bar.updateHitbox();
         uiGameGroup.add(bar);
 
-        scoreText = new FlxText(150, bar.y + 5, FlxG.width, "", 12);
+        scoreText = new FlxText(150, bar.y + 5, FlxG.width, "Score: 0", 12);
         scoreText.setFormat(Paths.fontPath("bahnschrift.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         scoreText.borderSize = 2;
         scoreText.borderQuality = 2;
@@ -134,7 +134,7 @@ class PlayState extends StateHandler
 
 		if (justPressed.ESCAPE) pauseTheGame();
 
-        if (justPressed.X) health -= 1 else if (justPressed.P) health += 1;
+        if (justPressed.X) health -= 0.1 else if (justPressed.P) health += 0.1;
         if (health <= 0) gameOver();
 
 		scoreText.text = "Score: " + score;
@@ -158,6 +158,7 @@ class PlayState extends StateHandler
         FlxG.camera.followLerp = 0;
         persistentUpdate = false;
 		persistentDraw = true;
+        score = 0;
 
         openSubState(new GameOver());
     }

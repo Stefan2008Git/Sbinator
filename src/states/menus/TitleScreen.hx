@@ -129,12 +129,12 @@ class TitleScreen extends StateHandler
     {
         if (FlxG.mouse.overlaps(gameLogo) && controls)
         {
-            if (FlxG.mouse.justReleased) EngineConfiguration.openWebURL("https://github.com/Stefan2008Git/Sbinator");
+            if (FlxG.mouse.justPressed) EngineConfiguration.openWebURL("https://github.com/Stefan2008Git/Sbinator");
         }
 
         if (FlxG.mouse.overlaps(playButton) && controls)
         {
-            if (FlxG.mouse.justReleased)
+            if (FlxG.mouse.justPressed)
             {
                 StateHandler.switchToNewState(new PlayState());
                 trace('Loading the game...');
@@ -143,7 +143,7 @@ class TitleScreen extends StateHandler
 
         if (FlxG.mouse.overlaps(creditsButton) && controls)
         {
-            if (FlxG.mouse.justReleased)
+            if (FlxG.mouse.justPressed)
             {
                 StateHandler.switchToNewState(new CreditsMenu());
             }
@@ -151,7 +151,7 @@ class TitleScreen extends StateHandler
 
         if (FlxG.mouse.overlaps(optionsButton) && controls)
         {
-            if (FlxG.mouse.justReleased)
+            if (FlxG.mouse.justPressed)
             {
                 persistentUpdate = false;
 		        persistentDraw = true;
@@ -161,7 +161,7 @@ class TitleScreen extends StateHandler
 
         if (FlxG.mouse.overlaps(exitGameButton) && controls)
         {
-            if (FlxG.mouse.justReleased)
+            if (FlxG.mouse.justPressed)
             {   
                 openSubState(new PopUpEvent("Closing game Confirmation",
 				"Are you sure you want to exit the whole game?", [

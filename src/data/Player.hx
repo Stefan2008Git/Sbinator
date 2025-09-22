@@ -34,10 +34,10 @@ class Player extends FlxSprite
 
     private function playerMovement()
     {
-        final left = FlxG.keys.anyPressed([LEFT, A]);
-        final right = FlxG.keys.anyPressed([RIGHT, D]);
-        final shift = FlxG.keys.anyPressed([SHIFT]);
-        final space = FlxG.keys.justPressed.SPACE;
+        final left = FlxG.keys.pressed.LEFT || FlxG.keys.pressed.A;
+        final right = FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D;
+        final shift = FlxG.keys.pressed.SHIFT;
+        final space = FlxG.keys.pressed.SPACE;
 
         // Walking function
         if (left && right)

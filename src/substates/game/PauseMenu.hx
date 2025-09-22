@@ -104,7 +104,7 @@ class PauseMenu extends SubstateHandler
 
     override function update(elapsed:Float)
     {
-        if (FlxG.mouse.overlaps(resumeButton) && confirmed)
+        if (FlxG.mouse.overlaps(resumeButton, PlayState.mainInstance.uiGameGroup.camera) && confirmed)
         {
             if (FlxG.mouse.justPressed) close();
         } 
@@ -113,12 +113,12 @@ class PauseMenu extends SubstateHandler
             close();
         }
         
-        if (FlxG.mouse.overlaps(resetButton) && confirmed)
+        if (FlxG.mouse.overlaps(resetButton, PlayState.mainInstance.uiGameGroup.camera) && confirmed)
         {
             if (FlxG.mouse.justPressed) FlxG.resetState();
         }
 
-        if (FlxG.mouse.overlaps(exitButton) && confirmed)
+        if (FlxG.mouse.overlaps(exitButton, PlayState.mainInstance.uiGameGroup.camera) && confirmed)
         {
             if (FlxG.mouse.justPressed) StateHandler.switchToNewState(new TitleScreen());
         }
