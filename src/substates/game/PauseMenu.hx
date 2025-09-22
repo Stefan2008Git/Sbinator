@@ -1,5 +1,6 @@
 package substates.game;
 
+import cpp.Function;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
@@ -90,6 +91,10 @@ class PauseMenu extends SubstateHandler
 
         new FlxTimer().start(1.4, function(tmr:FlxTimer) {
             FlxTween.tween(exitButton, {y: 500}, 2, {ease: FlxEase.expoInOut});
+        });
+
+        new FlxTimer().start(1.6, function(tmr:FlxTimer) {
+            confirmed = true;
         });
 
         // This is required to substate works when i added both in-game cameras, so Flixel needs to have something to handle it
