@@ -35,10 +35,6 @@ case "$DISTRO" in
         apt-get update
         apt-get install "$PACKAGE_TO_INSTALL"
         ;;
-    "rhel")
-        echo "Detected RHEL-based system (e.g., Alma Linux, CentOS, Fedora Linux). Installing Haxe using dnf."
-        dnf install "$PACKAGE_TO_INSTALL"
-        ;;
     "fedora")
         echo "Detected Fedora-based system (e.g., Nobara). Installing Haxe using dnf."
         dnf install "$PACKAGE_TO_INSTALL"
