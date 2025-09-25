@@ -14,8 +14,6 @@ fi
 # Checks what Linux distribution you have and what package manager you use
 if command -v apt-get &> /dev/null; then
     DISTRO="debian"
-elif command -v yum &> /dev/null; then
-    DISTRO="rhel"
 elif command -v dnf &> /dev/null; then
     DISTRO="fedora"
 elif command -v pacman &> /dev/null; then
@@ -38,8 +36,8 @@ case "$DISTRO" in
         apt-get install "$PACKAGE_TO_INSTALL"
         ;;
     "rhel")
-        echo "Detected RHEL-based system (e.g., Alma Linux, CentOS, RHEL). Installing Haxe using yum."
-        yum install "$PACKAGE_TO_INSTALL"
+        echo "Detected RHEL-based system (e.g., Alma Linux, CentOS, Fedora Linux). Installing Haxe using dnf."
+        dnf install "$PACKAGE_TO_INSTALL"
         ;;
     "fedora")
         echo "Detected Fedora-based system (e.g., Nobara). Installing Haxe using dnf."
