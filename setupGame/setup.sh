@@ -1,7 +1,7 @@
 echo Hello and welcome to our setup game script. This is not gonna take a while to finish setuping depending on your internet speed
 sleep 5
 echo Making Haxelib directory on home folder and setuping it
-mkdir ~/.haxelib && haxelib setup ~/.haxelib
+mkdir ~/.local/share/haxelib && haxelib setup ~/.local/share/haxelib
 sleep 2
 echo Downloading and installing all required libraries for compiling our game "(Note that this will depend on your internet speed once again)"..
 haxelib install flixel
