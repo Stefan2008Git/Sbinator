@@ -1,9 +1,74 @@
-echo Hello and welcome to our setup game script. This is not gonna take a while to finish setuping depending on your internet speed
+#!/bin/bash
+
+echo Hello and welcome to official Sbinator setup for Linux environment, so please take a seat and wait to install important stuff for developing!
+sleep 2
+echo Checking if you are running setup script as doas/root/sudo user
+sleep 2
+
+# Check if you are running script as sudo user
+if [[ $EUID -ne 0 ]]; then
+   echo This script must be run as root 
+   exit 1
+fi
+
+# Checks what Linux distribution you have and what package manager you use
+if command -v apt-get &> /dev/null; then
+    DISTRO="debian"
+elif command -v yum &> /dev/null; then
+    DISTRO="rhel"
+elif command -v dnf &> /dev/null; then
+    DISTRO="fedora"
+elif command -v pacman &> /dev/null; then
+    DISTRO="arch"
+elif command -v zypper &> /dev/null; then
+    DISTRO="opensuse"
+elif command -v eopkg &> /dev/null; then
+    DISTRO="solus"
+else
+    echo This Linux distribution does not have Haxe package available on official repo, so aborting!
+    exit 1
+fi
+
+PACKAGE_TO_INSTALL="haxe" # Haxe package
+
+case "$DISTRO" in
+    "debian")
+        echo "Detected Debian-based system (e.g., Ubuntu, Linux Mint, MX Linux). Installing Haxe using apt."
+        apt-get update
+        apt-get install "$PACKAGE_TO_INSTALL"
+        ;;
+    "rhel")
+        echo "Detected RHEL-based system (e.g., Alma Linux, CentOS, RHEL). Installing Haxe using yum."
+        yum install "$PACKAGE_TO_INSTALL"
+        ;;
+    "fedora")
+        echo "Detected Fedora-based system (e.g., Nobara). Installing Haxe using dnf."
+        dnf install "$PACKAGE_TO_INSTALL"
+        ;;
+    "arch")
+        echo "Detected Arch-based system (e.g., Manjaro Linux, EndeavourOS, Garuda Linux, CachyOS). Installing Haxe using pacman."
+        pacman -S "$PACKAGE_TO_INSTALL"
+        ;;
+    "opensuse")
+        echo Detected openSUSE-based system. Installing Haxe using zypper
+        zypper install "$PACKAGE_TO_INSTALL"
+        ;;
+    "solus")
+        echo Detected SolusOS-based system. Installing Haxe using zypper
+        eopkg install "$PACKAGE_TO_INSTALL"
+        ;;
+    *)
+        echo "No specific installation method found for $DISTRO."
+        exit 1
+        ;;
+esac
+
+echo "Haxe is installed sucessfully on $DISTRO!"
 sleep 5
 echo Making Haxelib directory on home folder and setuping it
 mkdir ~/.local/share/haxelib && haxelib setup ~/.local/share/haxelib
 sleep 2
-echo Downloading and installing all required libraries for compiling our game "(Note that this will depend on your internet speed once again)"..
+echo Downloading and installing all required Haxelib libraries for compiling the game "(Note that this will depend on your internet speed)"..
 haxelib install flixel
 haxelib install flixel-addons
 haxelib install flixel-ui
@@ -13,7 +78,7 @@ haxelib install openfl
 haxelib install hxcpp
 haxelib install hxdiscord_rpc
 sleep 2
-echo All required libraries for Haxelib are downloaded and installed successfully. Setuping Lime for better compiling instead using haxelib run every time..
+echo All required libraries for Haxelib are downloaded and installed successfully. Setuping Lime..
 haxelib run lime setup
 sleep 1
 echo Setup is done. You can check library list here
