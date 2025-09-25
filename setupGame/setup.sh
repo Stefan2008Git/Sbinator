@@ -54,7 +54,7 @@ case "$DISTRO" in
         zypper install "$PACKAGE_TO_INSTALL"
         ;;
     "solus")
-        echo Detected SolusOS-based system. Installing Haxe using zypper
+        echo Detected SolusOS-based system. Installing Haxe using eopkg
         eopkg install "$PACKAGE_TO_INSTALL"
         ;;
     *)
