@@ -1,13 +1,13 @@
 #!/bin/bash
 
-echo Hello and welcome to official Sbinator setup for Linux environment, so please take a seat and wait to install important stuff for developing!
+echo Hello and welcome to official Sbinator setup for Linux environment
 sleep 2
 echo Checking if you are running setup script as doas/root/sudo user
 sleep 2
 
 # Check if you are running script as sudo user
 if [[ $EUID -ne 0 ]]; then
-   echo This script must be run as root 
+   echo This script must be run as root
    exit 1
 fi
 
