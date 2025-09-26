@@ -31,16 +31,16 @@ PACKAGE_TO_INSTALL="haxe" # Haxe package
 
 case "$DISTRO" in
     "debian")
-        echo "Detected Debian-based system (e.g., Ubuntu, Linux Mint, MX Linux). Installing Haxe using apt."
+        echo Detected Debian-based system. Installing Haxe using apt.
         apt-get update
         apt-get install "$PACKAGE_TO_INSTALL"
         ;;
     "fedora")
-        echo "Detected Fedora-based system (e.g., Nobara). Installing Haxe using dnf."
+        echo Detected Fedora-based system. Installing Haxe using dnf.
         dnf install "$PACKAGE_TO_INSTALL"
         ;;
     "arch")
-        echo "Detected Arch-based system (e.g., Manjaro Linux, EndeavourOS, Garuda Linux, CachyOS). Installing Haxe using pacman."
+        echo Detected Arch-based system. Installing Haxe using pacman.
         pacman -S "$PACKAGE_TO_INSTALL"
         ;;
     "opensuse")
@@ -52,7 +52,7 @@ case "$DISTRO" in
         eopkg install "$PACKAGE_TO_INSTALL"
         ;;
     *)
-        echo "No specific installation method found for $DISTRO."
+        echo "No specific package manager found for $DISTRO."
         exit 1
         ;;
 esac
