@@ -2,14 +2,6 @@
 
 echo Hello and welcome to official Sbinator setup for Linux environment
 sleep 2
-echo Checking if you are running setup script as doas/root/sudo user
-sleep 2
-
-# Check if you are running script as sudo user
-if [[ $EUID -ne 0 ]]; then
-   echo This script must be run as root
-   exit 1
-fi
 
 # Checks what Linux distribution you have and what package manager you use
 if command -v apt-get &> /dev/null; then
@@ -31,25 +23,25 @@ PACKAGE_TO_INSTALL="haxe" # Haxe package
 
 case "$DISTRO" in
     "debian")
-        echo Detected Debian-based system. Installing Haxe using apt.
-        apt-get update
-        apt-get install "$PACKAGE_TO_INSTALL"
+        echo Detected Debian-based system. Installing Haxe from Debian"'"s main repository.
+        sudo apt-get update
+        sudo apt-get install "$PACKAGE_TO_INSTALL"
         ;;
     "fedora")
-        echo Detected Fedora-based system. Installing Haxe using dnf.
-        dnf install "$PACKAGE_TO_INSTALL"
+        echo Detected Fedora-based system. Installing Haxe from Fedora"'"s main repository.
+        sudo dnf install "$PACKAGE_TO_INSTALL"
         ;;
     "arch")
-        echo Detected Arch-based system. Installing Haxe using pacman.
-        pacman -S "$PACKAGE_TO_INSTALL"
+        echo Detected Arch-based system. Installing Haxe from Arch extra repository .
+        sudo pacman -S "$PACKAGE_TO_INSTALL"
         ;;
     "opensuse")
-        echo Detected openSUSE-based system. Installing Haxe using zypper
-        zypper install "$PACKAGE_TO_INSTALL"
+        echo Detected openSUSE-based system. Installing Haxe from openSUSE"'"s software repository
+        sudo zypper install "$PACKAGE_TO_INSTALL"
         ;;
     "solus")
-        echo Detected SolusOS-based system. Installing Haxe using eopkg
-        eopkg install "$PACKAGE_TO_INSTALL"
+        echo Detected SolusOS-based system. Installing Haxe from Solus repository
+        sudo eopkg install "$PACKAGE_TO_INSTALL"
         ;;
     *)
         echo "No specific package manager found for $DISTRO."
