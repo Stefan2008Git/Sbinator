@@ -342,11 +342,7 @@ class FramePerSecond extends Sprite {
 
         try
         {   
-            #if opengl
-            var renderer = GL.getParameter(GL.RENDERER);
-            var vendor = GL.getParameter(GL.VENDOR);
-            gpuName = renderer + " (" + vendor + ")";
-            #end
+            gpuName = GL.getParameter(GL.RENDERER);
         } catch (e) {
             trace('Unable to grab GPU Name: $e');
         }
