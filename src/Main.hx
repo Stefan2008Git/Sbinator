@@ -21,13 +21,6 @@ import openfl.events.UncaughtErrorEvent;
 // Required for Date string to class call replace!
 using StringTools;
 
-#if linux
-typedef EnvironmentInfo = {
-    name: String,
-    versionCommand: Null<Array<String>>
-};
-#end
-
 class Main extends Sprite
 {
 	var mainGame = {
@@ -52,11 +45,7 @@ class Main extends Sprite
         "Null Acess", // This is impossible to get into Flixel!
         "NullReferenceException" // C#, Unity, Java, Rust error
     ];
-
 	public static final releaseCycle:String = #if debug "Debugger"; #else "Relaser"; #end 
-
-	#if linux static var environments:Map<String, EnvironmentInfo> = new Map(); #end
-
 	static var previousState:FlxState;
 
 	public function new()
@@ -87,8 +76,6 @@ class Main extends Sprite
 		DiscordClient.prepare();
 		#end
 
-		#if linux initDesktopEnvironments(); #end
-
 		FlxG.signals.preStateSwitch.add(() -> {
 			previousState = FlxG.state;
 		});
@@ -98,106 +85,6 @@ class Main extends Sprite
 			Paths.clearUnusedGameMemory();
 		});
 	}
-
-	#if linux
-	static function initDesktopEnvironments():Void 
-	{
-        environments.set("gnome", {
-            name: "GNOME",
-            versionCommand: ["gnome-shell", "--version"]
-        });
-
-        environments.set("plasma", {
-            name: "KDE Plasma",
-            versionCommand: ["plasmashell", "--version"]
-        });
-
-        environments.set("xfce", {
-            name: "XFCE",
-            versionCommand: ["xfce4-session", "--version"]
-        });
-
-        environments.set("lxqt", {
-            name: "LXQt",
-            versionCommand: ["lxqt-session", "--version"]
-        });
-
-        environments.set("lxde", {
-            name: "LXDE",
-            versionCommand: ["lxsession", "--version"]
-        });
-
-        environments.set("sway", {
-            name: "Sway",
-            versionCommand: ["swaymsg", "get_version"]
-        });
-
-        environments.set("i3", {
-            name: "i3",
-            versionCommand: ["i3", "--version"]
-        });
-
-        environments.set("mate", {
-            name: "MATE",
-            versionCommand: ["mate-session", "--version"]
-        });
-		
-        environments.set("cinnamon", {
-            name: "Cinnamon",
-            versionCommand: ["cinnamon", "--version"]
-        });
-    }
-
-	public static function getCurrentDesktopId():String 
-    {
-        var envs = ["XDG_CURRENT_DESKTOP", "DESKTOP_SESSION", "GDMSESSION"];
-        for (e in envs) {
-            var val = Sys.getEnv(e);
-            if (val != null) return val.toLowerCase();
-        }
-
-        return "unknown";
-    }
-
-    public static function getVersionOutput(cmd:Array<String>):String 
-    {
-        try {
-            var process = new sys.io.Process(cmd[0], cmd.slice(1));
-            var output = process.stdout.readAll().toString().trim();
-            process.close();
-            return output;
-        } 
-
-        catch (e:Dynamic) {
-            return "Unknown version";
-        }
-    }
-
-	public static function detectDesktopEnvironment():String 
-	{
-    	var id = getCurrentDesktopId();
-    	var idParts = id.split(":");
-
-    	for (key in environments.keys()) 
-		{
-        	for (part in idParts) 
-			{
-            	if (part.indexOf(key) != -1) 
-				{
-                	var info = environments.get(key);
-                	if (info.versionCommand != null) 
-					{
-                    	return info.name + " (" + getVersionOutput(info.versionCommand) + ")";
-                	} else {
-                    	return info.name + " (unknown version)";
-                	}
-            	}
-        	}
-    	}
-
-    	return " (" + id + ")";
-	}
-	#end
 
 	#if sys
 	function onUncaughtError(e:UncaughtErrorEvent):Void

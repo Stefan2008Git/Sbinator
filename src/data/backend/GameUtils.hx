@@ -73,6 +73,21 @@ class EngineConfiguration
 
         // trace("URL: " + url);
     }
+
+    // Actual working DE/WM detector!
+    #if linux
+    public static function getDEInfo():String
+    {
+        var desktopEnvironment = Sys.getEnv("XDG_CURRENT_DESKTOP");
+        if (desktopEnvironment != null) return desktopEnvironment;
+    
+        desktopEnvironment = Sys.getEnv("DESKTOP_SESSION");
+        if (desktopEnvironment != null) return desktopEnvironment;
+
+        if (Sys.getEnv("GNOME_DESKTOP_SESSION_ID") != null) return "GNOME " + Sys.command("gnome-shell", ["--version"]);
+        return "Unknown";
+    }
+    #end
 }
 
 // Paths system

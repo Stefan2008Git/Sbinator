@@ -2,6 +2,8 @@ package data.backend;
 
 import flixel.FlxG;
 import flixel.util.FlxColor;
+import lime.graphics.opengl.GL;
+
 import openfl.Lib;
 import openfl.ui.Keyboard;
 import openfl.display.Bitmap;
@@ -265,7 +267,6 @@ class FramePerSecond extends Sprite {
         static var osName:String = "Unknown";
         static var cpuName:String = "Unknown";
         static var gpuName:String = "Unknown";
-        #if linux static var deWm:String = Main.detectDesktopEnvironment(); #end
 
         if (lime.system.System.platformLabel != null && lime.system.System.platformLabel != "" && lime.system.System.platformVersion != null && lime.system.System.platformVersion != "") {
             #if linux
@@ -301,9 +302,9 @@ class FramePerSecond extends Sprite {
 						osVersion = arr.join("=");
 					}
 				}
-			}
+			}   
     
-			if (distroName != "") osName = '${distroName} ${osVersion}'.trim() + deWm;
+			if (distroName != "") osName = '${distroName} ${osVersion}'.trim() + " (" + EngineConfiguration.getDEInfo() + ")";
 		    }
             #else
             osName = lime.system.System.platformLabel.replace(lime.system.System.platformVersion, "").trim() + " - " + lime.system.System.platformVersion;
@@ -339,7 +340,18 @@ class FramePerSecond extends Sprite {
 			trace('Unable to grab CPU Name: $e');
 		}
 
-        return 'OS: ${osName}\nCPU: ${cpuName}\nBranch: ${Main.releaseCycle}';
+        try
+        {   
+            #if opengl
+            var renderer = GL.getParameter(GL.RENDERER);
+            var vendor = GL.getParameter(GL.VENDOR);
+            gpuName = renderer + " (" + vendor + ")";
+            #end
+        } catch (e) {
+            trace('Unable to grab GPU Name: $e');
+        }
+
+        return 'OS: ${osName}\nCPU: ${cpuName}\nGPU: ${gpuName}\nBranch: ${Main.releaseCycle}';
     }
 
     /**
